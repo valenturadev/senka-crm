@@ -85,7 +85,7 @@ function Main() {
                       <div className="w-10 h-10 image-fit zoom-in">
                         <Tippy
                           tag="img"
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="Senka"
                           className="rounded-full"
                           src={faker.images[0]}
                           content={`Uploaded at ${faker.dates[0]}`}
@@ -94,7 +94,7 @@ function Main() {
                       <div className="w-10 h-10 image-fit zoom-in -ml-5">
                         <Tippy
                           tag="img"
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="Senka"
                           className="rounded-full"
                           src={faker.images[1]}
                           content={`Uploaded at ${faker.dates[1]}`}
@@ -103,7 +103,7 @@ function Main() {
                       <div className="w-10 h-10 image-fit zoom-in -ml-5">
                         <Tippy
                           tag="img"
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="Senka"
                           className="rounded-full"
                           src={faker.images[2]}
                           content={`Uploaded at ${faker.dates[2]}`}

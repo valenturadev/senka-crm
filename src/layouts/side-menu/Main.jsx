@@ -36,10 +36,7 @@ const Main = () => {
       <div className="flex mt-[4.7rem] md:mt-0">
         {/* BEGIN: Side Menu */}
         <nav className="side-nav">
-          <Link
-            to="/side-menu/dashboard-overview-1"
-            className="intro-x flex items-center pl-5 pt-4"
-          >
+          <Link to="/" className="intro-x flex items-center pl-5 pt-4">
             <img alt="Senka" className="w-40" src={logoBig} />
             {/* <span className="hidden xl:block text-white text-lg ml-3">
               Rubick

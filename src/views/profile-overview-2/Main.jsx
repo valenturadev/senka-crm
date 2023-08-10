@@ -45,7 +45,7 @@ function Main() {
             <div className="flex flex-1 px-5 items-center justify-center lg:justify-start">
               <div className="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="Senka"
                   className="rounded-full"
                   src={$f()[0].photos[0]}
                 />
@@ -391,7 +391,7 @@ function Main() {
                   <div className="relative flex items-center">
                     <div className="w-12 h-12 flex-none image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[0].photos[0]}
                       />
@@ -411,7 +411,7 @@ function Main() {
                   <div className="relative flex items-center mt-5">
                     <div className="w-12 h-12 flex-none image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[1].photos[0]}
                       />
@@ -431,7 +431,7 @@ function Main() {
                   <div className="relative flex items-center mt-5">
                     <div className="w-12 h-12 flex-none image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[2].photos[0]}
                       />
@@ -565,7 +565,7 @@ function Main() {
                             <div className="sm:mr-5">
                               <div className="w-20 h-20 image-fit">
                                 <img
-                                  alt="Midone Tailwind HTML Admin Template"
+                                  alt="Senka"
                                   className="rounded-full"
                                   src={faker.images[0]}
                                 />
@@ -655,7 +655,7 @@ function Main() {
                             <div className="sm:mr-5">
                               <div className="w-20 h-20 image-fit">
                                 <img
-                                  alt="Midone Tailwind HTML Admin Template"
+                                  alt="Senka"
                                   className="rounded-full"
                                   src={faker.photos[0]}
                                 />

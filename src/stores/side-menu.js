@@ -6,30 +6,103 @@ const sideMenu = atom({
     menu: [
       {
         icon: "Home",
-        title: "Dashboard",
+        title: "Ana Sayfa",
+        pathname: "/",
+        // subMenu: [
+        //   {
+        //     icon: "",
+        //     pathname: "/",
+        //     title: "Overview 1",
+        //   },
+        //   {
+        //     icon: "",
+        //     pathname: "/dashboard-overview-2",
+        //     title: "Overview 2",
+        //   },
+        //   {
+        //     icon: "",
+        //     pathname: "/dashboard-overview-3",
+        //     title: "Overview 3",
+        //   },
+        //   {
+        //     icon: "",
+        //     pathname: "/dashboard-overview-4",
+        //     title: "Overview 4",
+        //   },
+        // ],
+      },
+      {
+        icon: "Plane",
+        title: "Seyahat",
         subMenu: [
           {
             icon: "",
-            pathname: "/",
-            title: "Overview 1",
+            pathname: "/seyahat-formlari",
+            title: "Seyahat Formları",
           },
           {
             icon: "",
-            pathname: "/dashboard-overview-2",
-            title: "Overview 2",
-          },
-          {
-            icon: "",
-            pathname: "/dashboard-overview-3",
-            title: "Overview 3",
-          },
-          {
-            icon: "",
-            pathname: "/dashboard-overview-4",
-            title: "Overview 4",
+            pathname: "/seyahat-formu-olustur",
+            title: "Seyahat Formu Oluştur",
           },
         ],
       },
+      {
+        icon: "Book",
+        title: "Mutakabat",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/mutakabat-formlari",
+            title: "Mutakabat Formları",
+          },
+          {
+            icon: "",
+            pathname: "/mutakabat-formu-olustur",
+            title: "Mutakabat Formu Oluştur",
+          },
+        ],
+      },
+      {
+        icon: "Car",
+        title: "Araç",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/arac-programlari",
+            title: "Araç Programları",
+          },
+          {
+            icon: "",
+            pathname: "/arac-programi-olustur",
+            title: "Araç Programı Oluştur",
+          },
+        ],
+      },
+      {
+        icon: "Building",
+        title: "Otel",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/otel-programlari",
+            title: "Otel Programları",
+          },
+          {
+            icon: "",
+            pathname: "/otel-programi-olustur",
+            title: "Otel Programı Oluştur",
+          },
+        ],
+      },
+      // tabulator
+      "devider",
+      {
+        icon: "User",
+        pathname: "/profil",
+        title: "Profil",
+      },
+      /*
       {
         icon: "Box",
         title: "Menu Layout",
@@ -492,6 +565,7 @@ const sideMenu = atom({
           },
         ],
       },
+      */
     ],
   },
 });

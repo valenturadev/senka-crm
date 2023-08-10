@@ -92,7 +92,7 @@ function Main() {
                         >
                           <div className="w-10 h-10 flex-none image-fit rounded-full">
                             <img
-                              alt="Midone Tailwind HTML Admin Template"
+                              alt="Senka"
                               className="rounded-full"
                               src={faker.photos[0]}
                             />
@@ -119,7 +119,7 @@ function Main() {
                   >
                     <div className="w-12 h-12 flex-none image-fit mr-1">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={faker.photos[0]}
                       />
@@ -171,7 +171,7 @@ function Main() {
                 <div className="cursor-pointer box relative flex items-center p-5 mt-5">
                   <div className="w-12 h-12 flex-none image-fit mr-1">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[0].photos[0]}
                     />
@@ -211,7 +211,7 @@ function Main() {
                 <div className="cursor-pointer box relative flex items-center p-5 mt-5">
                   <div className="w-12 h-12 flex-none image-fit mr-1">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[1].photos[0]}
                     />
@@ -252,7 +252,7 @@ function Main() {
                 <div className="cursor-pointer box relative flex items-center p-5 mt-5">
                   <div className="w-12 h-12 flex-none image-fit mr-1">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[2].photos[0]}
                     />
@@ -292,7 +292,7 @@ function Main() {
                 <div className="cursor-pointer box relative flex items-center p-5 mt-5">
                   <div className="w-12 h-12 flex-none image-fit mr-1">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[3].photos[0]}
                     />
@@ -332,7 +332,7 @@ function Main() {
                 <div className="cursor-pointer box relative flex items-center p-5 mt-5">
                   <div className="w-12 h-12 flex-none image-fit mr-1">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[4].photos[0]}
                     />
@@ -375,10 +375,7 @@ function Main() {
               <div className="pr-1">
                 <div className="box px-5 py-10 mt-5">
                   <div className="w-20 h-20 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                    <img
-                      alt="Midone Tailwind HTML Admin Template"
-                      src={$f()[0].photos[0]}
-                    />
+                    <img alt="Senka" src={$f()[0].photos[0]} />
                   </div>
                   <div className="text-center mt-3">
                     <div className="font-medium text-lg">
@@ -446,7 +443,7 @@ function Main() {
                   <div className="flex items-center">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[0].photos[0]}
                       />
@@ -495,7 +492,7 @@ function Main() {
                   <div className="chat__box__text-box flex items-end float-left mb-4">
                     <div className="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[0].photos[0]}
                       />
@@ -565,7 +562,7 @@ function Main() {
                     </div>
                     <div className="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[1].photos[0]}
                       />
@@ -605,7 +602,7 @@ function Main() {
                     </div>
                     <div className="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[1].photos[0]}
                       />
@@ -618,7 +615,7 @@ function Main() {
                   <div className="chat__box__text-box flex items-end float-left mb-4">
                     <div className="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[0].photos[0]}
                       />
@@ -688,7 +685,7 @@ function Main() {
                     </div>
                     <div className="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[1].photos[0]}
                       />
@@ -698,7 +695,7 @@ function Main() {
                   <div className="chat__box__text-box flex items-end float-left mb-4">
                     <div className="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={$f()[0].photos[0]}
                       />
@@ -4871,10 +4868,7 @@ function Main() {
               <div className="h-full flex items-center">
                 <div className="mx-auto text-center">
                   <div className="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                    <img
-                      alt="Midone Tailwind HTML Admin Template"
-                      src={$f()[0].photos[0]}
-                    />
+                    <img alt="Senka" src={$f()[0].photos[0]} />
                   </div>
                   <div className="mt-3">
                     <div className="font-medium">

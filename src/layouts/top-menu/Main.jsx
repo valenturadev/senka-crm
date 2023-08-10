@@ -48,11 +48,7 @@ function Main() {
             to="/top-menu/dashboard-overview-1"
             className="-intro-x hidden md:flex"
           >
-            <img
-              alt="Midone Tailwind HTML Admin Template"
-              className="w-6"
-              src={logoUrl}
-            />
+            <img alt="Senka" className="w-6" src={logoUrl} />
             <span className="text-white text-lg ml-3"> Rubick </span>
           </Link>
           {/* END: Logo */}
@@ -131,7 +127,7 @@ function Main() {
                     >
                       <div className="w-8 h-8 image-fit">
                         <img
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="Senka"
                           className="rounded-full"
                           src={faker.photos[0]}
                         />
@@ -148,7 +144,7 @@ function Main() {
                   <a key={fakerKey} href="" className="flex items-center mt-2">
                     <div className="w-8 h-8 image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={faker.images[0]}
                       />
@@ -188,7 +184,7 @@ function Main() {
                   >
                     <div className="w-12 h-12 flex-none image-fit mr-1">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={faker.photos[0]}
                       />
@@ -214,16 +210,13 @@ function Main() {
           </Dropdown>
           {/* END: Notifications */}
           {/* BEGIN: Account Menu */}
-          <Dropdown className="intro-x w-8 h-8">
+          {/* <Dropdown className="intro-x w-8 h-8">
             <DropdownToggle
               tag="div"
               role="button"
               className="w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110"
             >
-              <img
-                alt="Midone Tailwind HTML Admin Template"
-                src={$f()[9].photos[0]}
-              />
+              <img alt="Senka" src={$f()[9].photos[0]} />
             </DropdownToggle>
             <DropdownMenu className="w-56">
               <DropdownContent className="bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white">
@@ -252,7 +245,7 @@ function Main() {
                 </DropdownItem>
               </DropdownContent>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown> */}
           {/* END: Account Menu */}
         </div>
       </div>

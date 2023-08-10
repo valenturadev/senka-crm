@@ -71,6 +71,14 @@ import Validation from "../views/validation/Main";
 import Chart from "../views/chart/Main";
 import Slider from "../views/slider/Main";
 import ImageZoom from "../views/image-zoom/Main";
+import Travel from "../views/travel/Main";
+import CreateTravel from "../views/travel/CreateTravel";
+import Agreement from "../views/agreement/Main";
+import CreateAgreement from "../views/agreement/CreateAgreement";
+import Hotel from "../views/hotel/Main";
+import CreateHotelProgram from "../views/hotel/CreateHotelProgram";
+import Car from "../views/car/Main";
+import CreateCarProgram from "../views/car/CreateCarProgram";
 
 const Router = () => {
   const routes = [
@@ -341,6 +349,41 @@ const Router = () => {
         {
           path: "image-zoom",
           element: <ImageZoom />,
+        },
+        // new routes
+        {
+          path: "/seyahat-formlari",
+          element: <Travel />,
+        },
+        {
+          path: "/seyahat-formu-olustur",
+          element: <CreateTravel />,
+        },
+        //
+        {
+          path: "/mutakabat-formlari",
+          element: <Agreement />,
+        },
+        {
+          path: "/mutakabat-formu-olustur",
+          element: <CreateAgreement />,
+        },
+        {
+          path: "/otel-programlari",
+          element: <Hotel />,
+        },
+        {
+          path: "/otel-programi-olustur",
+          element: <CreateHotelProgram />,
+        },
+        //
+        {
+          path: "/arac-programlari",
+          element: <Car />,
+        },
+        {
+          path: "/arac-programi-olustur",
+          element: <CreateCarProgram />,
         },
       ],
     },
@@ -904,6 +947,16 @@ const Router = () => {
       path: "*",
       element: <ErrorPage />,
     },
+
+    // new routes
+    // {
+    //   path: "/seyahat-formlari",
+    //   element: <TravelForms />,
+    // },
+    // {
+    //   path: "/seyahat-formu-olustur",
+    //   element: <CreateTravelForm />,
+    // },
   ];
 
   return useRoutes(routes);

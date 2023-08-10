@@ -64,7 +64,7 @@ function Main() {
                 <div className="w-full flex flex-col lg:flex-row items-center">
                   <div className="w-16 h-16 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={faker.photos[0]}
                     />

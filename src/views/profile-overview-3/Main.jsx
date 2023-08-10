@@ -56,7 +56,7 @@ function Main() {
             <div className="relative flex items-center p-5">
               <div className="w-12 h-12 image-fit">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="Senka"
                   className="rounded-full"
                   src={$f()[0].photos[0]}
                 />
@@ -220,7 +220,7 @@ function Main() {
                 <div className="relative flex items-center">
                   <div className="w-12 h-12 flex-none image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[0].photos[0]}
                     />
@@ -240,7 +240,7 @@ function Main() {
                 <div className="relative flex items-center mt-5">
                   <div className="w-12 h-12 flex-none image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[1].photos[0]}
                     />
@@ -260,7 +260,7 @@ function Main() {
                 <div className="relative flex items-center mt-5">
                   <div className="w-12 h-12 flex-none image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={$f()[2].photos[0]}
                     />
@@ -304,9 +304,7 @@ function Main() {
                 className="py-5"
               >
                 <div className="px-5">
-                  <div className="font-medium text-lg">
-                    Midone Admin Template
-                  </div>
+                  <div className="font-medium text-lg">Senka</div>
                   <div className="text-slate-600 dark:text-slate-500 mt-2">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
@@ -325,9 +323,7 @@ function Main() {
                   </div>
                 </div>
                 <div className="px-5">
-                  <div className="font-medium text-lg">
-                    Midone Admin Template
-                  </div>
+                  <div className="font-medium text-lg">Senka</div>
                   <div className="text-slate-600 dark:text-slate-500 mt-2">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
@@ -346,9 +342,7 @@ function Main() {
                   </div>
                 </div>
                 <div className="px-5">
-                  <div className="font-medium text-lg">
-                    Midone Admin Template
-                  </div>
+                  <div className="font-medium text-lg">Senka</div>
                   <div className="text-slate-600 dark:text-slate-500 mt-2">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
@@ -393,9 +387,7 @@ function Main() {
                 className="py-5"
               >
                 <div className="px-5">
-                  <div className="font-medium text-lg">
-                    Midone Admin Template
-                  </div>
+                  <div className="font-medium text-lg">Senka</div>
                   <div className="text-slate-600 dark:text-slate-500 mt-2">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
@@ -418,9 +410,7 @@ function Main() {
                   </div>
                 </div>
                 <div className="px-5">
-                  <div className="font-medium text-lg">
-                    Midone Admin Template
-                  </div>
+                  <div className="font-medium text-lg">Senka</div>
                   <div className="text-slate-600 dark:text-slate-500 mt-2">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
@@ -443,9 +433,7 @@ function Main() {
                   </div>
                 </div>
                 <div className="px-5">
-                  <div className="font-medium text-lg">
-                    Midone Admin Template
-                  </div>
+                  <div className="font-medium text-lg">Senka</div>
                   <div className="text-slate-600 dark:text-slate-500 mt-2">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's

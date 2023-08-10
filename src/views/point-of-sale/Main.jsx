@@ -139,7 +139,7 @@ function Main() {
                   <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                     <div className="absolute top-0 left-0 w-full h-full image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-md"
                         src={faker.foods[0].image}
                       />

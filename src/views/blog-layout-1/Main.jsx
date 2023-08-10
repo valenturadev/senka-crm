@@ -49,7 +49,7 @@ function Main() {
             <div className="flex items-center border-b border-slate-200/60 dark:border-darkmode-400 px-5 py-4">
               <div className="w-10 h-10 flex-none image-fit">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="Senka"
                   className="rounded-full"
                   src={faker.photos[0]}
                 />
@@ -88,11 +88,7 @@ function Main() {
             </div>
             <div className="p-5">
               <div className="h-40 2xl:h-56 image-fit">
-                <img
-                  alt="Midone Tailwind HTML Admin Template"
-                  className="rounded-md"
-                  src={faker.images[0]}
-                />
+                <img alt="Senka" className="rounded-md" src={faker.images[0]} />
               </div>
               <a href="" className="block font-medium text-base mt-5">
                 {faker.news[0].title}
@@ -114,7 +110,7 @@ function Main() {
                 <div className="intro-x w-8 h-8 image-fit">
                   <Tippy
                     tag="img"
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     className="rounded-full border border-white zoom-in"
                     src={faker.photos[0]}
                     content={faker.users[0].name}
@@ -123,7 +119,7 @@ function Main() {
                 <div className="intro-x w-8 h-8 image-fit -ml-4">
                   <Tippy
                     tag="img"
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     className="rounded-full border border-white zoom-in"
                     src={faker.photos[1]}
                     content={faker.users[1].name}
@@ -132,7 +128,7 @@ function Main() {
                 <div className="intro-x w-8 h-8 image-fit -ml-4">
                   <Tippy
                     tag="img"
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     className="rounded-full border border-white zoom-in"
                     src={faker.photos[2]}
                     content={faker.users[2].name}
@@ -172,7 +168,7 @@ function Main() {
               <div className="w-full flex items-center mt-3">
                 <div className="w-8 h-8 flex-none image-fit mr-3">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     className="rounded-full"
                     src={faker.photos[0]}
                   />

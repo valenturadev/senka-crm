@@ -70,7 +70,7 @@ function Main() {
                       </p>
                       <div className="w-full h-64 my-5 image-fit">
                         <img
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="Senka"
                           src={$f()[0].images[0]}
                           data-action="zoom"
                           className="w-full rounded-md"
@@ -120,7 +120,7 @@ function Main() {
                       </p>
                       <div className="w-3/5 h-64 mr-6 float-left image-fit">
                         <img
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="Senka"
                           src={$f()[0].images[1]}
                           data-action="zoom"
                           className="w-full rounded-md"
@@ -203,7 +203,7 @@ function Main() {
                 </p>
                 <div className="w-full h-64 my-5 image-fit">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     src={$f()[0].images[0]}
                     data-action="zoom"
                     className="w-full rounded-md"
@@ -250,7 +250,7 @@ function Main() {
                 </p>
                 <div className="w-3/5 h-64 mr-6 float-left image-fit">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     src={$f()[0].images[1]}
                     data-action="zoom"
                     className="w-full rounded-md"

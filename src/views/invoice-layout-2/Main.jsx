@@ -81,9 +81,7 @@ function Main() {
               <tbody>
                 <tr>
                   <td className="border-b dark:border-darkmode-400">
-                    <div className="font-medium whitespace-nowrap">
-                      Midone HTML Admin Template
-                    </div>
+                    <div className="font-medium whitespace-nowrap">Senka</div>
                     <div className="text-slate-500 text-sm mt-0.5 whitespace-nowrap">
                       Regular License
                     </div>

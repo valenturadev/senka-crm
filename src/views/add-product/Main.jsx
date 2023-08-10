@@ -112,7 +112,7 @@ function Main() {
                         >
                           <img
                             className="rounded-md"
-                            alt="Midone - HTML Admin Template"
+                            alt="Senka"
                             src={faker.photos[0]}
                           />
                           <Tippy

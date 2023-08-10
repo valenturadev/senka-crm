@@ -40,11 +40,7 @@ function Main(props) {
       >
         <div className="mobile-menu-bar">
           <a href="" className="flex mr-auto">
-            <img
-              alt="Midone Tailwind HTML Admin Template"
-              className="w-6"
-              src={logoSmall}
-            />
+            <img alt="Senka" className="w-6" src={logoSmall} />
           </a>
           <a
             href="#"

@@ -263,10 +263,7 @@ function Main() {
                   <div key={fakerKey} className="intro-y">
                     <div className="box px-4 py-4 mb-3 flex items-center zoom-in">
                       <div className="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                        <img
-                          alt="Midone Tailwind HTML Admin Template"
-                          src={faker.photos[0]}
-                        />
+                        <img alt="Senka" src={faker.photos[0]} />
                       </div>
                       <div className="ml-4 mr-auto">
                         <div className="font-medium">{faker.users[0].name}</div>
@@ -455,7 +452,7 @@ function Main() {
                   <div className="ml-auto">31</div>
                 </div>
                 <div className="flex items-center mb-5">
-                  <div>Midone Docs</div>
+                  <div>Senka Docs</div>
                   <div className="ml-auto">405</div>
                 </div>
                 <div className="flex items-center mb-5">
@@ -517,7 +514,7 @@ function Main() {
                             <div className="w-10 h-10 image-fit zoom-in">
                               <Tippy
                                 tag="img"
-                                alt="Midone Tailwind HTML Admin Template"
+                                alt="Senka"
                                 className="rounded-full"
                                 src={faker.images[0]}
                                 content={`Uploaded at ${faker.dates[0]}`}
@@ -526,7 +523,7 @@ function Main() {
                             <div className="w-10 h-10 image-fit zoom-in -ml-5">
                               <Tippy
                                 tag="img"
-                                alt="Midone Tailwind HTML Admin Template"
+                                alt="Senka"
                                 className="rounded-full"
                                 src={faker.images[1]}
                                 content={`Uploaded at ${faker.dates[1]}`}
@@ -535,7 +532,7 @@ function Main() {
                             <div className="w-10 h-10 image-fit zoom-in -ml-5">
                               <Tippy
                                 tag="img"
-                                alt="Midone Tailwind HTML Admin Template"
+                                alt="Senka"
                                 className="rounded-full"
                                 src={faker.images[2]}
                                 content={`Uploaded at ${faker.dates[2]}`}
@@ -778,10 +775,7 @@ function Main() {
                   <div className="intro-x relative flex items-center mb-3">
                     <div className="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
                       <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                        <img
-                          alt="Midone Tailwind HTML Admin Template"
-                          src={$f()[9].photos[0]}
-                        />
+                        <img alt="Senka" src={$f()[9].photos[0]} />
                       </div>
                     </div>
                     <div className="box px-5 py-3 ml-4 flex-1 zoom-in">
@@ -801,10 +795,7 @@ function Main() {
                   <div className="intro-x relative flex items-center mb-3">
                     <div className="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
                       <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                        <img
-                          alt="Midone Tailwind HTML Admin Template"
-                          src={$f()[8].photos[0]}
-                        />
+                        <img alt="Senka" src={$f()[8].photos[0]} />
                       </div>
                     </div>
                     <div className="box px-5 py-3 ml-4 flex-1 zoom-in">
@@ -825,7 +816,7 @@ function Main() {
                             content={$f()[0].products[0].name}
                           >
                             <img
-                              alt="Midone Tailwind HTML Admin Template"
+                              alt="Senka"
                               className="rounded-md border border-white"
                               src={$f()[8].images[0]}
                             />
@@ -836,7 +827,7 @@ function Main() {
                             content={$f()[1].products[0].name}
                           >
                             <img
-                              alt="Midone Tailwind HTML Admin Template"
+                              alt="Senka"
                               className="rounded-md border border-white"
                               src={$f()[8].images[1]}
                             />
@@ -847,7 +838,7 @@ function Main() {
                             content={$f()[2].products[0].name}
                           >
                             <img
-                              alt="Midone Tailwind HTML Admin Template"
+                              alt="Senka"
                               className="rounded-md border border-white"
                               src={$f()[8].images[2]}
                             />
@@ -862,10 +853,7 @@ function Main() {
                   <div className="intro-x relative flex items-center mb-3">
                     <div className="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
                       <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                        <img
-                          alt="Midone Tailwind HTML Admin Template"
-                          src={$f()[7].photos[0]}
-                        />
+                        <img alt="Senka" src={$f()[7].photos[0]} />
                       </div>
                     </div>
                     <div className="box px-5 py-3 ml-4 flex-1 zoom-in">
@@ -889,10 +877,7 @@ function Main() {
                   <div className="intro-x relative flex items-center mb-3">
                     <div className="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
                       <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                        <img
-                          alt="Midone Tailwind HTML Admin Template"
-                          src={$f()[6].photos[0]}
-                        />
+                        <img alt="Senka" src={$f()[6].photos[0]} />
                       </div>
                     </div>
                     <div className="box px-5 py-3 ml-4 flex-1 zoom-in">
@@ -928,10 +913,7 @@ function Main() {
                     <div key={fakerKey} className="intro-x">
                       <div className="box px-5 py-3 mb-3 flex items-center zoom-in">
                         <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                          <img
-                            alt="Midone Tailwind HTML Admin Template"
-                            src={faker.photos[0]}
-                          />
+                          <img alt="Senka" src={faker.photos[0]} />
                         </div>
                         <div className="ml-4 mr-auto">
                           <div className="font-medium">

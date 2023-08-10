@@ -78,21 +78,21 @@ function Main() {
           formatter(cell) {
             return `<div class="flex lg:justify-center">
                   <div class="intro-x w-10 h-10 image-fit">
-                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="${
+                    <img alt="Senka" class="rounded-full" src="${
                       imageAssets[
                         "/src/assets/images/" + cell.getData().images[0]
                       ].default
                     }">
                   </div>
                   <div class="intro-x w-10 h-10 image-fit -ml-5">
-                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="${
+                    <img alt="Senka" class="rounded-full" src="${
                       imageAssets[
                         "/src/assets/images/" + cell.getData().images[1]
                       ].default
                     }">
                   </div>
                   <div class="intro-x w-10 h-10 image-fit -ml-5">
-                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="${
+                    <img alt="Senka" class="rounded-full" src="${
                       imageAssets[
                         "/src/assets/images/" + cell.getData().images[2]
                       ].default

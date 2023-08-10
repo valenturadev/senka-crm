@@ -17,7 +17,7 @@ function Main() {
           <div className="error-page flex flex-col lg:flex-row items-center justify-center h-screen text-center lg:text-left">
             <div className="-intro-x lg:mr-20">
               <img
-                alt="Midone Tailwind HTML Admin Template"
+                alt="Senka"
                 className="h-48 lg:h-auto"
                 src={errorIllustration}
               />

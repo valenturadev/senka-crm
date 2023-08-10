@@ -483,10 +483,7 @@ function Main() {
                         className="flex"
                       >
                         <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                          <img
-                            alt="Midone Tailwind HTML Admin Template"
-                            src={$f()[0].photos[0]}
-                          />
+                          <img alt="Senka" src={$f()[0].photos[0]} />
                         </div>
                         <div className="ml-4 sm:mr-28">
                           <div className="font-medium">
@@ -530,7 +527,7 @@ function Main() {
               >
                 <div className="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="Senka"
                     src={$f()[0].photos[0]}
                   />
                 </div>

@@ -34,11 +34,7 @@ function Main() {
         {/* BEGIN: Simple Menu */}
         <nav className="side-nav side-nav--simple">
           <Link to="/" className="intro-x flex items-center pl-5 pt-4">
-            <img
-              alt="Midone Tailwind HTML Admin Template"
-              className="w-6"
-              src={logoUrl}
-            />
+            <img alt="Senka" className="w-6" src={logoUrl} />
           </Link>
           <div className="side-nav__devider my-6"></div>
           <ul>

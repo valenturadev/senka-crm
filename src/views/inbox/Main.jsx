@@ -340,7 +340,7 @@ function Main() {
                         </a>
                         <div className="w-6 h-6 flex-none image-fit relative ml-5">
                           <img
-                            alt="Midone Tailwind HTML Admin Template"
+                            alt="Senka"
                             className="rounded-full"
                             src={faker.photos[0]}
                           />

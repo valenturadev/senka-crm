@@ -836,26 +836,17 @@ function Main() {
                       >
                         <div className="h-64 px-2">
                           <div className="h-full image-fit rounded-md overflow-hidden">
-                            <img
-                              alt="Midone Tailwind HTML Admin Template"
-                              src={$f()[0].images[0]}
-                            />
+                            <img alt="Senka" src={$f()[0].images[0]} />
                           </div>
                         </div>
                         <div className="h-64 px-2">
                           <div className="h-full image-fit rounded-md overflow-hidden">
-                            <img
-                              alt="Midone Tailwind HTML Admin Template"
-                              src={$f()[1].images[1]}
-                            />
+                            <img alt="Senka" src={$f()[1].images[1]} />
                           </div>
                         </div>
                         <div className="h-64 px-2">
                           <div className="h-full image-fit rounded-md overflow-hidden">
-                            <img
-                              alt="Midone Tailwind HTML Admin Template"
-                              src={$f()[2].images[2]}
-                            />
+                            <img alt="Senka" src={$f()[2].images[2]} />
                           </div>
                         </div>
                       </TinySlider>
@@ -876,7 +867,7 @@ function Main() {
                   <div className="h-64 px-2">
                     <div className="h-full image-fit rounded-md overflow-hidden">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         src={$f()[0].images[0]}
                       />
                     </div>
@@ -884,7 +875,7 @@ function Main() {
                   <div className="h-64 px-2">
                     <div className="h-full image-fit rounded-md overflow-hidden">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         src={$f()[1].images[1]}
                       />
                     </div>
@@ -892,7 +883,7 @@ function Main() {
                   <div className="h-64 px-2">
                     <div className="h-full image-fit rounded-md overflow-hidden">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         src={$f()[2].images[2]}
                       />
                     </div>

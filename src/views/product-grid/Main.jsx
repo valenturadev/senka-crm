@@ -73,7 +73,7 @@ function Main() {
               <div className="p-5">
                 <div className="h-40 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
                   <img
-                    alt="Midone - HTML Admin Template"
+                    alt="Senka"
                     className="rounded-md"
                     src={faker.images[0]}
                   />

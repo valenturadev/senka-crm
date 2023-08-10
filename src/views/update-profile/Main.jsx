@@ -29,7 +29,7 @@ function Main() {
             <div className="relative flex items-center p-5">
               <div className="w-12 h-12 image-fit">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="Senka"
                   className="rounded-full"
                   src={$f()[0].photos[0]}
                 />
@@ -263,7 +263,7 @@ function Main() {
                     <div className="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
                       <img
                         className="rounded-md"
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         src={$f()[0].photos[0]}
                       />
                       <Tippy

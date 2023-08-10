@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Lucide,
   Dropdown,
@@ -13,8 +13,12 @@ import { faker as $f } from "@/utils";
 import * as $_ from "lodash";
 import classnames from "classnames";
 import DarkModeSwitcher from "@/components/dark-mode-switcher/Main";
+import { Link } from "react-router-dom";
+import AuthContext from "../../context/auth";
 
 function Main(props) {
+  const { logout } = useContext(AuthContext);
+
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
     setSearchDropdown(true);
@@ -33,12 +37,12 @@ function Main(props) {
           className="-intro-x mr-auto hidden sm:flex"
         >
           <ol className="breadcrumb">
-            <li className="breadcrumb-item">
+            {/* <li className="breadcrumb-item">
               <a href="#">Application</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Dashboard
-            </li>
+            </li> */}
+            {/* <li className="breadcrumb-item active" aria-current="page">
+              Ana Sayfa
+            </li> */}
           </ol>
         </nav>
         {/* END: Breadcrumb */}
@@ -103,7 +107,7 @@ function Main(props) {
                   <a key={fakerKey} href="" className="flex items-center mt-2">
                     <div className="w-8 h-8 image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="Senka"
                         className="rounded-full"
                         src={faker.photos[0]}
                       />
@@ -120,7 +124,7 @@ function Main(props) {
                 <a key={fakerKey} href="" className="flex items-center mt-2">
                   <div className="w-8 h-8 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={faker.images[0]}
                     />
@@ -149,7 +153,7 @@ function Main(props) {
           </DropdownToggle>
           <DropdownMenu className="notification-content pt-2">
             <DropdownContent tag="div" className="notification-content__box">
-              <div className="notification-content__title">Notifications</div>
+              <div className="notification-content__title">Bildirimler</div>
               {$_.take($f(), 5).map((faker, fakerKey) => (
                 <div
                   key={fakerKey}
@@ -160,7 +164,7 @@ function Main(props) {
                 >
                   <div className="w-12 h-12 flex-none image-fit mr-1">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="Senka"
                       className="rounded-full"
                       src={faker.photos[0]}
                     />
@@ -192,35 +196,43 @@ function Main(props) {
             role="button"
             className="w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in"
           >
-            <img
-              alt="Midone Tailwind HTML Admin Template"
-              src={$f()[9].photos[0]}
-            />
+            <img alt="Senka" src={$f()[9].photos[0]} />
           </DropdownToggle>
           <DropdownMenu className="w-56">
             <DropdownContent className="bg-primary text-white">
               <DropdownHeader tag="div" className="!font-normal">
                 <div className="font-medium">{$f()[0].users[0].name}</div>
                 <div className="text-xs text-white/70 mt-0.5 dark:text-slate-500">
-                  {$f()[0].jobs[0]}
+                  {/* {$f()[0].jobs[0]} */}
+                  Finans Sorumlusu
                 </div>
               </DropdownHeader>
               <DropdownDivider className="border-white/[0.08]" />
               <DropdownItem className="hover:bg-white/5">
-                <Lucide icon="User" className="w-4 h-4 mr-2" /> Profile
+                <Link to="/profil" className="flex items-center">
+                  <Lucide icon="User" className="w-4 h-4 mr-2" /> Profil
+                </Link>
               </DropdownItem>
-              <DropdownItem className="hover:bg-white/5">
+              {/* <DropdownItem className="hover:bg-white/5">
                 <Lucide icon="Edit" className="w-4 h-4 mr-2" /> Add Account
+              </DropdownItem> */}
+              <DropdownItem className="hover:bg-white/5">
+                <Link to="/parola-sifirla" className="flex items-center">
+                  <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Parolayı
+                  Sıfırla
+                </Link>
               </DropdownItem>
               <DropdownItem className="hover:bg-white/5">
-                <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Reset Password
-              </DropdownItem>
-              <DropdownItem className="hover:bg-white/5">
-                <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Help
+                <Link to="/yardim" className="flex items-center">
+                  <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Yardım
+                </Link>
               </DropdownItem>
               <DropdownDivider className="border-white/[0.08]" />
               <DropdownItem className="hover:bg-white/5">
-                <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Logout
+                <button onClick={logout} className="flex items-center">
+                  <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Çıkış
+                  Yap
+                </button>
               </DropdownItem>
             </DropdownContent>
           </DropdownMenu>

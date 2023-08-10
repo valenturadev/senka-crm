@@ -18,11 +18,7 @@ function Main() {
         </div>
         <div className="intro-y mt-6">
           <div className="news__preview image-fit">
-            <img
-              alt="Midone Tailwind HTML Admin Template"
-              className="rounded-md"
-              src={$f()[0].images[0]}
-            />
+            <img alt="Senka" className="rounded-md" src={$f()[0].images[0]} />
           </div>
         </div>
         <div className="intro-y flex relative pt-16 sm:pt-6 items-center pb-6">
@@ -38,7 +34,7 @@ function Main() {
             <div className="intro-x w-8 h-8 sm:w-10 sm:h-10 image-fit">
               <Tippy
                 tag="img"
-                alt="Midone Tailwind HTML Admin Template"
+                alt="Senka"
                 className="rounded-full border border-white zoom-in"
                 src={$f()[0].photos[0]}
                 content={$f()[0].users[0].name}
@@ -47,7 +43,7 @@ function Main() {
             <div className="intro-x w-8 h-8 sm:w-10 sm:h-10 image-fit -ml-4">
               <Tippy
                 tag="img"
-                alt="Midone Tailwind HTML Admin Template"
+                alt="Senka"
                 className="rounded-full border border-white zoom-in"
                 src={$f()[0].photos[1]}
                 content={$f()[0].users[1].name}
@@ -56,7 +52,7 @@ function Main() {
             <div className="intro-x w-8 h-8 sm:w-10 sm:h-10 image-fit -ml-4">
               <Tippy
                 tag="img"
-                alt="Midone Tailwind HTML Admin Template"
+                alt="Senka"
                 className="rounded-full border border-white zoom-in"
                 src={$f()[0].photos[2]}
                 content={$f()[0].users[2].name}
@@ -101,7 +97,7 @@ function Main() {
           <div className="flex items-center">
             <div className="w-12 h-12 flex-none image-fit">
               <img
-                alt="Midone Tailwind HTML Admin Template"
+                alt="Senka"
                 className="rounded-full"
                 src={$f()[0].photos[0]}
               />
@@ -163,7 +159,7 @@ function Main() {
             <div className="flex">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="Senka"
                   className="rounded-full"
                   src={$f()[0].photos[0]}
                 />
@@ -188,7 +184,7 @@ function Main() {
             <div className="flex">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="Senka"
                   className="rounded-full"
                   src={$f()[0].photos[1]}
                 />
