@@ -36,7 +36,7 @@ function Main() {
   return (
     <>
       <div className="intro-y flex items-center mt-8">
-        <h2 className="text-lg font-medium mr-auto">Profile Layout</h2>
+        <h2 className="text-lg font-medium mr-auto">Profil</h2>
       </div>
       <TabGroup>
         {/* BEGIN: Profile Info */}
@@ -123,7 +123,7 @@ function Main() {
           <TabPanel>
             <div className="grid grid-cols-12 gap-6">
               {/* BEGIN: Latest Uploads */}
-              <div className="intro-y box col-span-12 lg:col-span-6">
+              {/* <div className="intro-y box col-span-12 lg:col-span-6">
                 <div className="flex items-center px-5 py-5 sm:py-3 border-b border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="font-medium text-base mr-auto">
                     Latest Uploads
@@ -184,7 +184,7 @@ function Main() {
                       </DropdownMenu>
                     </Dropdown>
                   </div>
-                  <div className="flex items-center mt-5">
+                   <div className="flex items-center mt-5">
                     <div className="file">
                       <a href="" className="w-12 file__icon file__icon--file">
                         <div className="file__icon__file-name text-xs">MP3</div>
@@ -220,8 +220,8 @@ function Main() {
                         </DropdownContent>
                       </DropdownMenu>
                     </Dropdown>
-                  </div>
-                  <div className="flex items-center mt-5">
+                  </div> 
+                   <div className="flex items-center mt-5">
                     <div className="file">
                       <a
                         href=""
@@ -258,12 +258,12 @@ function Main() {
                         </DropdownContent>
                       </DropdownMenu>
                     </Dropdown>
-                  </div>
-                </div>
-              </div>
+                  </div> 
+                </div> 
+              </div> */}
               {/* END: Latest Uploads */}
               {/* BEGIN: Work In Progress */}
-              <TabGroup className="intro-y box col-span-12 lg:col-span-6">
+              {/* <TabGroup className="intro-y box col-span-12 lg:col-span-6">
                 <div className="flex items-center px-5 py-5 sm:py-0 border-b border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="font-medium text-base mr-auto">
                     Work In Progress
@@ -360,10 +360,10 @@ function Main() {
                     </TabPanel>
                   </TabPanels>
                 </div>
-              </TabGroup>
+              </TabGroup> */}
               {/* END: Work In Progress */}
               {/* BEGIN: Daily Sales */}
-              <div className="intro-y box col-span-12 lg:col-span-6">
+              {/* <div className="intro-y box col-span-12 lg:col-span-6">
                 <div className="flex items-center px-5 py-5 sm:py-3 border-b border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="font-medium text-base mr-auto">Daily Sales</h2>
                   <Dropdown className="ml-auto sm:hidden">
@@ -449,10 +449,10 @@ function Main() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* END: Daily Sales */}
               {/* BEGIN: Latest Tasks */}
-              <TabGroup className="intro-y box col-span-12 lg:col-span-6">
+              {/* <TabGroup className="intro-y box col-span-12 lg:col-span-6">
                 <div className="flex items-center px-5 py-5 sm:py-0 border-b border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="font-medium text-base mr-auto">
                     Latest Tasks
@@ -531,10 +531,10 @@ function Main() {
                     </TabPanel>
                   </TabPanels>
                 </div>
-              </TabGroup>
+              </TabGroup> */}
               {/* END: Latest Tasks */}
               {/* BEGIN: New Products */}
-              <div className="intro-y box col-span-12">
+              {/* <div className="intro-y box col-span-12">
                 <div className="flex items-center px-5 py-3 border-b border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="font-medium text-base mr-auto">
                     New Products
@@ -623,10 +623,10 @@ function Main() {
                     ))}
                   </TinySlider>
                 </div>
-              </div>
+              </div> */}
               {/* END: New Products */}
               {/* BEGIN: New Authors */}
-              <div className="intro-y box col-span-12">
+              {/* <div className="intro-y box col-span-12">
                 <div className="flex items-center px-5 py-3 border-b border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="font-medium text-base mr-auto">New Authors</h2>
                   <button
@@ -717,7 +717,7 @@ function Main() {
                     ))}
                   </TinySlider>
                 </div>
-              </div>
+              </div> */}
               {/* END: New Authors */}
             </div>
           </TabPanel>

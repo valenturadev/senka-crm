@@ -385,6 +385,10 @@ const Router = () => {
           path: "/arac-programi-olustur",
           element: <CreateCarProgram />,
         },
+        {
+          path: "/profil",
+          element: <ProfileOverview2 />,
+        },
       ],
     },
     {
