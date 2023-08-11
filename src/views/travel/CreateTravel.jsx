@@ -256,7 +256,7 @@ const CreateTravel = () => {
                             id='outcomeExpectation'
                             value={expectations}
                             onChange={(e)=>setExpectations(e.target.value)}
-                            className="block min-h-[110px] text-start h-full bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
+                            className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
                         />
                     </div>
                     <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
@@ -524,7 +524,7 @@ const CreateTravel = () => {
                     <div className="relative">
             <label
                 htmlFor={'fullName'}
-                className={`absolute px-2 font-normal left-[7px] -top-[13.2px] bg-[#F1F5F9] text-gray-500 pointer-events-none transition-all duration-300`}
+                className={`absolute px-2 font-normal left-[7px] -top-[13.2px] dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] text-gray-500 pointer-events-none transition-all duration-300`}
             >
                 Aktiviteler ve Diğer Beklentiler:
             </label>
@@ -533,7 +533,7 @@ const CreateTravel = () => {
                             id='outcomeExpectation'
                             value={activities}
                             onChange={(e)=>setActivities(e.target.value)}
-                            className="block min-h-[110px] text-start h-full bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
+                            className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
                         />
                     </div>
                     </div>
