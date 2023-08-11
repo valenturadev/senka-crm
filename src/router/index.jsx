@@ -79,6 +79,7 @@ import Hotel from "../views/hotel/Main";
 import CreateHotelProgram from "../views/hotel/CreateHotelProgram";
 import Car from "../views/car/Main";
 import CreateCarProgram from "../views/car/CreateCarProgram";
+import TravelDetail from "../views/travel/TravelDetail";
 
 const Router = () => {
   const routes = [
@@ -358,6 +359,10 @@ const Router = () => {
         {
           path: "/seyahat-formu-olustur",
           element: <CreateTravel />,
+        },
+        {
+          path: "/seyahat-formu-duzenle/:formId",
+          element: <TravelDetail />,
         },
         //
         {
@@ -960,6 +965,10 @@ const Router = () => {
     // {
     //   path: "/seyahat-formu-olustur",
     //   element: <CreateTravelForm />,
+    // },
+    // {
+    //   path: "/seyahat-formu-duzenle/:formId",
+    //   element: <TravelDetail />,
     // },
   ];
 
