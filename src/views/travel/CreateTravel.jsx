@@ -274,7 +274,7 @@ const CreateTravel = () => {
             <div>
                 <div>
 
-                    <span className='mr-[45px] px-2 font-normal text-[#6C6A6A] left-[7px] -top-[13.2px]  text-gray-500 pointer-events-none transition-all duration-300'> Gezi Ulaşım Aracı :</span>
+                    <span className='mr-[45px] px-2 font-normal text-[#6C6A6A] left-[7px] -top-[13.2px] dark:text-white  text-gray-500 pointer-events-none transition-all duration-300'> Gezi Ulaşım Aracı :</span>
                     <TravelRadioButton
                         value="uçak"
                         checked={selectedOption === "uçak"}
@@ -403,7 +403,7 @@ const CreateTravel = () => {
 
 
             </div>
-            <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-[#6C6A6A] font-Poppins font-semibold text-19.393 leading-21.332">
+            <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center dark:text-red-500 text-[#6C6A6A] font-Poppins font-semibold text-19.393 leading-21.332">
                 KONAKLAMA</h2>
             <div>
                 <div className='my-[20.36px] flex flex-wrap gap-[26.36px] '>
