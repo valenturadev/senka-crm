@@ -356,10 +356,10 @@ const Router = () => {
           path: "/seyahat-formlari",
           element: <Travel />,
         },
-        {
-          path: "/seyahat-formu-olustur",
-          element: <CreateTravel />,
-        },
+        // {
+        //   path: "/seyahat-formu-olustur",
+        //   element: <CreateTravel />,
+        // },
         {
           path: "/seyahat-formu-duzenle/:formId",
           element: <TravelDetail />,
@@ -962,10 +962,10 @@ const Router = () => {
     //   path: "/seyahat-formlari",
     //   element: <TravelForms />,
     // },
-    // {
-    //   path: "/seyahat-formu-olustur",
-    //   element: <CreateTravelForm />,
-    // },
+    {
+      path: "/seyahat-formu-olustur",
+      element: <CreateTravel />,
+    },
     // {
     //   path: "/seyahat-formu-duzenle/:formId",
     //   element: <TravelDetail />,
