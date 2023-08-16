@@ -10,16 +10,16 @@ import AuthContext from "../../context/auth";
 import InputMask from "react-input-mask";
 
 function Main() {
+  useEffect(() => {
+    dom("body").removeClass("main").removeClass("error-page").addClass("login");
+  }, []);
+
   const { login } = useContext(AuthContext);
 
   const [user, setUser] = useState({
     phone: "",
     password: "",
   });
-
-  useEffect(() => {
-    dom("body").removeClass("main").removeClass("error-page").addClass("login");
-  }, []);
 
   const loginSystem = () => {
     login(user.phone, user.password);

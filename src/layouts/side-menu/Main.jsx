@@ -31,6 +31,7 @@ const Main = () => {
   return (
     <div className="py-0.5">
       {/* <DarkModeSwitcher /> */}
+
       {/* <MainColorSwitcher /> */}
       <MobileMenu />
       <div className="flex mt-[4.7rem] md:mt-0">

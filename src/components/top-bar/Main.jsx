@@ -16,11 +16,12 @@ import DarkModeSwitcher from "@/components/dark-mode-switcher/Main";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth";
 import { useNavigate } from "react-router-dom";
+import { getRoleName } from "../../utils/getrolename";
 
 function Main(props) {
   const navigation = useNavigate();
 
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
@@ -39,6 +40,10 @@ function Main(props) {
       {/* BEGIN: Top Bar */}
       <div className="top-bar">
         {/* BEGIN: Breadcrumb */}
+        <div className="flex items-center gap-2">
+          <p className="font-semibold text-xl">Hoşgeldin {user?.name}</p>(
+          <p>{getRoleName(user?.role)}</p>)
+        </div>
         <nav
           aria-label="breadcrumb"
           className="-intro-x mr-auto hidden sm:flex"
@@ -54,12 +59,9 @@ function Main(props) {
         </nav>
         {/* END: Breadcrumb */}
         {/* BEGIN: Search */}
-
         <DarkModeSwitcher />
-
         {/* END: Dark Mode Switcher */}
         {/* BEGIN: Search */}
-
         {/* <div className="intro-x relative mr-3 sm:mr-6">
           <div className="search hidden sm:block">
             <input

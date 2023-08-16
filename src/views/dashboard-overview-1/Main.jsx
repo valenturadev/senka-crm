@@ -18,10 +18,13 @@ import ReportDonutChart from "@/components/report-donut-chart/Main";
 import ReportDonutChart1 from "@/components/report-donut-chart-1/Main";
 import SimpleLineChart1 from "@/components/simple-line-chart-1/Main";
 import ReportMap from "@/components/report-map/Main";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../../context/auth";
 
 function Main() {
+  const { user } = useContext(AuthContext);
+
   const [salesReportFilter, setSalesReportFilter] = useState();
   const importantNotesRef = useRef();
   const prevImportantNotes = () => {
