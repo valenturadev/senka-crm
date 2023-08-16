@@ -14,7 +14,9 @@ import {
 } from "@/base-components";
 import { faker as $f } from "@/utils";
 import * as $_ from "lodash";
-import { useRef } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
+import { errorMessage } from "../../utils/toast";
+import AuthContext from "../../context/auth";
 
 function Main() {
   const newProductsRef = useRef();
@@ -31,6 +33,35 @@ function Main() {
   };
   const nextNewAuthors = () => {
     newAuthorsRef.current.tns.goTo("next");
+  };
+
+  const { user } = useContext(AuthContext);
+
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = async () => {
+    try {
+      /*
+      const response = await axios.get(
+        `https://senka.valentura.com/api/get-profile`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `token ${user?.token}`,
+          },
+        }
+      );
+      console.log("profil response: ", response);
+      // setUserInfo();
+      */
+    } catch (error) {
+      console.log(error);
+      errorMessage("Profil Getirilemedi!");
+    }
   };
 
   return (

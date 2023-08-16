@@ -24,9 +24,8 @@ function Main(props) {
   const { user, logout } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("user: ", user)
-  }, [user])
-
+    console.log("user: ", user);
+  }, [user]);
 
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
@@ -48,8 +47,9 @@ function Main(props) {
         <div className="flex items-center gap-2">
           <p className="font-semibold text-xl">Hoşgeldin {user?.name}</p>
 
-          <p className="text-center text-gray-500 md:text-lg">({getRoleName(user?.role)})</p>
-
+          <p className="text-center text-gray-500 md:text-lg">
+            ({getRoleName(user?.role)})
+          </p>
         </div>
         <nav
           aria-label="breadcrumb"
@@ -217,10 +217,12 @@ function Main(props) {
           <DropdownMenu className="w-56">
             <DropdownContent className="bg-primary text-white">
               <DropdownHeader tag="div" className="!font-normal">
-                <div className="font-medium">{$f()[0].users[0].name}</div>
+                <div className="font-medium">
+                  {user?.name} {user?.surname}
+                </div>
                 <div className="text-xs text-white/70 mt-0.5 dark:text-slate-500">
                   {/* {$f()[0].jobs[0]} */}
-                  Finans Sorumlusu
+                  {getRoleName(user?.role)}
                 </div>
               </DropdownHeader>
               <DropdownDivider className="border-white/[0.08]" />
@@ -232,17 +234,17 @@ function Main(props) {
               {/* <DropdownItem className="hover:bg-white/5">
                 <Lucide icon="Edit" className="w-4 h-4 mr-2" /> Add Account
               </DropdownItem> */}
-              <DropdownItem className="hover:bg-white/5">
+              {/* <DropdownItem className="hover:bg-white/5">
                 <Link to="/parola-sifirla" className="flex items-center">
                   <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Parolayı
                   Sıfırla
                 </Link>
-              </DropdownItem>
-              <DropdownItem className="hover:bg-white/5">
+              </DropdownItem> */}
+              {/* <DropdownItem className="hover:bg-white/5">
                 <Link to="/yardim" className="flex items-center">
                   <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Yardım
                 </Link>
-              </DropdownItem>
+              </DropdownItem> */}
               <DropdownDivider className="border-white/[0.08]" />
               <DropdownItem className="hover:bg-white/5">
                 <button
