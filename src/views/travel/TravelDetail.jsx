@@ -107,7 +107,7 @@ const TravelDetail = () => {
                     okul_adi: "gazi",
                     isim: name,
                     soyisim: surname,
-                    unvan: title,
+                    ünvan: title,
                     tel_no: phone,
                     email: mail,
                     program_adi: programName,
