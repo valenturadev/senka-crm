@@ -1,15 +1,38 @@
+import { useState, useEffect, useContext } from "react";
 import DarkModeSwitcher from "@/components/dark-mode-switcher/Main";
 import dom from "@left4code/tw-starter/dist/js/dom";
 import logoUrl from "@/assets/images/logo.svg";
 import logoBig from "@/assets/images/senka/senka-logo.png";
 import illustrationUrl from "@/assets/images/illustration.svg";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import InputMask from "react-input-mask";
+import AuthContext from "../../context/auth";
 
 function Main() {
   useEffect(() => {
     dom("body").removeClass("main").removeClass("error-page").addClass("login");
   }, []);
+
+  const { register } = useContext(AuthContext);
+
+  const [user, setUser] = useState({
+    name: "",
+    surname: "",
+    username: "",
+    tel_no: "",
+    email: "",
+    school: "",
+    campus: "",
+    title: "",
+    birthday: "",
+    gender: "male",
+    password: "",
+    password_again: "",
+  });
+
+  const registerSystem = async () => {
+    register(user);
+  };
 
   return (
     <>
@@ -42,51 +65,128 @@ function Main() {
             {/* END: Register Info */}
             {/* BEGIN: Register Form */}
             <div className="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
-              <div className="my-auto mx-auto xl:ml-20 bg-white dark:bg-darkmode-600 xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
+              <div className="my-auto mx-auto xl:ml-0 bg-white dark:bg-darkmode-600 xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
                 <h2 className="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
                   Kayıt Ol
                 </h2>
                 <div className="intro-x mt-2 text-slate-400 dark:text-slate-400 xl:hidden text-center">
                   Senka Turizm Dünyasına Kayıt Ol!
                 </div>
-                <div className="intro-x mt-8">
-                  <input
-                    type="text"
-                    className="intro-x login__input form-control py-3 px-4 block"
-                    placeholder="İsim"
-                  />
-                  <input
-                    type="text"
-                    className="intro-x login__input form-control py-3 px-4 block mt-4"
-                    placeholder="Soyisim"
-                  />
-                  <input
-                    type="text"
-                    className="intro-x login__input form-control py-3 px-4 block mt-4"
-                    placeholder="Email"
-                  />
-                  <input
-                    type="text"
-                    className="intro-x login__input form-control py-3 px-4 block mt-4"
-                    placeholder="Parola"
-                  />
-                  {/* <div className="intro-x w-full grid grid-cols-12 gap-4 h-1 mt-3">
-                    <div className="col-span-3 h-full rounded bg-success"></div>
-                    <div className="col-span-3 h-full rounded bg-success"></div>
-                    <div className="col-span-3 h-full rounded bg-success"></div>
-                    <div className="col-span-3 h-full rounded bg-slate-100 dark:bg-darkmode-800"></div>
-                  </div> */}
-                  {/* <a
-                    href=""
-                    className="intro-x text-slate-500 block mt-2 text-xs sm:text-sm"
-                  >
-                    What is a secure password?
-                  </a> */}
-                  <input
-                    type="text"
-                    className="intro-x login__input form-control py-3 px-4 block mt-4"
-                    placeholder="Parola Onay"
-                  />
+                <div className="flex items-center justify-center gap-4 intro-x mt-8">
+                  <div className="flex flex-col gap-4">
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="İsim"
+                      value={user.name}
+                      onChange={(e) =>
+                        setUser({ ...user, name: e.target.value })
+                      }
+                    />
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Soyisim"
+                      value={user.surname}
+                      onChange={(e) =>
+                        setUser({ ...user, surname: e.target.value })
+                      }
+                    />
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Kullanıcı Adı"
+                      value={user.username}
+                      onChange={(e) =>
+                        setUser({ ...user, username: e.target.value })
+                      }
+                    />
+                    <InputMask
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      mask="(999) 999-9999"
+                      value={user.phone}
+                      onChange={(e) =>
+                        setUser({ ...user, phone: e.target.value })
+                      }
+                      placeholder="Telefon Numarası"
+                    />
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Email"
+                      value={user.email}
+                      onChange={(e) =>
+                        setUser({ ...user, email: e.target.value })
+                      }
+                    />
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Okul"
+                      value={user.school}
+                      onChange={(e) =>
+                        setUser({ ...user, school: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Kampüs"
+                      value={user.campus}
+                      onChange={(e) =>
+                        setUser({ ...user, campus: e.target.value })
+                      }
+                    />
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Ünvan"
+                      value={user.title}
+                      onChange={(e) =>
+                        setUser({ ...user, title: e.target.value })
+                      }
+                    />
+                    <input
+                      type="text"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Doğum Tarihi (2000-01-01)"
+                      value={user.birthday}
+                      onChange={(e) =>
+                        setUser({ ...user, birthday: e.target.value })
+                      }
+                    />
+                    <select
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Cinsiyet"
+                      value={user.gender}
+                      onChange={(e) =>
+                        setUser({ ...user, gender: e.target.value })
+                      }
+                    >
+                      <option value="male">Erkek</option>
+                      <option value="female">Kadın</option>
+                    </select>
+                    <input
+                      type="password"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Parola"
+                      value={user.password}
+                      onChange={(e) =>
+                        setUser({ ...user, password: e.target.value })
+                      }
+                    />
+                    <input
+                      type="password"
+                      className="intro-x login__input form-control py-3 px-4 block"
+                      placeholder="Parola Onay"
+                      value={user.password_again}
+                      onChange={(e) =>
+                        setUser({ ...user, password_again: e.target.value })
+                      }
+                    />
+                  </div>
                 </div>
                 <div className="intro-x flex items-center text-slate-600 dark:text-slate-500 mt-4 text-xs sm:text-sm">
                   <input
@@ -116,7 +216,7 @@ function Main() {
                 <div className="intro-x mt-5 xl:mt-8 text-center xl:text-left">
                   <button
                     onClick={() => {
-                      console.log("register");
+                      registerSystem();
                     }}
                     className="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top"
                   >

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { errorMessage } from "../utils/toast";
+import { errorMessage, successMessage } from "../utils/toast";
 import axios from "axios";
 
 const AuthContext = createContext("");
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
-    setUser(myUser)
+    setUser(myUser);
 
     console.log("My user: ", myUser);
   }, []);
@@ -58,6 +58,42 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (userInfo) => {
+    console.log("user ınfo: ", userInfo);
+    const cleanedNumber = userInfo.phone.replace(/[\s()-]/g, "");
+    const transformedNumber = "90" + cleanedNumber;
+
+    try {
+      const response = await axios.post(
+        `https://senka.valentura.com/api/crm/Api/register`,
+        {
+          name: userInfo?.name,
+          surname: userInfo?.surname,
+          username: userInfo?.username,
+          tel_no: transformedNumber,
+          email: userInfo?.email,
+          school: userInfo?.school,
+          campus: userInfo?.campus,
+          title: userInfo?.title,
+          birthday: userInfo?.birthday,
+          gender: userInfo?.gender,
+          password: userInfo?.password,
+          password_again: userInfo?.password_again,
+        }
+      );
+
+      if (response.data.error) {
+        errorMessage("Kayıt olurken hata oluştu!");
+      } else {
+        successMessage("Kayıt işlemi başarılı!");
+        navigation("/giris-yap");
+      }
+    } catch (error) {
+      errorMessage("Kayıt Olurken Hata Oluştu!");
+      console.log(error);
+    }
+  };
+
   const getTrueKey = (obj) => {
     for (const key in obj) {
       if (obj[key] === true) {
@@ -74,6 +110,7 @@ export const AuthProvider = ({ children }) => {
         setUser,
         logout,
         login,
+        register,
       }}
     >
       {children}

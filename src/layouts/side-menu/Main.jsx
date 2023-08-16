@@ -1,5 +1,5 @@
 import { Transition } from "react-transition-group";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { helper as $h } from "@/utils";
 import { sideMenu as useSideMenuStore } from "@/stores/side-menu";
@@ -15,8 +15,10 @@ import MobileMenu from "@/components/mobile-menu/Main";
 import DarkModeSwitcher from "@/components/dark-mode-switcher/Main";
 import MainColorSwitcher from "@/components/main-color-switcher/Main";
 import SideMenuTooltip from "@/components/side-menu-tooltip/Main";
+import AuthContext from "../../context/auth";
 
 const Main = () => {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [formattedMenu, setFormattedMenu] = useState([]);
@@ -27,6 +29,12 @@ const Main = () => {
     dom("body").removeClass("error-page").removeClass("login").addClass("main");
     setFormattedMenu(sideMenu());
   }, [sideMenuStore, location.pathname]);
+
+  useEffect(() => {
+    if (!user?.token) {
+      navigate("/giris-yap");
+    }
+  }, [user]);
 
   return (
     <div className="py-0.5">
