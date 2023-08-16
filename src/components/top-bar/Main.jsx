@@ -15,8 +15,11 @@ import classnames from "classnames";
 import DarkModeSwitcher from "@/components/dark-mode-switcher/Main";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 function Main(props) {
+  const navigation = useNavigate();
+
   const { logout } = useContext(AuthContext);
 
   const [searchDropdown, setSearchDropdown] = useState(false);
@@ -25,6 +28,10 @@ function Main(props) {
   };
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
+  };
+
+  const logoutSystem = () => {
+    logout();
   };
 
   return (
@@ -229,7 +236,10 @@ function Main(props) {
               </DropdownItem>
               <DropdownDivider className="border-white/[0.08]" />
               <DropdownItem className="hover:bg-white/5">
-                <button onClick={logout} className="flex items-center">
+                <button
+                  onClick={() => logoutSystem()}
+                  className="flex items-center"
+                >
                   <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Çıkış
                   Yap
                 </button>

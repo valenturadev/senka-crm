@@ -4,13 +4,26 @@ import logoUrl from "@/assets/images/logo.svg";
 import logoBig from "@/assets/images/senka/senka-logo.png";
 
 import illustrationUrl from "@/assets/images/illustration.svg";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../../context/auth";
+import InputMask from "react-input-mask";
 
 function Main() {
+  const { login } = useContext(AuthContext);
+
+  const [user, setUser] = useState({
+    phone: "",
+    password: "",
+  });
+
   useEffect(() => {
     dom("body").removeClass("main").removeClass("error-page").addClass("login");
   }, []);
+
+  const loginSystem = () => {
+    login(user.phone, user.password);
+  };
 
   return (
     <>
@@ -51,18 +64,27 @@ function Main() {
                   Senka Turizm Dünyasına Giriş Yap!
                 </div>
                 <div className="intro-x mt-8">
-                  <input
-                    type="text"
+                  <InputMask
                     className="intro-x login__input form-control py-3 px-4 block"
-                    placeholder="Email"
+                    mask="(999) 999-9999"
+                    value={user.phone}
+                    onChange={(e) =>
+                      setUser({ ...user, phone: e.target.value })
+                    }
+                    placeholder="Telefon Numarası"
                   />
+
                   <input
                     type="password"
                     className="intro-x login__input form-control py-3 px-4 block mt-4"
-                    placeholder="Password"
+                    placeholder="Parola"
+                    value={user.password}
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
                   />
                 </div>
-                <div className="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
+                {/* <div className="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
                   <div className="flex items-center mr-auto">
                     <input
                       id="remember-me"
@@ -77,14 +99,14 @@ function Main() {
                     </label>
                   </div>
                   <a href="">Şifreni mi Unuttun?</a>
-                </div>
+                </div> */}
                 <div className="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-                  <Link
-                    to="/"
+                  <button
+                    onClick={() => loginSystem()}
                     className="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top"
                   >
                     Giriş Yap
-                  </Link>
+                  </button>
                   <Link
                     to="/kayit-ol"
                     className="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top"

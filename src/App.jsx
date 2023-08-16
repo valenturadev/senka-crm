@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import Router from "./router";
 import { AuthProvider } from "./context/auth";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
           <Router />
           <ScrollToTop />
         </AuthProvider>
+        <Toaster />
       </BrowserRouter>
     </RecoilRoot>
   );
