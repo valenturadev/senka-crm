@@ -48,7 +48,7 @@ function Main(props) {
         <div className="flex items-center gap-2">
           <p className="font-semibold text-xl">Hoşgeldin {user?.name}</p>
 
-          <p>({getRoleName(user?.role)})</p>
+          <p className="text-center text-gray-500 md:text-lg">({getRoleName(user?.role)})</p>
 
         </div>
         <nav
