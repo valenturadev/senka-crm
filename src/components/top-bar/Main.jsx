@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   Lucide,
   Dropdown,
@@ -23,6 +23,11 @@ function Main(props) {
 
   const { user, logout } = useContext(AuthContext);
 
+  useEffect(() => {
+    console.log("user: ", user)
+  }, [user])
+
+
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
     setSearchDropdown(true);
@@ -41,8 +46,10 @@ function Main(props) {
       <div className="top-bar">
         {/* BEGIN: Breadcrumb */}
         <div className="flex items-center gap-2">
-          <p className="font-semibold text-xl">Hoşgeldin {user?.name}</p>(
-          <p>{getRoleName(user?.role)}</p>)
+          <p className="font-semibold text-xl">Hoşgeldin {user?.name}</p>
+
+          <p>({getRoleName(user?.role)})</p>
+
         </div>
         <nav
           aria-label="breadcrumb"

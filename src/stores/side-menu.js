@@ -79,13 +79,13 @@ const sideMenuData = [
   },
 ]
 
-const filteredMenuCRM = sideMenuData.filter(item => item.title !== "Mutabakat");
-const filteredMenuOperation = sideMenuData.filter(item => item.title !== "Seyahat" && item.title !== "Otel");
+const filteredMenuCustomerRelations = sideMenuData
+const filteredMenuElse = sideMenuData.filter(item => item.title !== "Seyahat");
 
 const sideMenu = atom({
   key: "sideMenu",
   default: {
-    menu: filteredMenuOperation,
+    menu: filteredMenuCustomerRelations,
   },
 });
 

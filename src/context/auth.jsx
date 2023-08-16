@@ -17,12 +17,12 @@ export const AuthProvider = ({ children }) => {
     is_accounting: false,
     name: "mertcan",
     surname: "kose",
-    role: "",
   });
 
   useEffect(() => {
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
+    setUser(myUser)
 
     console.log("My user: ", myUser);
   }, []);
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         let userRole = getTrueKey(response.data.data);
         let dataUser = { ...response.data.data, role: userRole };
         setUser(dataUser);
-        localStorage.setItem("user", JSON.stringify(response.data.data));
+        localStorage.setItem("user", JSON.stringify(dataUser));
         navigation("/");
       }
     } catch (error) {

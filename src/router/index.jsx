@@ -75,6 +75,7 @@ import Travel from "../views/travel/Main";
 import CreateTravel from "../views/travel/CreateTravel";
 import Agreement from "../views/agreement/Main";
 import CreateAgreement from "../views/agreement/CreateAgreement";
+import AgreementDetail from "../views/agreement/AgreementDetail";
 import Hotel from "../views/hotel/Main";
 import CreateHotelProgram from "../views/hotel/CreateHotelProgram";
 import Car from "../views/car/Main";
@@ -372,6 +373,10 @@ const Router = () => {
         {
           path: "/mutakabat-formu-olustur",
           element: <CreateAgreement />,
+        },
+        {
+          path: "/mutakabat-formu-duzenle/:formId",
+          element: <AgreementDetail />,
         },
         {
           path: "/otel-programlari",
