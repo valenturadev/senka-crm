@@ -44,7 +44,7 @@ const TravelDetail = () => {
   const [travelCity, setTravelCity] = useState("");
   const [returnCity, setReturnCity] = useState("");
   const [activities, setActivities] = useState("");
-
+  const [isApprove, setIsApprove] = useState(false)
   useEffect(() => {
     getData();
   }, []);
@@ -63,7 +63,7 @@ const TravelDetail = () => {
       const responseData = await response.data.data[0];
       setData(responseData);
       setLoading(false);
-
+      console.log("r:", responseData)
       if (responseData) {
         setName(responseData.isim || "");
         setSurname(responseData.soyisim || "");
@@ -95,6 +95,7 @@ const TravelDetail = () => {
         setReturnCity(responseData.dönülen_sehir || "");
         setCampusName(responseData.kampus_adi || "");
         setSelectedOption(responseData.ulasım_araci || "");
+        setIsApprove(responseData.travel_form_is_approve || false)
       }
     } catch (error) {
       console.log(error);
@@ -213,15 +214,23 @@ const TravelDetail = () => {
                       </p>
                     </div>
                     {user?.role === "is_customer_relations" && (
-                      <div className="flex flex-row">
-                        <button
-                          onClick={() => {
-                            verifyTravelForm();
-                          }}
-                          className="text-white text-center font-medium font-poppins text-xl leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
-                        >
-                          KABUL ET
-                        </button>
+
+                      <div className="flex flex-row items-center">
+                        {isApprove ?
+                          <button
+                            disabled
+                            className="text-white text-center font-medium font-poppins text-m leading-5 bg-yellow-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
+                          >
+                            KABUL EDİLMİŞ
+                          </button>
+                          : <button
+                            onClick={() => {
+                              verifyTravelForm();
+                            }}
+                            className="text-white text-center font-medium font-poppins text-xl leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
+                          >
+                            KABUL ET
+                          </button>}
                         <button
                           onClick={() => {
                             declineTravelForm();

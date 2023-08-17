@@ -30,12 +30,7 @@ const sideMenuData = [
         icon: "",
         pathname: "/mutakabat-formlari",
         title: "Mutakabat Formları",
-      },
-      {
-        icon: "",
-        pathname: "/mutakabat-formu-olustur",
-        title: "Mutakabat Formu Oluştur",
-      },
+      }
     ],
   },
   {

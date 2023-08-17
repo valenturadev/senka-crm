@@ -17,6 +17,7 @@ import * as $_ from "lodash";
 import { useContext, useRef, useState, useEffect } from "react";
 import { errorMessage } from "../../utils/toast";
 import AuthContext from "../../context/auth";
+import axios from "axios";
 
 function Main() {
   const newProductsRef = useRef();
@@ -45,9 +46,8 @@ function Main() {
 
   const getProfile = async () => {
     try {
-      /*
       const response = await axios.get(
-        `https://senka.valentura.com/api/get-profile`,
+        `https://senka.valentura.com/api/crm/Api/get-profile`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -55,9 +55,9 @@ function Main() {
           },
         }
       );
-      console.log("profil response: ", response);
-      // setUserInfo();
-      */
+      setUserInfo(response.data.data);
+      console.log("profil response: ", response.data.data);
+
     } catch (error) {
       console.log(error);
       errorMessage("Profil Getirilemedi!");
@@ -83,42 +83,35 @@ function Main() {
               </div>
               <div className="ml-5">
                 <div className="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg">
-                  {$f()[0].users[0].name}
+                  {userInfo?.name + " " + userInfo?.surname}
                 </div>
-                <div className="text-slate-500">{$f()[0].jobs[0]}</div>
+                <div className="text-slate-500">{userInfo?.title.toUpperCase()}</div>
+                <div className="text-slate-500">{"ID: " + userInfo?.member_id}</div>
+                <div className="text-slate-500">{"Kullanıcı Adı: " + userInfo?.username}</div>
               </div>
             </div>
             <div className="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
               <div className="font-medium text-center lg:text-left lg:mt-3">
-                Contact Details
+                İletişim Bilgileri
               </div>
               <div className="flex flex-col justify-center items-center lg:items-start mt-4">
                 <div className="truncate sm:whitespace-normal flex items-center">
                   <Lucide icon="Mail" className="w-4 h-4 mr-2" />
-                  {$f()[0].users[0].email}
-                </div>
-                <div className="truncate sm:whitespace-normal flex items-center mt-3">
-                  <Lucide icon="Instagram" className="w-4 h-4 mr-2" /> Instagram
-                  {$f()[0].users[0].name}
-                </div>
-                <div className="truncate sm:whitespace-normal flex items-center mt-3">
-                  <Lucide icon="Twitter" className="w-4 h-4 mr-2" /> Twitter
-                  {$f()[0].users[0].name}
+                  {userInfo?.email}
                 </div>
               </div>
             </div>
-            <div className="mt-6 lg:mt-0 flex-1 flex items-center justify-center px-5 border-t lg:border-0 border-slate-200/60 dark:border-darkmode-400 pt-5 lg:pt-0">
-              <div className="text-center rounded-md w-20 py-3">
-                <div className="font-medium text-primary text-xl">201</div>
-                <div className="text-slate-500">Orders</div>
+            <div className="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
+              <div className="font-medium text-center lg:text-left lg:mt-3">
+                Okul Bilgileri
               </div>
-              <div className="text-center rounded-md w-20 py-3">
-                <div className="font-medium text-primary text-xl">1k</div>
-                <div className="text-slate-500">Purchases</div>
-              </div>
-              <div className="text-center rounded-md w-20 py-3">
-                <div className="font-medium text-primary text-xl">492</div>
-                <div className="text-slate-500">Reviews</div>
+              <div className="flex flex-col justify-center items-center lg:items-start mt-4">
+                <div className="truncate sm:whitespace-normal flex items-center">
+                  {userInfo?.school?.toUpperCase()}
+                </div>
+                <div className="truncate sm:whitespace-normal flex items-center">
+                  {userInfo?.campus?.toUpperCase()}
+                </div>
               </div>
             </div>
           </div>
