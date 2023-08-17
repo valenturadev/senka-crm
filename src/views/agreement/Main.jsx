@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { errorMessage } from "../../utils/toast";
 
 
 function Main() {
@@ -25,6 +26,7 @@ function Main() {
     } catch (error) {
       console.log(error);
       setLoading(false);
+      errorMessage("Mutabakat formları getirilemedi!")
     }
   };
 
@@ -60,7 +62,7 @@ function Main() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-900">
-                      {data.map((item) => (
+                      {data?.map((item) => (
                         <tr key={item.id}>
                           <td className="px-2 py-4 whitespace-nowrap">
                             <div className="flex items-center">
