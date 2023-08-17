@@ -31,10 +31,12 @@ const Main = () => {
   }, [sideMenuStore, location.pathname]);
 
   useEffect(() => {
-    if (!user?.token) {
+    let localUser = JSON.parse(localStorage.getItem("user"));
+    console.log("localUser", localUser);
+    if (!localUser?.token?.length > 0) {
       navigate("/giris-yap");
     }
-  }, [user]);
+  }, []);
 
   return (
     <div className="py-0.5">
