@@ -4,15 +4,23 @@ import { Link } from "react-router-dom";
 
 function Main() {
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("pending");
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getData();
+    getData("pending");
   }, []);
 
-  const getData = async () => {
+
+  const handleStatus = (stringStatus) => {
+    setStatus(stringStatus);
+    setLoading(true);
+    getData(stringStatus);
+  };
+
+  const getData = async (_status) => {
     try {
-      const response = await fetch("https://senka.valentura.com/api/müşteri_ilişkileri/Api/get-all-travel-form", {
-        method: "POST",
+      const response = await fetch(`https://senka.valentura.com/api/müşteri_ilişkileri/Api/get-all-travel-form/status=${_status}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           'Authorization': "token 6eb4d112b1041a9e1d3ffe273615ae789441f197"
@@ -70,6 +78,14 @@ function Main() {
       <h2 className="text-3xl font-medium leading-none mt-3">
         Seyahat Formları
       </h2>
+      <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
+        <div className="flex items-center space-x-4">
+          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("pending")}>Bekleyenler</button>
+          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("true")}>Onaylananlar</button>
+          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("false")}>Onaylanmayanlar</button>
+          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("all")}>Hepsi</button>
+        </div>
+      </div>
       <div className="mt-5">
         <div className="flex flex-col">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -80,7 +96,9 @@ function Main() {
                 </div>
               </div>) : (
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                
                 <div className="shadow overflow-hidden border-b border-gray-900 sm:rounded-lg">
+                  
                   <table className="min-w-full divide-y divide-gray-900">
                     <thead className="bg-gray-900">
                       <tr>
