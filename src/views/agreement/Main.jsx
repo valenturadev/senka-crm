@@ -8,12 +8,18 @@ function Main() {
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
   useEffect(() => {
-    user.role == "is_operations_team" && getData();
+    user.role == "is_operations_team" && getData("pending");
   }, []);
 
-  const getData = async () => {
+
+  const handleStatus = (stringStatus) => {
+    setStatus(stringStatus);
+    setLoading(true);
+    getData(stringStatus);
+  };
+  const getData = async (_status) => {
     try {
-      const response = await fetch("https://senka.valentura.com/api/operasyon_ekibi/Api/get-all-mutabakat-forms", {
+      const response = await fetch(`https://senka.valentura.com/api/operasyon_ekibi/Api/get-all-mutabakat-forms/${_status}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,6 +44,14 @@ function Main() {
           <h2 className="text-3xl font-medium leading-none mt-3">
             Mutabakat Formları
           </h2>
+          <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
+            <div className="flex items-center space-x-4">
+              <button autoFocus class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("pending")} >Bekleyenler</button>
+              <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("true")}>Onaylananlar</button>
+              <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("false")}>Onaylanmayanlar</button>
+              <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("all")}>Hepsi</button>
+            </div>
+          </div>
           <div className="mt-5">
             <div className="flex flex-col">
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -80,7 +80,7 @@ function Main() {
       </h2>
       <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
         <div className="flex items-center space-x-4">
-          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("pending")}>Bekleyenler</button>
+          <button autoFocus class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("pending")} >Bekleyenler</button>
           <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("true")}>Onaylananlar</button>
           <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("false")}>Onaylanmayanlar</button>
           <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("all")}>Hepsi</button>
