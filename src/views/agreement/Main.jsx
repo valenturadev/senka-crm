@@ -7,6 +7,7 @@ function Main() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
+  const [status, setStatus] = useState("pending");
   useEffect(() => {
     user.role == "is_operations_team" && getData("pending");
   }, []);
@@ -17,6 +18,7 @@ function Main() {
     setLoading(true);
     getData(stringStatus);
   };
+
   const getData = async (_status) => {
     try {
       const response = await fetch(`https://senka.valentura.com/api/operasyon_ekibi/Api/get-all-mutabakat-forms/${_status}`, {
@@ -37,6 +39,18 @@ function Main() {
     }
   };
 
+  function getButtonClasses(statusButton) {
+    if (statusButton === status) {
+      return classNames(
+        `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`
+      );
+    } else {
+      return classNames(
+        'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent'
+      );
+    }
+  }
+
   return (
     <>
       {user?.role == "" ?
@@ -46,10 +60,10 @@ function Main() {
           </h2>
           <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
             <div className="flex items-center space-x-4">
-              <button autoFocus class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("pending")} >Bekleyenler</button>
-              <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("true")}>Onaylananlar</button>
-              <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("false")}>Onaylanmayanlar</button>
-              <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("all")}>Hepsi</button>
+              <button className={getButtonClasses("pending")} onClick={() => handleStatus("pending")} >Bekleyenler</button>
+              <button className={getButtonClasses("true")} onClick={() => handleStatus("true")}>Onaylananlar</button>
+              <button className={getButtonClasses("false")} onClick={() => handleStatus("false")}>Onaylanmayanlar</button>
+              <button className={getButtonClasses("all")} onClick={() => handleStatus("all")}>Hepsi</button>
             </div>
           </div>
           <div className="mt-5">

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -36,54 +37,29 @@ function Main() {
     }
   };
 
-  //   "data": [
-  //       {
-  //           "travel_form_id": 7,
-  //           "travel_form_isim": "sdsda",
-  //           "travel_form_onaylı_kisi": false,
-  //           "travel_form_program_adi": "asdsd",
-  //           "travel_form_ülke": "Türkiye",
-  //           "travel_form_sehir": "ankara",
-  //           "travel_form_öngörülen_tarih": "2023-08-11T07:55:12.609562Z",
-  //           "travel_form_öngörülen_öğrenci_sayisi": 33,
-  //           "travel_form_ilgili_sınıf": "2",
-  //           "travel_form_zümre": "ased",
-  //           "travel_form_kazanim_ve_beklentiler": "sdsdasd",
-  //           "travel_form_ulasim_araci": "otobüs",
-  //           "travel_form_gidis_tarihi": "antalya",
-  //           "travel_form_dönüs_tarihi": "2023-08-11T07:55:12.609669Z",
-  //           "travel_form_gidilen_sehir": "antalya",
-  //           "travel_form_dönülen_sehir": "istanbul",
-  //           "travel_form_transferler": "asasdasd",
-  //           "travel_form_lokasyon1": "isveç",
-  //           "travel_form_lokasyon2": "londra",
-  //           "travel_form_lokasyon3": "bilbao",
-  //           "travel_form_lokasyon1_giris": "2023-08-11T07:55:12.609707Z",
-  //           "travel_form_lokasyon1_cikis": "2023-08-11T07:55:12.609725Z",
-  //           "travel_form_lokasyon2_giris": "2023-08-11T07:55:12.609743Z",
-  //           "travel_form_lokasyon2_cikis": "2023-08-11T07:55:12.609761Z",
-  //           "travel_form_lokasyon3_giris": "2023-08-11T07:55:12.609779Z",
-  //           "travel_form_lokasyon3_cikis": "2023-08-11T07:55:12.609797Z",
-  //           "travel_form_soyisim": "sdsda",
-  //           "travel_form_okul_adi": "gazi",
-  //           "travel_form_kampus_adi": "asdasd",
-  //           "travel_form_ünvan": "asd",
-  //           "travel_form_tel_no": "05124578543",
-  //           "travel_form_email": "asd@asd.asd",
-  //           "travel_form_is_approve": null
-  //       }]
+  function getButtonClasses(statusButton) {
+    if (statusButton === status) {
+      return classNames(
+        `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`
+      );
+    } else {
+      return classNames(
+        'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent'
+      );
+    }
+  }
 
   return (
     <div>
-      <h2 className="text-3xl font-medium leading-none mt-3">
+      <h2 className={"text-3xl font-medium leading-none mt-3"}>
         Seyahat Formları
       </h2>
       <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
         <div className="flex items-center space-x-4">
-          <button autoFocus class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("pending")} >Bekleyenler</button>
-          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("true")}>Onaylananlar</button>
-          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("false")}>Onaylanmayanlar</button>
-          <button class="px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2" onClick={() =>handleStatus("all")}>Hepsi</button>
+          <button className={getButtonClasses("pending")} onClick={() => handleStatus("pending")} >Bekleyenler</button>
+          <button className={getButtonClasses("true")} onClick={() => handleStatus("true")}>Onaylananlar</button>
+          <button className={getButtonClasses("false")} onClick={() => handleStatus("false")}>Onaylanmayanlar</button>
+          <button className={getButtonClasses("all")} onClick={() => handleStatus("all")}>Hepsi</button>
         </div>
       </div>
       <div className="mt-5">
@@ -96,9 +72,9 @@ function Main() {
                 </div>
               </div>) : (
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                
+
                 <div className="shadow overflow-hidden border-b border-gray-900 sm:rounded-lg">
-                  
+
                   <table className="min-w-full divide-y divide-gray-900">
                     <thead className="bg-gray-900">
                       <tr>
