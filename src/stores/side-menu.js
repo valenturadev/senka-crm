@@ -33,7 +33,7 @@ const sideMenuData = [
       }
     ],
   },
-  {
+  /* {
     icon: "Car",
     title: "Araç",
     subMenu: [
@@ -64,7 +64,7 @@ const sideMenuData = [
         title: "Otel Programı Oluştur",
       },
     ],
-  },
+  }, */
   // tabulator
   "devider",
   {
