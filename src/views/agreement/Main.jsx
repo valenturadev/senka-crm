@@ -7,9 +7,9 @@ function Main() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
-  const [status, setStatus] = useState("pending");
+  const [status, setStatus] = useState("waiting");
   useEffect(() => {
-    user.role == "is_operations_team" && getData("pending");
+    user?.role == "is_operations_team" && getData("waiting");
   }, []);
 
 
@@ -20,12 +20,14 @@ function Main() {
   };
 
   const getData = async (_status) => {
+    let localUser = localStorage.getItem("user");
+    let myUser = JSON.parse(localUser);
     try {
       const response = await fetch(`https://senka.valentura.com/api/operasyon_ekibi/Api/get-all-mutabakat-forms/${_status}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': "token 6eb4d112b1041a9e1d3ffe273615ae789441f197"
+          "Authorization": `Bearer ${myUser?.access}`
         }
       });
       const data = await response.json();
@@ -60,9 +62,9 @@ function Main() {
           </h2>
           <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
             <div className="flex items-center space-x-4">
-              <button className={getButtonClasses("pending")} onClick={() => handleStatus("pending")} >Bekleyenler</button>
-              <button className={getButtonClasses("true")} onClick={() => handleStatus("true")}>Onaylananlar</button>
-              <button className={getButtonClasses("false")} onClick={() => handleStatus("false")}>Onaylanmayanlar</button>
+              <button className={getButtonClasses("waiting")} onClick={() => handleStatus("waiting")} >Bekleyenler</button>
+              <button className={getButtonClasses("approved")} onClick={() => handleStatus("approved")}>Onaylananlar</button>
+              <button className={getButtonClasses("rejected")} onClick={() => handleStatus("rejected")}>Onaylanmayanlar</button>
               <button className={getButtonClasses("all")} onClick={() => handleStatus("all")}>Hepsi</button>
             </div>
           </div>

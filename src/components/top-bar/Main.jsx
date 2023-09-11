@@ -22,11 +22,6 @@ function Main(props) {
   const navigation = useNavigate();
 
   const { user, logout } = useContext(AuthContext);
-
-  useEffect(() => {
-    console.log("user: ", user);
-  }, [user]);
-
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
     setSearchDropdown(true);
@@ -35,8 +30,8 @@ function Main(props) {
     setSearchDropdown(false);
   };
 
-  const logoutSystem = () => {
-    logout();
+  const logoutSystem = async () => {
+    await logout();
   };
 
   return (
@@ -45,7 +40,7 @@ function Main(props) {
       <div className="top-bar">
         {/* BEGIN: Breadcrumb */}
         <div className="flex items-center gap-2">
-          <p className="font-semibold text-xl">Hoşgeldin {user?.name}</p>
+          <p className="font-semibold text-xl">Hoşgeldin {user?.firstname}</p>
 
           <p className="text-center text-gray-500 md:text-lg">
             ({getRoleName(user?.role)})

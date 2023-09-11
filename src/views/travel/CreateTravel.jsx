@@ -4,46 +4,13 @@ import { useState } from "react"
 import TraveInputBox from "../../components/travelInputBox/main"
 import TravelRadioButton from "../../components/travelRadioButton/main";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import tr from 'date-fns/locale/tr';
+registerLocale('tr', tr)
 
 const CreateTravel = () => {
-    // const { logout } = useContext(AuthContext);
-
-
-    /*
-  Post https://senka.valentura.com/api/crm/Api/create-travel-form
-  {
-      "kampus_adi": "beşevler",
-      "okul_adi": "gazi",
-      "isim": "samet",
-      "soyisim": "akgül",
-      "unvan": "öğrenci",
-      "tel_no": "054337802960",
-      "email": "tahakoner@gmail.com",
-      "program_adi": "endüstri mühendisliği",
-      "ülke": "türkiye",
-      "sehir": "ankara",
-      "öngörülen_tarih":"2023-07-06",
-      "öngörülen_ogrenci_sayisi":"10",
-      "ilgili_sinif":"2",
-      "ilgili_zumre":"zumre",
-      "kazanim_ve_beklentiler":"kazanim_ve_beklentiler",
-      "ulasim_araci":"otobüs",
-      "gidis_tarihi":"2023-10-10",
-      "dönüs_tarihi":"2023-12-10",
-      "gidilecek_sehir":"antalya",
-      "dönülecek_sehir":"istanbul",
-      "transferler":"transferler",
-      "lokasyon1":"lokasyon1",
-      "lokasyon1_giris":"2023-10-10",
-      "lokasyon1_cikis":"2023-10-10",
-      "lokasyon2":"lokasyon2",
-      "lokasyon2_giris":"2023-11-10",
-      "lokasyon2_cikis":"2023-11-10",
-      "lokasyon3":"lokasyon3",
-      "lokasyon3_giris":"2023-12-10",
-      "lokasyon3_cikis":"2023-12-10",
-      "aktivite_ve_beklentiler":"aktivite_ve_beklentiler"
-  }*/
     const [selectedOption, setSelectedOption] = useState("");
 
     const handleOptionChange = (e) => {
@@ -89,6 +56,7 @@ const CreateTravel = () => {
     const [returnCity, setReturnCity] = useState("")
 
     const [activities, setActivities] = useState("")
+    const [startDate, setStartDate] = useState(new Date());
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -97,41 +65,30 @@ const CreateTravel = () => {
     const sendTravelForm = async () => {
         try {
             const response = await fetch(
-                'https://senka.valentura.com/api/crm/Api/create-travel-form',
+                'https://senka.valentura.com/api/users/create-travel-form',
                 {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': '<calculated when request is sent>',
-                        'Host': '<calculated when request is sent>',
-                        'User-Agent': 'PostmanRuntime/7.32.3',
-                        'Accept': '*/*',
-                        'Accept-Encoding': 'gzip, deflate, br',
-                        'Connection': 'keep-alive',
-                        // Authorization: `token ${localStorage.getItem('token')}`
-                        // Authorization: `token 96b7224fca8210ea7e5454b8137f5229bdc1795a`
-                    },
                     body: JSON.stringify({
                         kampus_adi: campusName,
-                        okul_adi: 'gazi',
+                        okul_adi: schoolName,
                         isim: name,
                         soyisim: surname,
                         unvan: title,
                         tel_no: phone,
                         email: mail,
                         program_adi: programName,
-                        ülke: travelCountry,
-                        sehir: 'ankara',
-                        öngörülen_tarih: expectedDate,
-                        öngörülen_ogrenci_sayisi: expectedStudentAmount,
+                        ulke: travelCountry,
+                        sehir: city,
+                        ongorulen_tarih: expectedDate,
+                        ongorulen_ogrenci_sayisi: expectedStudentAmount,
                         ilgili_sinif: classes,
                         ilgili_zumre: department,
                         kazanim_ve_beklentiler: expectations,
                         ulasim_araci: selectedOption,
                         gidis_tarihi: departureDate,
-                        dönüs_tarihi: returnDate,
-                        gidilecek_sehir: 'antalya',
-                        dönülecek_sehir: 'istanbul',
+                        donus_tarihi: returnDate,
+                        gidilecek_sehir: travelCity,
+                        donulecek_sehir: returnCity,
                         transferler: transfers,
                         lokasyon1: locationOne,
                         lokasyon1_giris: locationOneDeparture,
@@ -149,10 +106,7 @@ const CreateTravel = () => {
                 }
             );
             const json = await response.json()
-
-            // return json
-
-            console.log(json);  // Output the response data
+            console.log(json);
         } catch (error) {
             console.log(error);
         }
@@ -164,6 +118,7 @@ const CreateTravel = () => {
             <h2 className="text-3xl font-medium leading-none mt-3">
                 Gezi Talep Formu Oluştur
             </h2>
+
             <div className="relative mt-8">
                 <div className="md-w-[531px] mb-[11.64px]">
                     <TraveInputBox
@@ -236,6 +191,17 @@ const CreateTravel = () => {
                             placeholder=""
                             value={mail}
                             onChange={(e) => setMail(e.target.value)}
+                            classNa={''}
+
+                        />
+                    </div>
+                    <div className='min-md-w-[531px]'>
+                        <TraveInputBox
+                            label="Okul Adı:"
+                            id="schoolName"
+                            placeholder=""
+                            value={schoolName}
+                            onChange={(e) => setSchoolName(e.target.value)}
                             classNa={''}
 
                         />
@@ -346,6 +312,17 @@ const CreateTravel = () => {
                     </div>
                     <div className='min-md-w-[531px]'>
                         <TraveInputBox
+                            label="Şehir:"
+                            id="city"
+                            placeholder=""
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            classNa={''}
+
+                        />
+                    </div>
+                    <div className='min-md-w-[531px]'>
+                        <TraveInputBox
                             label="Gidilecek Ülke/Şehir(ler):"
                             id="title"
                             placeholder=""
@@ -363,8 +340,9 @@ const CreateTravel = () => {
                             value={expectedDate}
                             onChange={(e) => setExpectedDate(e.target.value)}
                             classNa={''}
-
                         />
+                        <DatePicker selected={startDate} locale="tr"
+                            onChange={(date) => { setStartDate(date); console.log(date) }} />
                     </div>
                     <div className='min-md-w-[531px]'>
                         <TraveInputBox
@@ -398,8 +376,29 @@ const CreateTravel = () => {
 
                         />
                     </div>
+                    <div className='min-md-w-[531px]'>
+                        <TraveInputBox
+                            label="Gidilecek Şehir"
+                            id="travelCity"
+                            placeholder=""
+                            value={travelCity}
+                            onChange={(e) => setTravelCity(e.target.value)}
+                            classNa={''}
 
+                        />
+                    </div> <div className='min-md-w-[531px]'>
+                        <TraveInputBox
+                            label="Dönülecek Şehir:"
+                            id="returnCity"
+                            placeholder=""
+                            value={returnCity}
+                            onChange={(e) => setReturnCity(e.target.value)}
+                            classNa={''}
+
+                        />
+                    </div>
                 </div>
+
 
 
             </div>

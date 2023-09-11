@@ -32,8 +32,8 @@ const Main = () => {
 
   useEffect(() => {
     let localUser = JSON.parse(localStorage.getItem("user"));
-    console.log("localUser", localUser);
-    if (!localUser?.token?.length > 0) {
+    /* console.log("localUser", localUser); */
+    if (!localUser?.access?.length > 0) {
       navigate("/giris-yap");
     }
   }, []);

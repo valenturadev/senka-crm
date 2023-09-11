@@ -92,15 +92,6 @@ function Main() {
                         setUser({ ...user, surname: e.target.value })
                       }
                     />
-                    <input
-                      type="text"
-                      className="intro-x login__input form-control py-3 px-4 block"
-                      placeholder="Kullanıcı Adı"
-                      value={user.username}
-                      onChange={(e) =>
-                        setUser({ ...user, username: e.target.value })
-                      }
-                    />
                     <InputMask
                       className="intro-x login__input form-control py-3 px-4 block"
                       mask="(999) 999-9999"
@@ -128,8 +119,6 @@ function Main() {
                         setUser({ ...user, school: e.target.value })
                       }
                     />
-                  </div>
-                  <div className="flex flex-col gap-4">
                     <input
                       type="text"
                       className="intro-x login__input form-control py-3 px-4 block"
@@ -139,6 +128,8 @@ function Main() {
                         setUser({ ...user, campus: e.target.value })
                       }
                     />
+                  </div>
+                  <div className="flex flex-col gap-8">
                     <input
                       type="text"
                       className="intro-x login__input form-control py-3 px-4 block"

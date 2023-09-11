@@ -50,13 +50,15 @@ const TravelDetail = () => {
   }, []);
 
   const getData = async () => {
+    let localUser = localStorage.getItem("user");
+    let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
         `https://senka.valentura.com/api/müşteri_ilişkileri/Api/get-travel-form/travel-form-id=${formId}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "token 6eb4d112b1041a9e1d3ffe273615ae789441f197",
+            "Authorization": `Bearer ${myUser?.access}`
           },
         }
       );
@@ -104,6 +106,8 @@ const TravelDetail = () => {
   };
 
   const editTravelForm = async () => {
+    let localUser = localStorage.getItem("user");
+    let myUser = JSON.parse(localUser);
     try {
       const response = await axios.post(
         `https://senka.valentura.com/api/müşteri_ilişkileri/Api/edit-travel-form/travel-form-id=${formId}`,
@@ -143,7 +147,7 @@ const TravelDetail = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "token 6eb4d112b1041a9e1d3ffe273615ae789441f197",
+            "Authorization": `Bearer ${user?.access}`
           },
         }
       );
@@ -155,13 +159,15 @@ const TravelDetail = () => {
   };
 
   const verifyTravelForm = async () => {
+    let localUser = localStorage.getItem("user");
+    let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
         `https://senka.valentura.com/api/müşteri_ilişkileri/Api/verify-travel-forms/travel-id=${formId}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `token ${user?.token}`,
+            Authorization: `Bearer ${myUser?.token}`,
           },
         }
       );
@@ -175,13 +181,15 @@ const TravelDetail = () => {
   };
 
   const declineTravelForm = async () => {
+    let localUser = localStorage.getItem("user");
+    let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
         `https://senka.valentura.com/api/müşteri_ilişkileri/Api/non-verify-travel-forms/travel-id=${formId}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `token ${user?.token}`,
+            Authorization: `Bearer ${myUser?.token}`,
           },
         }
       );

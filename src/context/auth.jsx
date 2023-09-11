@@ -7,24 +7,25 @@ const AuthContext = createContext("");
 
 export const AuthProvider = ({ children }) => {
   const navigation = useNavigate();
-  const [user, setUser] = useState({
-    token: "",
-    qr_code: "",
-    is_web_controller_page: false,
-    is_operations_team: false,
-    is_customer_relations: false,
-    is_finance: false,
-    is_accounting: false,
-    name: "mertcan",
-    surname: "kose",
-  });
+  const [user, setUser] = useState(
+    {
+      refresh: "",
+      access: "",
+      firstname: "abdü samed",
+      lastname: "akgül",
+      is_customer_relations: false,
+      is_operation_team: false,
+      is_finance_team: false,
+      is_teacher: false,
+      is_normal_user: true,
+      is_web_team: false,
+      is_muhasebe: false
+    });
 
   useEffect(() => {
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
     setUser(myUser);
-
-    console.log("My user: ", myUser);
   }, []);
 
   const logout = () => {
@@ -32,51 +33,54 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (phone, password) => {
-    const cleanedNumber = phone.replace(/[\s()-]/g, "");
+    const cleanedNumber = phone?.replace(/[\s()-]/g, "");
     const transformedNumber = "90" + cleanedNumber;
 
     try {
       const response = await axios.post(
-        `https://senka.valentura.com/api/crm/Api/login`,
+        `https://senka.valentura.com/api/users/auth/login`,
         {
-          tel_no: transformedNumber,
-          password: password,
-          password_a: password,
+          username: transformedNumber,
+          password,
         }
       );
-
-      if (response.data.data.token) {
-        let userRole = getTrueKey(response.data.data);
-        let dataUser = { ...response.data.data, role: userRole };
+      if (response.data.token.access) {
+        let userRole = getTrueKey(response.data);
+        let dataUser = {
+          refresh: response.data.token.refresh,
+          access: response.data.token.access,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
+          role: userRole
+        };
         setUser(dataUser);
+
         localStorage.setItem("user", JSON.stringify(dataUser));
         navigation("/");
       }
     } catch (error) {
       errorMessage("Giriş Yapılamadı!");
-      console.log(error);
     }
   };
 
   const register = async (userInfo) => {
     console.log("user ınfo: ", userInfo);
-    const cleanedNumber = userInfo.phone.replace(/[\s()-]/g, "");
+    const cleanedNumber = userInfo?.phone?.replace(/[\s()-]/g, "");
     const transformedNumber = "90" + cleanedNumber;
 
     try {
       const response = await axios.post(
-        `https://senka.valentura.com/api/crm/Api/register`,
+        `https://senka.valentura.com/api/users/auth/register`,
         {
-          name: userInfo?.name,
-          surname: userInfo?.surname,
-          username: userInfo?.username,
-          tel_no: transformedNumber,
+          firstname: userInfo?.name,
+          lastname: userInfo?.surname,
+          phone: transformedNumber,
           email: userInfo?.email,
-          school: userInfo?.school,
-          campus: userInfo?.campus,
-          title: userInfo?.title,
+          okul: userInfo?.school,
+          kampus: userInfo?.campus,
+          unvan: userInfo?.title,
           birthday: userInfo?.birthday,
-          gender: userInfo?.gender,
+          is_male: userInfo?.gender == "male" ? true : false,
           password: userInfo?.password,
           password_again: userInfo?.password_again,
         }

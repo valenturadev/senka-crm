@@ -71,13 +71,15 @@ const AgreementDetail = () => {
     }, []);
 
     const getData = async () => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
                 `https://senka.valentura.com/api/operasyon_ekibi/Api/get-mutabakat-form/mutabakat-id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "token 6eb4d112b1041a9e1d3ffe273615ae789441f197",
+                        "Authorization": `Bearer ${myUser?.access}`
                     },
                 }
             );
@@ -124,6 +126,8 @@ const AgreementDetail = () => {
     };
 
     const editTravelForm = async () => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
         try {
             const response = await axios.post(
                 `https://senka.valentura.com/api/operasyon_ekibi/Api/edit-mutabakat-form/mutabakat-id=${formId}`,
@@ -163,7 +167,7 @@ const AgreementDetail = () => {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "token 6eb4d112b1041a9e1d3ffe273615ae789441f197",
+                        "Authorization": `Bearer ${myUser?.access}`
                     },
                 }
             );
@@ -175,13 +179,15 @@ const AgreementDetail = () => {
     };
 
     const verifyMutabakatForm = async () => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
                 `https://senka.valentura.com/api/finans/Api/verify-mutabakat-form/mutabakat-id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "token 6eb4d112b1041a9e1d3ffe273615ae789441f197",
+                        "Authorization": `Bearer ${myUser?.access}`
                     },
                 }
             );
@@ -193,13 +199,15 @@ const AgreementDetail = () => {
     };
 
     const declineMutabakatForm = async () => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
                 `https://senka.valentura.com/api/finans/Api/non-verify-mutabakat-form/mutabakat-id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "token 6eb4d112b1041a9e1d3ffe273615ae789441f197",
+                        "Authorization": `Bearer ${myUser?.access}`
                     },
                 }
             );

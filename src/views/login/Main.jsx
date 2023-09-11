@@ -21,8 +21,8 @@ function Main() {
     password: "",
   });
 
-  const loginSystem = () => {
-    login(user.phone, user.password);
+  const loginSystem = async () => {
+    await login(user.phone, user.password);
   };
 
   return (

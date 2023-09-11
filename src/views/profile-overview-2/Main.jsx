@@ -45,13 +45,15 @@ function Main() {
   }, []);
 
   const getProfile = async () => {
+    let localUser = localStorage.getItem("user");
+    let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
-        `https://senka.valentura.com/api/crm/Api/get-profile`,
+        `https://senka.valentura.com/api/users/auth/get-profile`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `token ${user?.token}`,
+            "Authorization": `Bearer ${myUser?.access}`
           },
         }
       );
@@ -63,6 +65,10 @@ function Main() {
       errorMessage("Profil Getirilemedi!");
     }
   };
+
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0).toUpperCase() + string?.slice(1);
+  }
 
   return (
     <>
@@ -83,11 +89,20 @@ function Main() {
               </div>
               <div className="ml-5">
                 <div className="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg">
-                  {userInfo?.name + " " + userInfo?.surname}
+                  {capitalizeFirstLetter(userInfo?.firstname) + " " + capitalizeFirstLetter(userInfo?.lastname)}
                 </div>
-                <div className="text-slate-500">{userInfo?.title.toUpperCase()}</div>
-                <div className="text-slate-500">{"ID: " + userInfo?.member_id}</div>
-                <div className="text-slate-500">{"Kullanıcı Adı: " + userInfo?.username}</div>
+                <div className="flex flex-row ">
+                  <div className="text-slate-800">{"ÜNVAN:"}</div>
+                  <div className="text-slate-500 ml-1">{capitalizeFirstLetter(userInfo?.title)}</div>
+                </div>
+                <div className="flex flex-row">
+                  <div className="text-slate-800">{"UUID:"}</div>
+                  <div className="text-slate-500 ml-1">{userInfo?.uuid}</div>
+                </div>
+                <div className="flex flex-row">
+                  <div className="text-slate-800">{"TELEFON:"}</div>
+                  <div className="text-slate-500 ml-1">{userInfo?.username}</div>
+                </div>
               </div>
             </div>
             <div className="mt-6 lg:mt-0 flex-1 px-5 border-l border-r border-slate-200/60 dark:border-darkmode-400 border-t lg:border-t-0 pt-5 lg:pt-0">
@@ -107,10 +122,10 @@ function Main() {
               </div>
               <div className="flex flex-col justify-center items-center lg:items-start mt-4">
                 <div className="truncate sm:whitespace-normal flex items-center">
-                  {userInfo?.school?.toUpperCase()}
+                  {"OKUL ADI: " + userInfo?.school?.toUpperCase()}
                 </div>
                 <div className="truncate sm:whitespace-normal flex items-center">
-                  {userInfo?.campus?.toUpperCase()}
+                  {"KAMPÜS " + userInfo?.campus?.toUpperCase()}
                 </div>
               </div>
             </div>
@@ -120,9 +135,9 @@ function Main() {
               fullWidth={false}
               className="py-4 flex items-center cursor-pointer"
             >
-              <Lucide icon="User" className="w-4 h-4 mr-2" /> Profile
+              <Lucide icon="User" className="w-4 h-4 mr-2" /> Profil
             </Tab>
-            <Tab
+            {/*  <Tab
               fullWidth={false}
               className="py-4 flex items-center cursor-pointer"
             >
@@ -139,7 +154,7 @@ function Main() {
               className="py-4 flex items-center cursor-pointer"
             >
               <Lucide icon="Settings" className="w-4 h-4 mr-2" /> Settings
-            </Tab>
+            </Tab> */}
           </TabList>
         </div>
         {/* END: Profile Info */}

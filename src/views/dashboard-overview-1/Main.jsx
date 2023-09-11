@@ -113,7 +113,7 @@ function Main() {
                 </div>
               </Link>
 
-              <Link
+              {/* <Link
                 to="/arac-programlari"
                 className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y"
               >
@@ -172,7 +172,7 @@ function Main() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </Link> */}
             </div>
           </div>
           {/* END: General Report */}
