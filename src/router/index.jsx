@@ -82,6 +82,9 @@ import Car from "../views/car/Main";
 import CreateCarProgram from "../views/car/CreateCarProgram";
 import TravelDetail from "../views/travel/TravelDetail";
 import SifreEkle from "../views/sifre-ekle/Main";
+import OgretmenEkle from "../views/musteri-iliskileri/gezi-takip/ogretmenEkle";
+import GeziFormlari from "../views/musteri-iliskileri/gezi-takip/geziFormlari";
+import GeziFormu from "../views/musteri-iliskileri/gezi-takip/geziFormu";
 
 const Router = () => {
   const routes = [
@@ -361,6 +364,18 @@ const Router = () => {
         {
           path: "/ogretmen-sifre-olustur/:phoneNumber",
           element: <SifreEkle />,
+        },
+        {
+          path: "/ogretmen-ekle/:geziId",
+          element: <OgretmenEkle />,
+        },
+        {
+          path:"/gezi-formlari",
+          element:<GeziFormlari/>
+        },
+        {
+          path:"/gezi-formu/:formId",
+          element:<GeziFormu/>
         },
         // {
         //   path: "/seyahat-formu-olustur",
