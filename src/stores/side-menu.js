@@ -33,6 +33,65 @@ const sideMenuData = [
       }
     ],
   },
+  {
+    icon: "Plane",
+    title: "Gezi Takip",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/seyahat-formlari",
+        title: "Öğretmen Ekle",
+      },
+      {
+        icon: "",
+        pathname: "/seyahat-formu-olustur",
+        title: "Gezi Formları",
+      },
+    ],
+  },
+  {
+    icon: "Plane",
+    title: "Finans",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/seyahat-formlari",
+        title: "Mutabakat Formları",
+      },
+    ],
+  },
+  {
+    icon: "Plane",
+    title: "Operasyon Ekibi",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/seyahat-formlari",
+        title: "Mutabakat Formları",
+      },
+    ],
+  },
+  {
+    icon: "Plane",
+    title: "Öğretmen",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/seyahat-formlari",
+        title: "Şifre Ekleme",
+      },
+      {
+        icon: "",
+        pathname: "/seyahat-formlari",
+        title: "Tüm Öğrenciler",
+      },
+      {
+        icon: "",
+        pathname: "/seyahat-formlari",
+        title: "Geziler",
+      }
+    ],
+  },
   /* {
     icon: "Car",
     title: "Araç",

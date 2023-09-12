@@ -4,11 +4,7 @@ import { useState } from "react"
 import TraveInputBox from "../../components/travelInputBox/main"
 import TravelRadioButton from "../../components/travelRadioButton/main";
 import axios from "axios";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import tr from 'date-fns/locale/tr';
-registerLocale('tr', tr)
+import TraveInputDateBox from "../../components/travelInputDateBox/main";
 
 const CreateTravel = () => {
     const [selectedOption, setSelectedOption] = useState("");
@@ -27,28 +23,28 @@ const CreateTravel = () => {
 
     const [expectations, setExpectations] = useState("")
 
-    const [departureDate, setDepartureDate] = useState("")
-    const [returnDate, setReturnDate] = useState('')
+    const [departureDate, setDepartureDate] = useState(new Date())
+    const [returnDate, setReturnDate] = useState(new Date())
     const [transfers, setTransfers] = useState("")
 
     const [programName, setProgramName] = useState("")
     const [travelCountry, setTravelCountry] = useState("")
-    const [expectedDate, setExpectedDate] = useState("")
+    const [expectedDate, setExpectedDate] = useState(new Date())
     const [expectedStudentAmount, setExpectedStudentAmount] = useState("")
     const [classes, setClasses] = useState("")
     const [department, setDepartment] = useState("")
 
     const [locationOne, setLocationOne] = useState("")
-    const [locationOneDeparture, setLocationOneDeparture] = useState("")
-    const [locationOneReturn, setLocationOneReturn] = useState("")
+    const [locationOneDeparture, setLocationOneDeparture] = useState(new Date())
+    const [locationOneReturn, setLocationOneReturn] = useState(new Date())
 
     const [locationTwo, setLocationTwo] = useState("")
-    const [locationtwoDeparture, setLocationTwoDeparture] = useState("")
-    const [locationTwoReturn, setLocationTwoReturn] = useState("")
+    const [locationtwoDeparture, setLocationTwoDeparture] = useState(new Date())
+    const [locationTwoReturn, setLocationTwoReturn] = useState(new Date())
 
     const [locationThree, setLocationThree] = useState("")
-    const [locationThreeDeparture, setLocationThreeDeparture] = useState("")
-    const [locationThreeReturn, setLocationThreeReturn] = useState("")
+    const [locationThreeDeparture, setLocationThreeDeparture] = useState(new Date())
+    const [locationThreeReturn, setLocationThreeReturn] = useState(new Date())
 
     const [schoolName, setSchoolName] = useState("")
     const [city, setCity] = useState("")
@@ -257,25 +253,19 @@ const CreateTravel = () => {
                 </div>
                 <div className='my-[20.36px] flex flex-wrap gap-[26.36px]'>
                     <div className='min-md-w-[531px]'>
-                        <TraveInputBox
+                        <TraveInputDateBox
                             label="Gidiş Tarihi:"
-                            id="fullName"
-                            placeholder=""
-                            value={departureDate}
-                            onChange={(e) => setDepartureDate(e.target.value)}
-                            classNa={''}
-
+                            id="gidis_tarihi"
+                            selectedDate={departureDate}
+                            onChange={date => setDepartureDate(date)}
                         />
                     </div>
                     <div className='min-md-w-[531px]'>
-                        <TraveInputBox
+                        <TraveInputDateBox
                             label="Dönüş Tarihi:"
-                            id="title"
-                            placeholder=""
-                            value={returnDate}
-                            onChange={(e) => setReturnDate(e.target.value)}
-                            classNa={''}
-
+                            id="donus_tarihi"
+                            selectedDate={returnDate}
+                            onChange={date => setReturnDate(date)}
                         />
                     </div>
                     <div className='min-w-full'>
@@ -324,7 +314,7 @@ const CreateTravel = () => {
                     <div className='min-md-w-[531px]'>
                         <TraveInputBox
                             label="Gidilecek Ülke/Şehir(ler):"
-                            id="title"
+                            id="gidilecek_ulke_sehirler"
                             placeholder=""
                             value={travelCountry}
                             onChange={(e) => setTravelCountry(e.target.value)}
@@ -333,21 +323,17 @@ const CreateTravel = () => {
                         />
                     </div>
                     <div className='min-md-w-[531px]'>
-                        <TraveInputBox
+                        <TraveInputDateBox
                             label="Ön Görülen Tarih:"
-                            id="telNo"
-                            placeholder=""
-                            value={expectedDate}
-                            onChange={(e) => setExpectedDate(e.target.value)}
-                            classNa={''}
+                            id="on_gorulen_tarih"
+                            selectedDate={expectedDate}
+                            onChange={date => setExpectedDate(date)}
                         />
-                        <DatePicker selected={startDate} locale="tr"
-                            onChange={(date) => { setStartDate(date); console.log(date) }} />
                     </div>
                     <div className='min-md-w-[531px]'>
                         <TraveInputBox
                             label="Ön Görülen Öğrenci Sayısı:"
-                            id="campusName"
+                            id="on_gorulen_ogrenci_sayisi"
                             placeholder=""
                             value={expectedStudentAmount}
                             onChange={(e) => setExpectedStudentAmount(e.target.value)}
