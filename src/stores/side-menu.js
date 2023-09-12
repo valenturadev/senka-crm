@@ -77,7 +77,7 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/seyahat-formlari",
+        pathname: "/ogretmen-sifre-olustur/:phoneNumber",
         title: "Şifre Ekleme",
       },
       {
