@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 function Main() {
@@ -8,6 +8,12 @@ function Main() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordAgain, setShowPasswordAgain] = useState(false);
   const [message, setMessage] = useState('');
+  const [teacherExists, setTeacherExists] = useState(false);
+  const [teacherName, setTeacherName] = useState('');
+  const [teacherSurname, setTeacherSurname] = useState('');
+  const [teacherEmail, setTeacherEmail] = useState('');
+  const [teacherOkul, setTeacherOkul] = useState('');
+  const [teacherCampus, setTeacherCampus] = useState('');
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -55,6 +61,31 @@ function Main() {
       setMessage('Şifreler eşleşmiyor. Lütfen aynı şifreyi girin.');
     }
   };
+
+  useEffect(() => {
+    // Sayfa yüklendiğinde öğretmenin varlığını sorgulamak için bir API isteği gönderelim
+    const apiUrl = 'https://senka.valentura.com/api/teacher/get-teacher/';
+    
+    fetch(apiUrl + 'phone=' + phoneNumber)
+      .then((response) => {
+        if (response.ok) {
+          setTeacherExists(true);
+          response.json().then((data) => {
+            setTeacherName(data.data.firstname);
+            setTeacherSurname(data.data.lastname);
+            setTeacherEmail(data.data.email);
+            setTeacherOkul(data.data.school);
+            setTeacherCampus(data.data.campus);
+          });
+        } else {
+          setTeacherExists(false);
+        }
+      })
+      .catch((error) => {
+        // Hata işleme burada ekleyebilirsiniz
+        console.error('Öğretmen sorgusu sırasında hata oluştu: ' + error.message);
+      });
+  }, [phoneNumber]);
 
   return (
     <div className="container mx-auto">
@@ -105,11 +136,18 @@ function Main() {
             </button>
           </div>
         </div>
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+        <button type="submit" className={`bg-blue-500 text-white px-4 py-2 rounded-lg ${!teacherExists ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!teacherExists}>
           Oluştur
         </button>
         <p className="mt-2 text-red-500">{message}</p>
         <p>Telefon Numarası: {phoneNumber}</p>
+        {teacherExists ? <p>Öğretmen mevcut.</p> : <p>Öğretmen mevcut değil.</p>}
+        {teacherExists ? <p>Öğretmen adı: {teacherName}</p> : null}
+        {teacherExists ? <p>Öğretmen soyadı: {teacherSurname}</p> : null}
+        {teacherExists ? <p>Öğretmen email: {teacherEmail}</p> : null}
+        {teacherExists ? <p>Öğretmen okul: {teacherOkul}</p> : null}
+        {teacherExists ? <p>Öğretmen kampüs: {teacherCampus}</p> : null}
       </form>
     </div>
   );
