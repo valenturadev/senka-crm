@@ -77,12 +77,12 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/seyahat-formlari",
+        pathname: "/ogretmen-formlari",
         title: "Şifre Ekleme",
       },
       {
         icon: "",
-        pathname: "/seyahat-formlari",
+        pathname: "/tum-ogrenciler",
         title: "Tüm Öğrenciler",
       },
       {

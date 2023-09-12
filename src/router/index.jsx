@@ -72,6 +72,7 @@ import Chart from "../views/chart/Main";
 import Slider from "../views/slider/Main";
 import ImageZoom from "../views/image-zoom/Main";
 import Travel from "../views/travel/Main";
+import Teacher from "../views/teacher/Main";
 import CreateTravel from "../views/travel/CreateTravel";
 import Agreement from "../views/agreement/Main";
 import CreateAgreement from "../views/agreement/CreateAgreement";
@@ -81,6 +82,7 @@ import CreateHotelProgram from "../views/hotel/CreateHotelProgram";
 import Car from "../views/car/Main";
 import CreateCarProgram from "../views/car/CreateCarProgram";
 import TravelDetail from "../views/travel/TravelDetail";
+import TumOgrenciler from "../views/teacher/TumOgrenciler";
 
 const Router = () => {
   const routes = [
@@ -356,6 +358,14 @@ const Router = () => {
         {
           path: "/seyahat-formlari",
           element: <Travel />,
+        },
+        {
+          path:"/ogretmen-formlari",
+          element: <Teacher/>
+        },
+        {
+          path: "/tum-ogrenciler",
+          element: <TumOgrenciler/>,
         },
         // {
         //   path: "/seyahat-formu-olustur",
