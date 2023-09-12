@@ -85,7 +85,7 @@ function Main() {
         // Hata işleme burada ekleyebilirsiniz
         console.error('Öğretmen sorgusu sırasında hata oluştu: ' + error.message);
       });
-  }, [phoneNumber]);
+  }, []);
 
   return (
     <div className="container mx-auto">
