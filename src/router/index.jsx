@@ -90,6 +90,8 @@ import SifreEkle from "../views/sifre-ekle/Main";
 import OgretmenEkle from "../views/musteri-iliskileri/gezi-takip/ogretmenEkle";
 import GeziFormlari from "../views/musteri-iliskileri/gezi-takip/geziFormlari";
 import GeziFormu from "../views/musteri-iliskileri/gezi-takip/geziFormu";
+import TumOgretmenler from "../views/musteri-iliskileri/gezi-takip/tumOgretmenler";
+import OgretmenDetay from "../views/musteri-iliskileri/gezi-takip/ogretmenDetay";
 
 const Router = () => {
   const routes = [
@@ -393,6 +395,14 @@ const Router = () => {
         {
           path: "/ogretmen-ekle/:geziId",
           element: <OgretmenEkle />,
+        },
+        {
+          path: "/tum-ogretmenler/:geziId",
+          element: <TumOgretmenler />,
+        },
+        {
+          path: "/ogretmen-detay/:ogretmenId",
+          element: <OgretmenDetay />,
         },
         {
           path:"/gezi-formlari",

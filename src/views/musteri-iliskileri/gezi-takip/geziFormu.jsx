@@ -36,14 +36,35 @@ function GeziDetay() {
     navigate('/ogretmen-ekle/'+formId);
   }
 
+  function handleButunOgretmenler() {
+    // Öğretmenlerin listesini görüntülemek için bir işlem ekleyebilirsiniz.
+    // Örneğin, bir modal pencere veya ayrı bir sayfa açabilirsiniz.
+    console.log('Öğretmenler listesi butonuna tıklandı');
+    navigate('/tum-ogretmenler/'+formId);
+    // Öğretmenlerin listesini görüntülemek için gerekli işlemi burada gerçekleştirin.
+  }
+
   return (
     <div>
         
       <h1>Gezi Detayları</h1>
       {geziVerisi && (
-        <button onClick={handleOgretmenEkle} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-          Öğretmen Ekle
+        <div>
+        <button
+          onClick={handleOgretmenEkle}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4"
+        >
+          Geziye Öğretmen Ekle
         </button>
+        <button
+          onClick={handleButunOgretmenler}
+          className="bg-green-500 text-white px-4 py-2 rounded-lg"
+        >
+          Gezideki Bütün Öğretmenler
+        </button>
+      </div>
+        
+        
       )}
       <div className="overflow-x-auto">
       <table className="min-w-full">
@@ -62,16 +83,7 @@ function GeziDetay() {
             <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Aktif Mi</td>
             <td>{geziVerisi.is_active ? 'Evet' : 'Hayır'}</td>
           </tr>
-          <tr>
-            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Öğretmenler</td>
-            <td>
-              <ul>
-                {geziVerisi.ogretmenler.map((ogretmen, index) => (
-                  <li key={index}>{ogretmen}</li>
-                ))}
-              </ul>
-            </td>
-          </tr>
+          
           <tr>
             <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Mutabakat</td>
             <td>
