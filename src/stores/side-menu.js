@@ -100,6 +100,17 @@ const sideMenuData = [
       },
     ],
   },
+  {
+    icon: "Plane",
+    title: "Finans",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/mutabakat-listesi/",
+        title: "Mutabakat listesi",
+      },
+    ],
+  },
   /* {
     icon: "Car",
     title: "Araç",
