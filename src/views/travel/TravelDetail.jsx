@@ -54,7 +54,7 @@ const TravelDetail = () => {
     let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
-        `https://senka.valentura.com/api/müşteri_ilişkileri/Api/get-travel-form/travel-form-id=${formId}`,
+        `https://senka.valentura.com/api/customer-relations/travel-forms/get-travel-form/id=${formId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -62,25 +62,25 @@ const TravelDetail = () => {
           },
         }
       );
-      const responseData = await response.data.data[0];
+      const responseData = await response.data.data;
       setData(responseData);
       setLoading(false);
       console.log("r:", responseData)
       if (responseData) {
         setName(responseData.isim || "");
         setSurname(responseData.soyisim || "");
-        setTitle(responseData.ünvan || "");
+        setTitle(responseData.unvan || "");
         setPhone(responseData.tel_no || "");
         setMail(responseData.email || "");
-        setExpectations(responseData.kazanım_ve_beklentiler || "");
+        setExpectations(responseData.kazanim_ve_beklentiler || "");
         setDepartureDate(responseData.gidis_tarihi || "");
-        setReturnDate(responseData.dönüs_tarihi || "");
+        setReturnDate(responseData.donus_tarihi || "");
         setTransfers(responseData.transferler || "");
         setProgramName(responseData.program_adi || "");
-        setTravelCountry(responseData.ülke || "");
-        setExpectedDate(responseData.öngörülen_tarih || "");
-        setExpectedStudentAmount(responseData.öngörülen_öğrenci_sayısı || "");
-        setClasses(responseData.ilgili_sınıf || "");
+        setTravelCountry(responseData.ulke || "");
+        setExpectedDate(responseData.ongorulen_tarih || "");
+        setExpectedStudentAmount(responseData.ongorulen_ogrenci_sayisi || "");
+        setClasses(responseData.ilgili_sinif || "");
         setDepartment(responseData.zumre || "");
         setLocationOne(responseData.lokasyon1 || "");
         setLocationOneDeparture(responseData.lokasyon1_cikis || "");
@@ -98,6 +98,7 @@ const TravelDetail = () => {
         setCampusName(responseData.kampus_adi || "");
         setSelectedOption(responseData.ulasım_araci || "");
         setIsApprove(responseData.travel_form_is_approve || false)
+        setActivities(responseData.activities || "");
       }
     } catch (error) {
       console.log(error);
@@ -110,7 +111,7 @@ const TravelDetail = () => {
     let myUser = JSON.parse(localUser);
     try {
       const response = await axios.post(
-        `https://senka.valentura.com/api/müşteri_ilişkileri/Api/edit-travel-form/travel-form-id=${formId}`,
+        `https://senka.valentura.com/api/customer-relations/travel-forms/edit-travel-form/id=${formId}`,
         {
           kampus_adi: campusName,
           okul_adi: "gazi",
@@ -142,12 +143,11 @@ const TravelDetail = () => {
           lokasyon3: locationThree,
           lokasyon3_giris: locationThreeDeparture,
           lokasyon3_cikis: locationThreeReturn,
-          aktivite_ve_beklentiler: activities,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${user?.access}`
+            "Authorization": `Bearer ${myUser?.access}`
           },
         }
       );
@@ -584,27 +584,7 @@ const TravelDetail = () => {
                           />
                         </div>
                       </div>
-                      <div className="my-[20.36px] flex flex-wrap gap-[26.36px] ">
-                        <div className="my-[20.36px] flex flex-col w-full">
-                          <div className="min-w-full ">
-                            <div className="relative">
-                              <label
-                                htmlFor={"fullName"}
-                                className={`absolute px-2 font-normal left-[7px] -top-[13.2px] dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] text-gray-500 pointer-events-none transition-all duration-300`}
-                              >
-                                Aktiviteler ve Diğer Beklentiler:
-                              </label>
-                              <textarea
-                                type="text"
-                                id="outcomeExpectation"
-                                value={activities}
-                                onChange={(e) => setActivities(e.target.value)}
-                                className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+
 
                       <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
                         NOT: * Lütfen elinizde varsa günlük program detayını

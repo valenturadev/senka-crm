@@ -5,6 +5,9 @@ import TraveInputBox from "../../components/travelInputBox/main"
 import TravelRadioButton from "../../components/travelRadioButton/main";
 import axios from "axios";
 import TraveInputDateBox from "../../components/travelInputDateBox/main";
+import { errorMessage, successMessage } from "../../utils/toast";
+import CircularProgress from "@mui/material/CircularProgress";
+import { NavLink } from "react-router-dom";
 
 const CreateTravel = () => {
     const [selectedOption, setSelectedOption] = useState("");
@@ -52,12 +55,13 @@ const CreateTravel = () => {
     const [returnCity, setReturnCity] = useState("")
 
     const [activities, setActivities] = useState("")
-
+    const [loading, setLoading] = useState(false)
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
     };
 
     const sendTravelForm = async () => {
+        setLoading(true);
         try {
             const response = await axios.post(
                 'https://senka.valentura.com/api/users/create-travel-form',
@@ -92,12 +96,19 @@ const CreateTravel = () => {
                     lokasyon3: locationThree,
                     lokasyon3_giris: locationThreeDeparture,
                     lokasyon3_cikis: locationThreeReturn,
-                    aktivite_ve_beklentiler: activities
                 }
             );
-            const json = await response.json()
-            console.log(json);
+            if (!response.error) {
+                successMessage("Seyahat formu başarıyla gönderildi!")
+                setLoading(false)
+                window.location.href = "/";
+            } else {
+                errorMessage("Seyahat formu oluşturulurken hata oluştu!")
+                setLoading(false)
+            }
         } catch (error) {
+            setLoading(false)
+            errorMessage("Seyahat formu oluşturulurken hata oluştu!")
             console.log(error);
         }
     };
@@ -475,30 +486,7 @@ const CreateTravel = () => {
 
 
                 </div>
-                <div className='my-[20.36px] flex flex-wrap gap-[26.36px] '>
 
-                    <div className='my-[20.36px] flex flex-col w-full'>
-                        <div className='min-w-full '>
-                            <div className="relative">
-                                <label
-                                    htmlFor={'fullName'}
-                                    className={`absolute px-2 font-normal left-[7px] -top-[13.2px] dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] text-gray-500 pointer-events-none transition-all duration-300`}
-                                >
-                                    Aktiviteler ve Diğer Beklentiler:
-                                </label>
-                                <textarea
-                                    type="text"
-                                    id='outcomeExpectation'
-                                    value={activities}
-                                    onChange={(e) => setActivities(e.target.value)}
-                                    className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
-                                />
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
 
                 <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
                     NOT: * Lütfen elinizde varsa günlük program detayını bizimle paylaşınız. </p>
@@ -506,11 +494,15 @@ const CreateTravel = () => {
                     ** Gezi talebinize en geç 3 iş günü içerisinde dönüş yapılacaktır. </p>
 
             </div>
-            <button
-                onClick={sendTravelForm}
-                className="text-white text-center font-medium font-poppins text-3xl font-normal leading-5 bg-red-500 border-none rounded-lg w-52 h-14 flex flex-col justify-center my-[5.12px] items-center">
-                GÖNDER
-            </button>
+            {loading ?
+                <div style={{ width: "300px", marginLeft: 30, marginTop: "12px" }}>
+                    <CircularProgress style={{ 'color': 'red' }} />
+                </div> :
+                <button
+                    onClick={sendTravelForm}
+                    className="text-white text-center font-medium font-poppins text-3xl font-normal leading-5 bg-red-500 border-none rounded-lg w-52 h-14 flex flex-col justify-center my-[5.12px] items-center">
+                    GÖNDER
+                </button>}
 
         </div>
     );

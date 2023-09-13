@@ -98,22 +98,22 @@ function Main() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-900">
                       {data?.map((item) => (
-                        <tr key={item.travel_form_id}>
+                        <tr key={item?.id}>
                           <td className="px-2 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
-                                  {item.travel_form_isim}
+                                  {item?.isim}
                                 </div>
                                 <div className="text-sm text-gray-500">
-                                  {item.travel_form_email}
+                                  {item?.email}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Link
-                              to={`/seyahat-formu-duzenle/${item.travel_form_id}`}
+                              to={`/seyahat-formu-duzenle/${item.id}`}
                               className="text-indigo-600 hover:text-indigo-900"
                             >
                               Düzenle
