@@ -83,6 +83,9 @@ import Car from "../views/car/Main";
 import CreateCarProgram from "../views/car/CreateCarProgram";
 import TravelDetail from "../views/travel/TravelDetail";
 import TumOgrenciler from "../views/teacher/TumOgrenciler";
+import TumGeziler from "../views/teacher/TumGeziler"
+import Ogrenci from "../views/teacher/GetStudent"
+import NewStudent from "../views/teacher/NewStudent"
 
 const Router = () => {
   const routes = [
@@ -364,8 +367,20 @@ const Router = () => {
           element: <Teacher/>
         },
         {
-          path: "/tum-ogrenciler",
+          path: "/tum-geziler",
+          element: <TumGeziler/>
+        },
+        {
+          path: "/tum-ogrenciler/:geziId",
           element: <TumOgrenciler/>,
+        },
+        {
+          path: "/ogrenci/:studentId",
+          element: <Ogrenci/>,
+        },
+        {
+          path: "/yeni-ogrenci/:geziId",
+          element: <NewStudent/>,
         },
         // {
         //   path: "/seyahat-formu-olustur",

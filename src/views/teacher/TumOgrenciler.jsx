@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams,Link,useNavigate, Navigate  } from 'react-router-dom';
+import { Bold } from 'lucide';
+
 
 function StudentTable() {
   const [students, setStudents] = useState([]);
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
+  const { geziId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios({
         method: 'GET', 
-        url: 'https://senka.valentura.com/api/teacher/get-all-ogrenci/gezi-id=1',
+        url: 'https://senka.valentura.com/api/teacher/get-all-ogrenci/gezi-id='+geziId,
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${myUser?.access}`
@@ -24,6 +29,9 @@ function StudentTable() {
         });
   }, []);
 
+  const handleCreateStudent = () => {
+    navigate('/yeni-ogrenci/'+geziId);
+  };
 
   return (
     <div>
@@ -77,8 +85,11 @@ function StudentTable() {
           {students?.map((student) => (
             <tr key={student.id}>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                {student.id}
-              </td>
+                  <Link to={`/ogrenci/${student.id}`} style={{ color: 'blue', fontWeight : Bold }}>
+                    {student.id}
+                  </Link>
+                </td>
+
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                 {student.ogrenci_adi}
               </td>
@@ -120,6 +131,12 @@ function StudentTable() {
         </tbody>
       </table>
       </div>
+      <button
+        onClick={handleCreateStudent}
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
+      >
+        Öğrenci Ekle
+      </button>
     </div>
   );
 }

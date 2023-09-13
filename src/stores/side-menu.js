@@ -80,16 +80,14 @@ const sideMenuData = [
         pathname: "/ogretmen-formlari",
         title: "Şifre Ekleme",
       },
+
       {
         icon: "",
-        pathname: "/tum-ogrenciler",
-        title: "Tüm Öğrenciler",
-      },
-      {
-        icon: "",
-        pathname: "/seyahat-formlari",
+        pathname: "/tum-geziler",
         title: "Geziler",
-      }
+      },
+
+      
     ],
   },
   /* {
