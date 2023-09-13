@@ -385,6 +385,8 @@ const Router = () => {
         {
           path: "/yeni-ogrenci/:geziId",
           element: <NewStudent/>,
+        },
+        {
           path: "/ogretmen-sifre-olustur/:phoneNumber",
           element: <SifreEkle />,
         },
@@ -607,10 +609,6 @@ const Router = () => {
         {
           path: "faq-layout-3",
           element: <FaqLayout3 />,
-        },
-        {
-          path: "update-profile",
-          element: <UpdateProfile />,
         },
         {
           path: "change-password",
