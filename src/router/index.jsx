@@ -92,6 +92,9 @@ import GeziFormlari from "../views/musteri-iliskileri/gezi-takip/geziFormlari";
 import GeziFormu from "../views/musteri-iliskileri/gezi-takip/geziFormu";
 import TumOgretmenler from "../views/musteri-iliskileri/gezi-takip/tumOgretmenler";
 import OgretmenDetay from "../views/musteri-iliskileri/gezi-takip/ogretmenDetay";
+import MakbuzOnay from "../views/muhasebe/MakbuzOnay"
+import MutabakatListesi from "../views/finans/GetAllMutabakat";
+import Mutabakat from "../views/finans/GetMutabakat";
 
 const Router = () => {
   const routes = [
@@ -99,6 +102,18 @@ const Router = () => {
       path: "/",
       element: <SideMenu />,
       children: [
+        {
+          path: "/mutabakat/:mutabakatId",
+          element: <Mutabakat/>,
+        },
+        {
+          path: "/mutabakat-listesi",
+          element: <MutabakatListesi />,
+        },
+        {
+          path: "/makbuz-onay",
+          element: <MakbuzOnay />,
+        },
         {
           path: "/",
           element: <DashboardOverview1 />,

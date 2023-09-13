@@ -86,8 +86,29 @@ const sideMenuData = [
         pathname: "/tum-geziler",
         title: "Geziler",
       },
+    ],
+  },
 
-      
+  {
+    icon: "Plane",
+    title: "Muhasebe",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/makbuz-onay/",
+        title: "Makbuz onay",
+      },
+    ],
+  },
+  {
+    icon: "Plane",
+    title: "Finans",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/mutabakat-listesi/",
+        title: "Mutabakat listesi",
+      },
     ],
   },
   /* {
