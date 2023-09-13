@@ -90,6 +90,7 @@ import SifreEkle from "../views/sifre-ekle/Main";
 import OgretmenEkle from "../views/musteri-iliskileri/gezi-takip/ogretmenEkle";
 import GeziFormlari from "../views/musteri-iliskileri/gezi-takip/geziFormlari";
 import GeziFormu from "../views/musteri-iliskileri/gezi-takip/geziFormu";
+import MakbuzOnay from "../views/muhasebe/MakbuzOnay.jsx"
 
 const Router = () => {
   const routes = [
@@ -97,6 +98,10 @@ const Router = () => {
       path: "/",
       element: <SideMenu />,
       children: [
+        {
+          path: "/makbuz-onay",
+          element: <MakbuzOnay />,
+        },
         {
           path: "/",
           element: <DashboardOverview1 />,
