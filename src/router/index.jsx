@@ -86,6 +86,10 @@ import TumOgrenciler from "../views/teacher/TumOgrenciler";
 import TumGeziler from "../views/teacher/TumGeziler"
 import Ogrenci from "../views/teacher/GetStudent"
 import NewStudent from "../views/teacher/NewStudent"
+import SifreEkle from "../views/sifre-ekle/Main";
+import OgretmenEkle from "../views/musteri-iliskileri/gezi-takip/ogretmenEkle";
+import GeziFormlari from "../views/musteri-iliskileri/gezi-takip/geziFormlari";
+import GeziFormu from "../views/musteri-iliskileri/gezi-takip/geziFormu";
 
 const Router = () => {
   const routes = [
@@ -381,6 +385,20 @@ const Router = () => {
         {
           path: "/yeni-ogrenci/:geziId",
           element: <NewStudent/>,
+          path: "/ogretmen-sifre-olustur/:phoneNumber",
+          element: <SifreEkle />,
+        },
+        {
+          path: "/ogretmen-ekle/:geziId",
+          element: <OgretmenEkle />,
+        },
+        {
+          path:"/gezi-formlari",
+          element:<GeziFormlari/>
+        },
+        {
+          path:"/gezi-formu/:formId",
+          element:<GeziFormu/>
         },
         // {
         //   path: "/seyahat-formu-olustur",
