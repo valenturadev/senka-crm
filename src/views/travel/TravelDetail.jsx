@@ -5,6 +5,7 @@ import TravelRadioButton from "../../components/travelRadioButton/main";
 import axios from "axios";
 import AuthContext from "../../context/auth";
 import { errorMessage, successMessage } from "../../utils/toast";
+import TraveInputDateBox from "../../components/travelInputDateBox/main";
 
 const TravelDetail = () => {
   const { formId } = useParams();
@@ -21,29 +22,28 @@ const TravelDetail = () => {
   const [phone, setPhone] = useState("");
   const [mail, setMail] = useState("");
   const [expectations, setExpectations] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
-  const [returnDate, setReturnDate] = useState("");
+  const [departureDate, setDepartureDate] = useState(new Date());
+  const [returnDate, setReturnDate] = useState(new Date());
   const [transfers, setTransfers] = useState("");
   const [programName, setProgramName] = useState("");
   const [travelCountry, setTravelCountry] = useState("");
-  const [expectedDate, setExpectedDate] = useState("");
+  const [expectedDate, setExpectedDate] = useState(new Date());
   const [expectedStudentAmount, setExpectedStudentAmount] = useState("");
   const [classes, setClasses] = useState("");
   const [department, setDepartment] = useState("");
   const [locationOne, setLocationOne] = useState("");
-  const [locationOneDeparture, setLocationOneDeparture] = useState("");
-  const [locationOneReturn, setLocationOneReturn] = useState("");
+  const [locationOneDeparture, setLocationOneDeparture] = useState(new Date());
+  const [locationOneReturn, setLocationOneReturn] = useState(new Date());
   const [locationTwo, setLocationTwo] = useState("");
-  const [locationtwoDeparture, setLocationTwoDeparture] = useState("");
-  const [locationTwoReturn, setLocationTwoReturn] = useState("");
+  const [locationtwoDeparture, setLocationTwoDeparture] = useState(new Date());
+  const [locationTwoReturn, setLocationTwoReturn] = useState(new Date());
   const [locationThree, setLocationThree] = useState("");
-  const [locationThreeDeparture, setLocationThreeDeparture] = useState("");
-  const [locationThreeReturn, setLocationThreeReturn] = useState("");
+  const [locationThreeDeparture, setLocationThreeDeparture] = useState(new Date());
+  const [locationThreeReturn, setLocationThreeReturn] = useState(new Date());
   const [schoolName, setSchoolName] = useState("");
   const [city, setCity] = useState("");
   const [travelCity, setTravelCity] = useState("");
   const [returnCity, setReturnCity] = useState("");
-  const [activities, setActivities] = useState("");
   const [isApprove, setIsApprove] = useState(false)
   useEffect(() => {
     getData();
@@ -73,32 +73,31 @@ const TravelDetail = () => {
         setPhone(responseData.tel_no || "");
         setMail(responseData.email || "");
         setExpectations(responseData.kazanim_ve_beklentiler || "");
-        setDepartureDate(responseData.gidis_tarihi || "");
-        setReturnDate(responseData.donus_tarihi || "");
+        setDepartureDate(responseData.gidis_tarihi);
+        setReturnDate(responseData.donus_tarihi);
         setTransfers(responseData.transferler || "");
         setProgramName(responseData.program_adi || "");
         setTravelCountry(responseData.ulke || "");
-        setExpectedDate(responseData.ongorulen_tarih || "");
+        setExpectedDate(responseData.ongorulen_tarih);
         setExpectedStudentAmount(responseData.ongorulen_ogrenci_sayisi || "");
         setClasses(responseData.ilgili_sinif || "");
         setDepartment(responseData.zumre || "");
         setLocationOne(responseData.lokasyon1 || "");
-        setLocationOneDeparture(responseData.lokasyon1_cikis || "");
-        setLocationOneReturn(responseData.lokasyon1_giris || "");
+        setLocationOneDeparture(responseData.lokasyon1_cikis);
+        setLocationOneReturn(responseData.lokasyon1_giris);
         setLocationTwo(responseData.lokasyon2 || "");
-        setLocationTwoDeparture(responseData.lokasyon2_cikis || "");
-        setLocationTwoReturn(responseData.lokasyon2_giris || "");
+        setLocationTwoDeparture(responseData.lokasyon2_cikis);
+        setLocationTwoReturn(responseData.lokasyon2_giris);
         setLocationThree(responseData.lokasyon3 || "");
-        setLocationThreeDeparture(responseData.lokasyon3_cikis || "");
-        setLocationThreeReturn(responseData.lokasyon3_giris || "");
+        setLocationThreeDeparture(responseData.lokasyon3_cikis);
+        setLocationThreeReturn(responseData.lokasyon3_giris);
         setSchoolName(responseData.okul || "");
         setCity(responseData.sehir || "");
         setTravelCity(responseData.gidilen_sehir || "");
         setReturnCity(responseData.dönülen_sehir || "");
         setCampusName(responseData.kampus_adi || "");
-        setSelectedOption(responseData.ulasım_araci || "");
+        setSelectedOption(responseData.ulasim_araci || "");
         setIsApprove(responseData.travel_form_is_approve || false)
-        setActivities(responseData.activities || "");
       }
     } catch (error) {
       console.log(error);
@@ -114,25 +113,25 @@ const TravelDetail = () => {
         `https://senka.valentura.com/api/customer-relations/travel-forms/edit-travel-form/id=${formId}`,
         {
           kampus_adi: campusName,
-          okul_adi: "gazi",
+          okul_adi: schoolName,
           isim: name,
           soyisim: surname,
-          ünvan: title,
+          unvan: title,
           tel_no: phone,
           email: mail,
           program_adi: programName,
-          ülke: travelCountry,
-          sehir: "ankara",
-          öngörülen_tarih: expectedDate,
-          öngörülen_ogrenci_sayisi: expectedStudentAmount,
+          ulke: travelCountry,
+          sehir: city,
+          ongorulen_tarih: expectedDate,
+          ongorulen_ogrenci_sayisi: expectedStudentAmount,
           ilgili_sinif: classes,
           ilgili_zumre: department,
           kazanim_ve_beklentiler: expectations,
           ulasim_araci: selectedOption,
           gidis_tarihi: departureDate,
           dönüs_tarihi: returnDate,
-          gidilecek_sehir: "antalya",
-          dönülecek_sehir: "istanbul",
+          gidilecek_sehir: travelCity,
+          dönülecek_sehir: returnCity,
           transferler: transfers,
           lokasyon1: locationOne,
           lokasyon1_giris: locationOneDeparture,
@@ -371,23 +370,19 @@ const TravelDetail = () => {
                       </div>
                       <div className="my-[20.36px] flex flex-wrap gap-[26.36px]">
                         <div className="min-md-w-[531px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Gidiş Tarihi:"
-                            id="fullName"
-                            placeholder=""
-                            value={departureDate}
-                            onChange={(e) => setDepartureDate(e.target.value)}
-                            classNa={""}
+                            id="gidis_tarihi"
+                            selectedDate={new Date(departureDate)}
+                            onChange={date => setDepartureDate(date)}
                           />
                         </div>
-                        <div className="min-md-w-[531px]">
-                          <TraveInputBox
+                        <div className='min-md-w-[531px]'>
+                          <TraveInputDateBox
                             label="Dönüş Tarihi:"
-                            id="title"
-                            placeholder=""
-                            value={returnDate}
-                            onChange={(e) => setReturnDate(e.target.value)}
-                            classNa={""}
+                            id="donus_tarihi"
+                            selectedDate={new Date(returnDate)}
+                            onChange={date => setReturnDate(date)}
                           />
                         </div>
                         <div className="min-w-full">
@@ -429,25 +424,22 @@ const TravelDetail = () => {
                           />
                         </div>
                         <div className="min-md-w-[531px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Ön Görülen Tarih:"
-                            id="telNo"
-                            placeholder=""
-                            value={expectedDate}
-                            onChange={(e) => setExpectedDate(e.target.value)}
-                            classNa={""}
+                            id="on_gorulen_tarih"
+                            selectedDate={new Date(expectedDate)}
+                            onChange={date => setExpectedDate(date)}
                           />
                         </div>
                         <div className="min-md-w-[531px]">
                           <TraveInputBox
                             label="Ön Görülen Öğrenci Sayısı:"
-                            id="campusName"
+                            id="ongorulen_ogrenci_sayisi"
                             placeholder=""
                             value={expectedStudentAmount}
                             onChange={(e) =>
                               setExpectedStudentAmount(e.target.value)
                             }
-                            classNa={""}
                           />
                         </div>
                         <div className="min-md-w-[531px]">
@@ -488,27 +480,19 @@ const TravelDetail = () => {
                           />
                         </div>
                         <div className="md:min-w-[231px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Giriş Tarihi:"
-                            id="title"
-                            placeholder=""
-                            value={locationOneDeparture}
-                            onChange={(e) =>
-                              setLocationOneDeparture(e.target.value)
-                            }
-                            classNa={""}
+                            id="giris_tarihi"
+                            selectedDate={new Date(locationOneDeparture)}
+                            onChange={date => setLocationOneDeparture(date)}
                           />
                         </div>
                         <div className="md:min-w-[231px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Çıkış Tarihi:"
-                            id="telNo"
-                            placeholder=""
-                            value={locationOneReturn}
-                            onChange={(e) =>
-                              setLocationOneReturn(e.target.value)
-                            }
-                            classNa={""}
+                            id="cikis_tarihi_1"
+                            selectedDate={new Date(locationOneReturn)}
+                            onChange={date => setLocationOneReturn(date)}
                           />
                         </div>
                       </div>
@@ -524,27 +508,19 @@ const TravelDetail = () => {
                           />
                         </div>
                         <div className="md:min-w-[231px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Giriş Tarihi:"
-                            id="title"
-                            placeholder=""
-                            value={locationtwoDeparture}
-                            onChange={(e) =>
-                              setLocationTwoDeparture(e.target.value)
-                            }
-                            classNa={""}
+                            id="giris_tarihi_2"
+                            selectedDate={new Date(locationtwoDeparture)}
+                            onChange={date => setLocationTwoDeparture(date)}
                           />
                         </div>
                         <div className="md:min-w-[231px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Çıkış Tarihi:"
-                            id="telNo"
-                            placeholder=""
-                            value={locationTwoReturn}
-                            onChange={(e) =>
-                              setLocationTwoReturn(e.target.value)
-                            }
-                            classNa={""}
+                            id="cikis_tarihi_2"
+                            selectedDate={new Date(locationTwoReturn)}
+                            onChange={date => setLocationTwoReturn(date)}
                           />
                         </div>
                       </div>
@@ -560,27 +536,19 @@ const TravelDetail = () => {
                           />
                         </div>
                         <div className="md:min-w-[231px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Giriş Tarihi:"
-                            id="title"
-                            placeholder=""
-                            value={locationThreeDeparture}
-                            onChange={(e) =>
-                              setLocationThreeDeparture(e.target.value)
-                            }
-                            classNa={""}
+                            id="giris_tarihi_3"
+                            selectedDate={new Date(locationThreeDeparture)}
+                            onChange={date => setLocationThreeDeparture(date)}
                           />
                         </div>
                         <div className="md:min-w-[231px]">
-                          <TraveInputBox
+                          <TraveInputDateBox
                             label="Çıkış Tarihi:"
-                            id="telNo"
-                            placeholder=""
-                            value={locationThreeReturn}
-                            onChange={(e) =>
-                              setLocationThreeReturn(e.target.value)
-                            }
-                            classNa={""}
+                            id="cikis_tarihi_3"
+                            selectedDate={new Date(locationThreeReturn)}
+                            onChange={date => setLocationThreeReturn(date)}
                           />
                         </div>
                       </div>

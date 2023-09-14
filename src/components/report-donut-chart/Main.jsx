@@ -10,7 +10,7 @@ function Main(props) {
   const darkMode = useRecoilValue(darkModeStore);
   const colorScheme = useRecoilValue(colorSchemeStore);
 
-  const chartData = [15, 10, 65];
+  const chartData = [15, 65];
   const chartColors = () => [
     colors.pending(0.9),
     colors.warning(0.9),
@@ -18,7 +18,7 @@ function Main(props) {
   ];
   const data = useMemo(() => {
     return {
-      labels: ["31 - 50 Years old", ">= 50 Years old", "17 - 30 Years old"],
+      labels: ["Onaylandı", "Onaylanmadı"],
       datasets: [
         {
           data: chartData,

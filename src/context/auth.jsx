@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       if (response.data.token.access) {
-        let userRole = getTrueKey(response.data);
+        let userRole = getTrueKeys(response.data);
         let dataUser = {
           refresh: response.data.token.refresh,
           access: response.data.token.access,
@@ -98,13 +98,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getTrueKey = (obj) => {
-    for (const key in obj) {
-      if (obj[key] === true) {
-        return key;
+  const getTrueKeys = (data) => {
+    const rolesArray = [];
+    for (const key in data) {
+      if (key.startsWith('is_') && data[key] === true) {
+        rolesArray.push(key);
       }
     }
-    return null;
+    return rolesArray;
   };
 
   return (

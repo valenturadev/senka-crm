@@ -104,7 +104,7 @@ const Router = () => {
       children: [
         {
           path: "/mutabakat/:mutabakatId",
-          element: <Mutabakat/>,
+          element: <Mutabakat />,
         },
         {
           path: "/mutabakat-listesi",
@@ -384,24 +384,24 @@ const Router = () => {
           element: <Travel />,
         },
         {
-          path:"/ogretmen-formlari",
-          element: <Teacher/>
+          path: "/ogretmen-formlari",
+          element: <Teacher />
         },
         {
           path: "/tum-geziler",
-          element: <TumGeziler/>
+          element: <TumGeziler />
         },
         {
           path: "/tum-ogrenciler/:geziId",
-          element: <TumOgrenciler/>,
+          element: <TumOgrenciler />,
         },
         {
           path: "/ogrenci/:studentId",
-          element: <Ogrenci/>,
+          element: <Ogrenci />,
         },
         {
           path: "/yeni-ogrenci/:geziId",
-          element: <NewStudent/>,
+          element: <NewStudent />,
         },
         {
           path: "/ogretmen-sifre-olustur/:phoneNumber",
@@ -420,22 +420,17 @@ const Router = () => {
           element: <OgretmenDetay />,
         },
         {
-          path:"/gezi-formlari",
-          element:<GeziFormlari/>
+          path: "/gezi-formlari",
+          element: <GeziFormlari />
         },
         {
-          path:"/gezi-formu/:formId",
-          element:<GeziFormu/>
+          path: "/gezi-formu/:formId",
+          element: <GeziFormu />
         },
-        // {
-        //   path: "/seyahat-formu-olustur",
-        //   element: <CreateTravel />,
-        // },
         {
           path: "/seyahat-formu-duzenle/:formId",
           element: <TravelDetail />,
         },
-        //
         {
           path: "/mutakabat-formlari",
           element: <Agreement />,
@@ -471,273 +466,273 @@ const Router = () => {
         },
       ],
     },
-    {
-      path: "/simple-menu",
-      element: <SimpleMenu />,
-      children: [
-        {
-          path: "dashboard-overview-1",
-          element: <DashboardOverview1 />,
-        },
-        {
-          path: "dashboard-overview-2",
-          element: <DashboardOverview2 />,
-        },
-        {
-          path: "dashboard-overview-3",
-          element: <DashboardOverview3 />,
-        },
-        {
-          path: "dashboard-overview-4",
-          element: <DashboardOverview4 />,
-        },
-        {
-          path: "categories",
-          element: <Categories />,
-        },
-        {
-          path: "add-product",
-          element: <AddProduct />,
-        },
-        {
-          path: "product-list",
-          element: <ProductList />,
-        },
-        {
-          path: "product-grid",
-          element: <ProductGrid />,
-        },
-        {
-          path: "transaction-list",
-          element: <TransactionList />,
-        },
-        {
-          path: "transaction-detail",
-          element: <TransactionDetail />,
-        },
-        {
-          path: "seller-list",
-          element: <SellerList />,
-        },
-        {
-          path: "seller-detail",
-          element: <SellerDetail />,
-        },
-        {
-          path: "reviews",
-          element: <Reviews />,
-        },
-        {
-          path: "inbox",
-          element: <Inbox />,
-        },
-        {
-          path: "file-manager",
-          element: <FileManager />,
-        },
-        {
-          path: "point-of-sale",
-          element: <PointOfSale />,
-        },
-        {
-          path: "chat",
-          element: <Chat />,
-        },
-        {
-          path: "post",
-          element: <Post />,
-        },
-        {
-          path: "calendar",
-          element: <Calendar />,
-        },
-        {
-          path: "crud-data-list",
-          element: <CrudDataList />,
-        },
-        {
-          path: "crud-form",
-          element: <CrudForm />,
-        },
-        {
-          path: "users-layout-1",
-          element: <UsersLayout1 />,
-        },
-        {
-          path: "users-layout-2",
-          element: <UsersLayout2 />,
-        },
-        {
-          path: "users-layout-3",
-          element: <UsersLayout3 />,
-        },
-        {
-          path: "profile-overview-1",
-          element: <ProfileOverview1 />,
-        },
-        {
-          path: "profile-overview-2",
-          element: <ProfileOverview2 />,
-        },
-        {
-          path: "profile-overview-3",
-          element: <ProfileOverview3 />,
-        },
-        {
-          path: "wizard-layout-1",
-          element: <WizardLayout1 />,
-        },
-        {
-          path: "wizard-layout-2",
-          element: <WizardLayout2 />,
-        },
-        {
-          path: "wizard-layout-3",
-          element: <WizardLayout3 />,
-        },
-        {
-          path: "blog-layout-1",
-          element: <BlogLayout1 />,
-        },
-        {
-          path: "blog-layout-2",
-          element: <BlogLayout2 />,
-        },
-        {
-          path: "blog-layout-3",
-          element: <BlogLayout3 />,
-        },
-        {
-          path: "pricing-layout-1",
-          element: <PricingLayout1 />,
-        },
-        {
-          path: "pricing-layout-2",
-          element: <PricingLayout2 />,
-        },
-        {
-          path: "invoice-layout-1",
-          element: <InvoiceLayout1 />,
-        },
-        {
-          path: "invoice-layout-2",
-          element: <InvoiceLayout2 />,
-        },
-        {
-          path: "faq-layout-1",
-          element: <FaqLayout1 />,
-        },
-        {
-          path: "faq-layout-2",
-          element: <FaqLayout2 />,
-        },
-        {
-          path: "faq-layout-3",
-          element: <FaqLayout3 />,
-        },
-        {
-          path: "change-password",
-          element: <ChangePassword />,
-        },
-        {
-          path: "regular-table",
-          element: <RegularTable />,
-        },
-        {
-          path: "tabulator",
-          element: <Tabulator />,
-        },
-        {
-          path: "modal",
-          element: <Modal />,
-        },
-        {
-          path: "slide-over",
-          element: <SlideOver />,
-        },
-        {
-          path: "notification",
-          element: <Notification />,
-        },
-        {
-          path: "tab",
-          element: <Tab />,
-        },
-        {
-          path: "accordion",
-          element: <Accordion />,
-        },
-        {
-          path: "button",
-          element: <Button />,
-        },
-        {
-          path: "alert",
-          element: <Alert />,
-        },
-        {
-          path: "progress-bar",
-          element: <ProgressBar />,
-        },
-        {
-          path: "tooltip",
-          element: <Tooltip />,
-        },
-        {
-          path: "dropdown",
-          element: <Dropdown />,
-        },
-        {
-          path: "typography",
-          element: <Typography />,
-        },
-        {
-          path: "icon",
-          element: <Icon />,
-        },
-        {
-          path: "loading-icon",
-          element: <LoadingIcon />,
-        },
-        {
-          path: "regular-form",
-          element: <RegularForm />,
-        },
-        {
-          path: "datepicker",
-          element: <Datepicker />,
-        },
-        {
-          path: "tom-select",
-          element: <TomSelect />,
-        },
-        {
-          path: "file-upload",
-          element: <FileUpload />,
-        },
-        {
-          path: "wysiwyg-editor",
-          element: <WysiwygEditor />,
-        },
-        {
-          path: "validation",
-          element: <Validation />,
-        },
-        {
-          path: "chart",
-          element: <Chart />,
-        },
-        {
-          path: "slider",
-          element: <Slider />,
-        },
-        {
-          path: "image-zoom",
-          element: <ImageZoom />,
-        },
-      ],
-    },
-    {
+    /*  {
+       path: "/simple-menu",
+       element: <SimpleMenu />,
+       children: [
+         {
+           path: "dashboard-overview-1",
+           element: <DashboardOverview1 />,
+         },
+         {
+           path: "dashboard-overview-2",
+           element: <DashboardOverview2 />,
+         },
+         {
+           path: "dashboard-overview-3",
+           element: <DashboardOverview3 />,
+         },
+         {
+           path: "dashboard-overview-4",
+           element: <DashboardOverview4 />,
+         },
+         {
+           path: "categories",
+           element: <Categories />,
+         },
+         {
+           path: "add-product",
+           element: <AddProduct />,
+         },
+         {
+           path: "product-list",
+           element: <ProductList />,
+         },
+         {
+           path: "product-grid",
+           element: <ProductGrid />,
+         },
+         {
+           path: "transaction-list",
+           element: <TransactionList />,
+         },
+         {
+           path: "transaction-detail",
+           element: <TransactionDetail />,
+         },
+         {
+           path: "seller-list",
+           element: <SellerList />,
+         },
+         {
+           path: "seller-detail",
+           element: <SellerDetail />,
+         },
+         {
+           path: "reviews",
+           element: <Reviews />,
+         },
+         {
+           path: "inbox",
+           element: <Inbox />,
+         },
+         {
+           path: "file-manager",
+           element: <FileManager />,
+         },
+         {
+           path: "point-of-sale",
+           element: <PointOfSale />,
+         },
+         {
+           path: "chat",
+           element: <Chat />,
+         },
+         {
+           path: "post",
+           element: <Post />,
+         },
+         {
+           path: "calendar",
+           element: <Calendar />,
+         },
+         {
+           path: "crud-data-list",
+           element: <CrudDataList />,
+         },
+         {
+           path: "crud-form",
+           element: <CrudForm />,
+         },
+         {
+           path: "users-layout-1",
+           element: <UsersLayout1 />,
+         },
+         {
+           path: "users-layout-2",
+           element: <UsersLayout2 />,
+         },
+         {
+           path: "users-layout-3",
+           element: <UsersLayout3 />,
+         },
+         {
+           path: "profile-overview-1",
+           element: <ProfileOverview1 />,
+         },
+         {
+           path: "profile-overview-2",
+           element: <ProfileOverview2 />,
+         },
+         {
+           path: "profile-overview-3",
+           element: <ProfileOverview3 />,
+         },
+         {
+           path: "wizard-layout-1",
+           element: <WizardLayout1 />,
+         },
+         {
+           path: "wizard-layout-2",
+           element: <WizardLayout2 />,
+         },
+         {
+           path: "wizard-layout-3",
+           element: <WizardLayout3 />,
+         },
+         {
+           path: "blog-layout-1",
+           element: <BlogLayout1 />,
+         },
+         {
+           path: "blog-layout-2",
+           element: <BlogLayout2 />,
+         },
+         {
+           path: "blog-layout-3",
+           element: <BlogLayout3 />,
+         },
+         {
+           path: "pricing-layout-1",
+           element: <PricingLayout1 />,
+         },
+         {
+           path: "pricing-layout-2",
+           element: <PricingLayout2 />,
+         },
+         {
+           path: "invoice-layout-1",
+           element: <InvoiceLayout1 />,
+         },
+         {
+           path: "invoice-layout-2",
+           element: <InvoiceLayout2 />,
+         },
+         {
+           path: "faq-layout-1",
+           element: <FaqLayout1 />,
+         },
+         {
+           path: "faq-layout-2",
+           element: <FaqLayout2 />,
+         },
+         {
+           path: "faq-layout-3",
+           element: <FaqLayout3 />,
+         },
+         {
+           path: "change-password",
+           element: <ChangePassword />,
+         },
+         {
+           path: "regular-table",
+           element: <RegularTable />,
+         },
+         {
+           path: "tabulator",
+           element: <Tabulator />,
+         },
+         {
+           path: "modal",
+           element: <Modal />,
+         },
+         {
+           path: "slide-over",
+           element: <SlideOver />,
+         },
+         {
+           path: "notification",
+           element: <Notification />,
+         },
+         {
+           path: "tab",
+           element: <Tab />,
+         },
+         {
+           path: "accordion",
+           element: <Accordion />,
+         },
+         {
+           path: "button",
+           element: <Button />,
+         },
+         {
+           path: "alert",
+           element: <Alert />,
+         },
+         {
+           path: "progress-bar",
+           element: <ProgressBar />,
+         },
+         {
+           path: "tooltip",
+           element: <Tooltip />,
+         },
+         {
+           path: "dropdown",
+           element: <Dropdown />,
+         },
+         {
+           path: "typography",
+           element: <Typography />,
+         },
+         {
+           path: "icon",
+           element: <Icon />,
+         },
+         {
+           path: "loading-icon",
+           element: <LoadingIcon />,
+         },
+         {
+           path: "regular-form",
+           element: <RegularForm />,
+         },
+         {
+           path: "datepicker",
+           element: <Datepicker />,
+         },
+         {
+           path: "tom-select",
+           element: <TomSelect />,
+         },
+         {
+           path: "file-upload",
+           element: <FileUpload />,
+         },
+         {
+           path: "wysiwyg-editor",
+           element: <WysiwygEditor />,
+         },
+         {
+           path: "validation",
+           element: <Validation />,
+         },
+         {
+           path: "chart",
+           element: <Chart />,
+         },
+         {
+           path: "slider",
+           element: <Slider />,
+         },
+         {
+           path: "image-zoom",
+           element: <ImageZoom />,
+         },
+       ],
+     }, */
+    /* {
       path: "/top-menu",
       element: <TopMenu />,
       children: [
@@ -1006,7 +1001,7 @@ const Router = () => {
           element: <ImageZoom />,
         },
       ],
-    },
+    }, */
     {
       path: "/giris-yap",
       element: <Login />,
@@ -1027,20 +1022,10 @@ const Router = () => {
       path: "*",
       element: <ErrorPage />,
     },
-
-    // new routes
-    // {
-    //   path: "/seyahat-formlari",
-    //   element: <TravelForms />,
-    // },
     {
       path: "/seyahat-formu-olustur",
       element: <CreateTravel />,
     },
-    // {
-    //   path: "/seyahat-formu-duzenle/:formId",
-    //   element: <TravelDetail />,
-    // },
   ];
 
   return useRoutes(routes);

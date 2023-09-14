@@ -1,26 +1,13 @@
 import {
   Lucide,
   Tippy,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownContent,
-  DropdownItem,
-  Litepicker,
-  TinySlider,
 } from "@/base-components";
-import { faker as $f } from "@/utils";
-import * as $_ from "lodash";
-import classnames from "classnames";
-import ReportLineChart from "@/components/report-line-chart/Main";
 import ReportPieChart from "@/components/report-pie-chart/Main";
 import ReportDonutChart from "@/components/report-donut-chart/Main";
-import ReportDonutChart1 from "@/components/report-donut-chart-1/Main";
-import SimpleLineChart1 from "@/components/simple-line-chart-1/Main";
-import ReportMap from "@/components/report-map/Main";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth";
+import axios from 'axios';
 
 function Main() {
   const { user } = useContext(AuthContext);
@@ -34,11 +21,32 @@ function Main() {
     importantNotesRef.current.tns.goTo("next");
   };
 
+  const [responseData, setResponseData] = useState(null);
+  const [ankaraPercentage, setAnkaraPercentage] = useState(0)
+  const [istanbulPercentage, setIstanbulPercentage] = useState(0)
+
+  useEffect(() => {
+    axios.get('https://senka.valentura.com/api/users/ana-sayfa-oranlar')
+      .then(response => {
+        const ankaraCount = response?.data?.data?.travel_forms?.ankara_count;
+        const istanbul_count = response?.data?.data?.travel_forms?.istanbul_count;
+        const totalCount = response?.data?.data?.travel_forms?.count;
+        const ankaraPercentage_ = (ankaraCount / totalCount) * 100;
+        const istanbulPercentage_ = (istanbul_count / totalCount) * 100;
+        setResponseData(response.data.data);
+        setAnkaraPercentage(ankaraPercentage_)
+        setIstanbulPercentage(istanbulPercentage_)
+      })
+      .catch(error => {
+        console.error('API isteği başarısız:', error);
+      });
+  }, []);
+
+
   return (
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-12 2xl:col-span-9">
         <div className="grid grid-cols-12 gap-6">
-          {/* BEGIN: General Report */}
           <div className="col-span-12 mt-8">
             <div className="intro-y flex items-center h-10">
               <h2 className="text-lg font-medium truncate mr-5">Genel Rapor</h2>
@@ -58,19 +66,10 @@ function Main() {
                         icon="Plane"
                         className="report-box__icon text-green-500"
                       />
-                      <div className="ml-auto">
-                        <Tippy
-                          tag="div"
-                          className="report-box__indicator bg-success cursor-pointer"
-                          content="33% Higher than last month"
-                        >
-                          33%
-                          <Lucide icon="ChevronUp" className="w-4 h-4 ml-0.5" />
-                        </Tippy>
-                      </div>
+
                     </div>
                     <div className="text-3xl font-medium leading-8 mt-6">
-                      47
+                      {responseData?.travel_forms?.count}
                     </div>
                     <div className="text-base text-slate-500 mt-1">
                       Toplam Seyahat Formu
@@ -90,7 +89,7 @@ function Main() {
                         className="report-box__icon text-danger"
                       />
                       <div className="ml-auto">
-                        <Tippy
+                        {/* <Tippy
                           tag="div"
                           className="report-box__indicator bg-danger cursor-pointer"
                           content="2% Lower than last month"
@@ -100,11 +99,11 @@ function Main() {
                             icon="ChevronDown"
                             className="w-4 h-4 ml-0.5"
                           />
-                        </Tippy>
+                        </Tippy> */}
                       </div>
                     </div>
                     <div className="text-3xl font-medium leading-8 mt-6">
-                      22
+                      {responseData?.mutabakat_forms?.count}
                     </div>
                     <div className="text-base text-slate-500 mt-1">
                       Toplam Mutakabat Formu
@@ -177,7 +176,7 @@ function Main() {
           </div>
           {/* END: General Report */}
           {/* BEGIN: Sales Report */}
-          <div className="col-span-12 lg:col-span-6 mt-8">
+          {/* <div className="col-span-12 lg:col-span-6 mt-8">
             <div className="intro-y block sm:flex items-center h-10">
               <h2 className="text-lg font-medium truncate mr-5">
                 Form Raporları
@@ -244,7 +243,7 @@ function Main() {
                 <ReportLineChart height={275} className="mt-6 -mb-6" />
               </div>
             </div>
-          </div>
+          </div> */}
           {/* END: Sales Report */}
           {/* BEGIN: Weekly Top Seller */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
@@ -257,23 +256,23 @@ function Main() {
               </a>
             </div>
             <div className="intro-y box p-5 mt-5">
-              <div className="mt-3">
+              {/* <div className="mt-3">
                 <ReportPieChart height={213} />
-              </div>
+              </div> */}
               <div className="w-52 sm:w-auto mx-auto mt-8">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  <span className="truncate">12 İstanbul</span>
-                  <span className="font-medium ml-auto">62%</span>
+                  <span className="truncate">{responseData?.travel_forms?.istanbul_count} İstanbul</span>
+                  <span className="font-medium ml-auto">{istanbulPercentage}%</span>
                 </div>
                 <div className="flex items-center mt-4">
                   <div className="w-2 h-2 bg-pending rounded-full mr-3"></div>
-                  <span className="truncate">24 Ankara</span>
-                  <span className="font-medium ml-auto">38%</span>
+                  <span className="truncate">{responseData?.travel_forms?.ankara_count} Ankara</span>
+                  <span className="font-medium ml-auto">{ankaraPercentage}%</span>
                 </div>
                 <div className="flex items-center mt-4">
                   <div className="w-2 h-2 bg-warning rounded-full mr-3"></div>
-                  <span className="truncate">&gt;= 72</span>
+                  <span className="truncate">&gt;= {responseData?.travel_forms?.diger_count}</span>
                   <span className="font-medium ml-auto">Genel</span>
                 </div>
               </div>
@@ -291,24 +290,24 @@ function Main() {
               </a>
             </div>
             <div className="intro-y box p-5 mt-5">
-              <div className="mt-3">
+              {/*  <div className="mt-3">
                 <ReportDonutChart height={213} />
-              </div>
+              </div> */}
               <div className="w-52 sm:w-auto mx-auto mt-8">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
                   <span className="truncate">Onaylandı</span>
-                  <span className="font-medium ml-auto">72%</span>
+                  <span className="font-medium ml-auto">{responseData?.mutabakat_forms?.approved}</span>
                 </div>
                 <div className="flex items-center mt-4">
                   <div className="w-2 h-2 bg-pending rounded-full mr-3"></div>
                   <span className="truncate">Onaylanmadı</span>
-                  <span className="font-medium ml-auto">28%</span>
+                  <span className="font-medium ml-auto">{responseData?.mutabakat_forms?.rejected}</span>
                 </div>
                 <div className="flex items-center mt-4">
                   <div className="w-2 h-2 bg-warning rounded-full mr-3"></div>
                   <span className="truncate">&gt;= Toplam</span>
-                  <span className="font-medium ml-auto">102</span>
+                  <span className="font-medium ml-auto">{responseData?.mutabakat_forms?.count}</span>
                 </div>
               </div>
             </div>

@@ -34,7 +34,7 @@ const sideMenuData = [
     ],
   },
   {
-    icon: "Plane",
+    icon: "Anchor",
     title: "Gezi Takip",
     subMenu: [
       {
@@ -50,7 +50,7 @@ const sideMenuData = [
     ],
   },
   {
-    icon: "Plane",
+    icon: "Award",
     title: "Finans",
     subMenu: [
       {
@@ -61,7 +61,7 @@ const sideMenuData = [
     ],
   },
   {
-    icon: "Plane",
+    icon: "Bell",
     title: "Operasyon Ekibi",
     subMenu: [
       {
@@ -72,7 +72,7 @@ const sideMenuData = [
     ],
   },
   {
-    icon: "Plane",
+    icon: "Bookmark",
     title: "Öğretmen",
     subMenu: [
       {
@@ -90,7 +90,7 @@ const sideMenuData = [
   },
 
   {
-    icon: "Plane",
+    icon: "Briefcase",
     title: "Muhasebe",
     subMenu: [
       {
@@ -101,7 +101,7 @@ const sideMenuData = [
     ],
   },
   {
-    icon: "Plane",
+    icon: "Codepen",
     title: "Finans",
     subMenu: [
       {

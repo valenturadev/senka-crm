@@ -20,7 +20,6 @@ import { getRoleName } from "../../utils/getrolename";
 
 function Main(props) {
   const navigation = useNavigate();
-
   const { user, logout } = useContext(AuthContext);
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
@@ -34,17 +33,23 @@ function Main(props) {
     await logout();
   };
 
+  const rolesArray = user?.role
+  const roleNamesArray = rolesArray?.map(getRoleName);
+  const roleNamesString = roleNamesArray?.join(', ');
+
+
   return (
     <>
       {/* BEGIN: Top Bar */}
       <div className="top-bar">
         {/* BEGIN: Breadcrumb */}
         <div className="flex items-center gap-2">
-          <p className="font-semibold text-xl">Hoşgeldin {user?.firstname}</p>
-
-          <p className="text-center text-gray-500 md:text-lg">
-            ({getRoleName(user?.role)})
-          </p>
+          <div className="flex flex-col">
+            <p className="font-semibold text-xl">Hoşgeldin {user?.firstname}</p>
+            <p className="text-center text-gray-500 md:text-lg">
+              ({roleNamesString})
+            </p>
+          </div>
         </div>
         <nav
           aria-label="breadcrumb"

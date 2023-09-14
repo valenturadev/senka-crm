@@ -469,8 +469,8 @@ const CreateTravel = () => {
                     </div>
                     <div className='md:min-w-[231px]'>
                         <TraveInputDateBox
-                            label="Çıkış Tarihi:"
-                            id="cikis_tarihi_3"
+                            label="Giriş Tarihi:"
+                            id="giris_tarihi_3"
                             selectedDate={locationThreeDeparture}
                             onChange={date => setLocationThreeDeparture(date)}
                         />
