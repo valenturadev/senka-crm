@@ -33,12 +33,13 @@ function Main() {
         const totalCount = response?.data?.data?.travel_forms?.count;
         const ankaraPercentage_ = (ankaraCount / totalCount) * 100;
         const istanbulPercentage_ = (istanbul_count / totalCount) * 100;
-        setResponseData(response.data.data);
+        setResponseData(response?.data?.data);
         setAnkaraPercentage(ankaraPercentage_)
         setIstanbulPercentage(istanbulPercentage_)
       })
       .catch(error => {
         console.error('API isteği başarısız:', error);
+        setResponseData(null);
       });
   }, []);
 
