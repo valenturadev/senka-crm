@@ -8,7 +8,7 @@ const sideMenuData = [
   },
   {
     icon: "Plane",
-    title: "Seyahat",
+    title: "Müşteri İlişkileri",
     subMenu: [
       {
         icon: "",
@@ -88,7 +88,6 @@ const sideMenuData = [
       },
     ],
   },
-
   {
     icon: "Briefcase",
     title: "Muhasebe",
@@ -103,6 +102,17 @@ const sideMenuData = [
   {
     icon: "Codepen",
     title: "Finans",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/mutabakat-listesi/",
+        title: "Mutabakat listesi",
+      },
+    ],
+  },
+  {
+    icon: "Server",
+    title: "Web Kontrolcü",
     subMenu: [
       {
         icon: "",
