@@ -10,10 +10,6 @@ function MutabakatDetay() {
   let myUser = JSON.parse(localUser);
   const navigate = useNavigate();
 
-
-    
-
-
   useEffect(() => {
     axios({
       method: 'GET',
@@ -34,7 +30,15 @@ function MutabakatDetay() {
   const formatKey = (key) => {
     // _ işaretlerini boşlukla değiştir
     return key.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-    
+  };
+
+  const formatValue = (key, value) => {
+    if (key === 'is_approve') {
+      return value ? 'Onaylandı' : 'Onaylanmadı';
+    } else if (value === null || value === false) {
+      return 'Bilgi Yok';
+    }
+    return value;
   };
 
   const handleOnayla = () => {
@@ -68,7 +72,6 @@ function MutabakatDetay() {
         // Reddetme başarılı olduğunda yapılacak işlemler
         console.log("Mutabakat reddedildi.");
         navigate('/mutabakat-listesi');
-
       })
       .catch((error) => {
         setError(error);
@@ -90,17 +93,19 @@ function MutabakatDetay() {
           </tr>
         </thead>
         <tbody>
-  {Object.entries(mutabakat).map(([key, value]) => (
-    <tr key={key}>
-      <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-        {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
-      </td>
-      <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">{value}</td>
-    </tr>
-  ))}
-</tbody>
+          {Object.entries(mutabakat).map(([key, value]) => (
+            <tr key={key}>
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+              {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
+              </td>
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                {formatValue(key, value)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-      
+
       <div className="mt-4">
         <button onClick={handleOnayla} className="bg-green-500 text-white px-4 py-2 rounded-lg mr-4">
           Onayla
