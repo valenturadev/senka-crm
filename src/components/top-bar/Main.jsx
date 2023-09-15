@@ -22,6 +22,7 @@ function Main(props) {
   const navigation = useNavigate();
   const { user, logout } = useContext(AuthContext);
   const [searchDropdown, setSearchDropdown] = useState(false);
+  const [roleNamesString, setRoleNamesString] = useState(false);
   const showSearchDropdown = () => {
     setSearchDropdown(true);
   };
@@ -33,9 +34,12 @@ function Main(props) {
     await logout();
   };
 
-  const rolesArray = user?.role
-  const roleNamesArray = rolesArray?.map(getRoleName);
-  const roleNamesString = roleNamesArray?.join(', ');
+  useEffect(() => {
+    const rolesArray = user?.role
+    const roleNamesArray = rolesArray?.map(getRoleName);
+    const roleNamesString_ = roleNamesArray?.join(', ')
+    setRoleNamesString(roleNamesString_);
+  }, []);
 
 
   return (
