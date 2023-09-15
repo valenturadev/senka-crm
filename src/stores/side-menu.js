@@ -1,5 +1,46 @@
 import { atom } from "recoil";
 
+// Local storage'den rolleri çekmek için bir fonksiyon
+function getRolesFromLocalStorage() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const roles = user?.role
+  console.log(roles)
+  return roles || [];
+}
+
+// Rollerinize göre yan menüyü filtrelemek için bir fonksiyon
+function filterSideMenuByRoles(roles) {
+  let filteredMenu = sideMenuData;
+
+  // Rollerinize göre yan menüyü filtreleyin
+  if (roles.includes('is_customer_relations')) {
+    filteredMenu = filteredMenuCustomerRelations;
+  }
+  else if (roles.includes("is_operation_team")) {
+    filteredMenu = filteredMenuOperationTeam;
+  }
+  else if (roles.includes("is_finance_team")) {
+    filteredMenu = filteredMenuFinanceTeam;
+  }
+  else if (roles.includes("is_teacher")) {
+    filteredMenu = filteredMenuTeacher;
+  }
+  else if (roles.includes("is_normal_user")) {
+    filteredMenu = filteredMenuNormalUser;
+  }
+  else if (roles.includes("is_web_team")) {
+    filteredMenu = filteredMenuWebTeam;
+  }
+  else if (roles.includes("is_muhasebe")) {
+    filteredMenu = filteredMenuMuhasebe;
+  }
+  else {
+    filteredMenu = filteredMenuElse;
+  }
+
+  return filteredMenu;
+}
+
 const sideMenuData = [
   {
     icon: "Home",
@@ -12,7 +53,7 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        title: "Seyehatler",
+        title: "Seyahatler",
         subMenu: [
           {
             icon: "",
@@ -46,7 +87,7 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/mutakabat-formlari",
+        pathname: "/seyahat-formlari",
         title: "Mutabakat Formları",
       },
     ],
@@ -91,7 +132,7 @@ const sideMenuData = [
       {
         icon: "",
         title: "Geziler",
-        subMenu:[
+        subMenu: [
           {
             icon: "",
             pathname: "/gezi-formlari",
@@ -102,7 +143,7 @@ const sideMenuData = [
       {
         icon: "",
         title: "Mutabakat Formları",
-        subMenu:[
+        subMenu: [
           {
             icon: "",
             pathname: "/mutabakat-formlari",
@@ -112,39 +153,6 @@ const sideMenuData = [
       }
     ],
   },
-  /* {
-    icon: "Car",
-    title: "Araç",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/arac-programlari",
-        title: "Araç Programları",
-      },
-      {
-        icon: "",
-        pathname: "/arac-programi-olustur",
-        title: "Araç Programı Oluştur",
-      },
-    ],
-  },
-  {
-    icon: "Building",
-    title: "Otel",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/otel-programlari",
-        title: "Otel Programları",
-      },
-      {
-        icon: "",
-        pathname: "/otel-programi-olustur",
-        title: "Otel Programı Oluştur",
-      },
-    ],
-  }, */
-  // tabulator
   "devider",
   {
     icon: "User",
@@ -153,13 +161,25 @@ const sideMenuData = [
   },
 ]
 
-const filteredMenuCustomerRelations = sideMenuData
-const filteredMenuElse = sideMenuData.filter(item => item.title !== "Seyahat");
+const filteredMenuCustomerRelations = sideMenuData.filter(item => item.title === "Müşteri İlişkileri");
+const filteredMenuOperationTeam = sideMenuData.filter(item => item.title === "Operasyon Ekibi");
+const filteredMenuFinanceTeam = sideMenuData.filter(item => item.title === "Finans");
+const filteredMenuTeacher = sideMenuData.filter(item => item.title === "Öğretmen");
+const filteredMenuNormalUser = sideMenuData.filter(item => item.title === "Normal");
+const filteredMenuWebTeam = sideMenuData.filter(item => item.title === "Web Kontrolcü");
+const filteredMenuMuhasebe = sideMenuData.filter(item => item.title === "Muhasebe");
 
+// Local storage'den rolleri al
+const userRoles = getRolesFromLocalStorage();
+
+// Yan menüyü rollerinize göre filtreleyin
+const filteredSideMenu = filterSideMenuByRoles(userRoles);
+
+// Recoil atomunu oluşturun
 const sideMenu = atom({
   key: "sideMenu",
   default: {
-    menu: filteredMenuCustomerRelations,
+    menu: filteredSideMenu,
   },
 });
 
