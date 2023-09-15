@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { Bold } from 'lucide';
 
 function TravelTable() {
@@ -10,7 +10,7 @@ function TravelTable() {
 
   useEffect(() => {
     axios({
-      method: 'GET', 
+      method: 'GET',
       url: 'https://senka.valentura.com/api/teacher/get-all-gezi',
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ function TravelTable() {
             {travelData.map((travel) => (
               <tr key={travel.id}>
                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                  <Link to={`/tum-ogrenciler/${travel.id}`} style={{ color: 'blue', fontWeight : Bold }}>
+                  <Link to={`/tum-ogrenciler/${travel.id}`} style={{ color: 'blue', fontWeight: Bold }}>
                     {travel.id}
                   </Link>
                 </td>
