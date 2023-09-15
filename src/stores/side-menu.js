@@ -12,51 +12,31 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/seyahat-formlari",
-        title: "Seyahat Formları",
+        title: "Seyehatler",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/seyahat-formlari",
+            title: "Seyahat Formları",
+          },
+          {
+            icon: "",
+            pathname: "/seyahat-formu-olustur",
+            title: "Seyahat Formu Oluştur",
+          },
+
+        ],
       },
       {
         icon: "",
-        pathname: "/seyahat-formu-olustur",
-        title: "Seyahat Formu Oluştur",
-      },
-    ],
-  },
-  {
-    icon: "Book",
-    title: "Mutakabat",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/mutakabat-formlari",
-        title: "Mutakabat Formları",
-      }
-    ],
-  },
-  {
-    icon: "Anchor",
-    title: "Gezi Takip",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/ogretmen-ekle",
-        title: "Öğretmen Ekle",
-      },
-      {
-        icon: "",
-        pathname: "/gezi-formlari",
-        title: "Gezi Formları",
-      },
-    ],
-  },
-  {
-    icon: "Award",
-    title: "Finans",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/seyahat-formlari",
-        title: "Mutabakat Formları",
+        title: "Geziler",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/gezi-formlari",
+            title: "Gezi Formları",
+          },
+        ],
       },
     ],
   },
@@ -75,12 +55,6 @@ const sideMenuData = [
     icon: "Bookmark",
     title: "Öğretmen",
     subMenu: [
-      {
-        icon: "",
-        pathname: "/ogretmen-sifre-olustur/:phoneNumber",
-        title: "Şifre Ekleme",
-      },
-
       {
         icon: "",
         pathname: "/tum-geziler",
@@ -116,9 +90,26 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/mutabakat-listesi/",
-        title: "Mutabakat listesi",
+        title: "Geziler",
+        subMenu:[
+          {
+            icon: "",
+            pathname: "/gezi-formlari",
+            title: "Gezi Formları",
+          },
+        ]
       },
+      {
+        icon: "",
+        title: "Mutabakat Formları",
+        subMenu:[
+          {
+            icon: "",
+            pathname: "/mutabakat-formlari",
+            title: "Mutabakat Formları",
+          }
+        ]
+      }
     ],
   },
   /* {
