@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { errorMessage, successMessage } from '../../utils/toast';
 
 export default function Kullanici() {
   const [userData, setUserData] = useState({});
@@ -72,11 +73,13 @@ export default function Kullanici() {
     })
       .then((response) => {
         setIsSaving(false);
+        successMessage('Kullanıcı rolleri başarıyla güncellendi.');
         // Başarı durumunda gerekli işlemleri yapabilirsiniz.
       })
       .catch((error) => {
         setIsSaving(false);
         setError(error.message);
+        errorMessage('Kullanıcı rolleri güncellenirken bir hata oluştu.');
       });
   };
 
