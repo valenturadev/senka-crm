@@ -220,45 +220,19 @@ function Main(props) {
           </DropdownToggle>
           <DropdownMenu className="w-56">
             <DropdownContent className="bg-primary text-white">
-              <DropdownHeader tag="div" className="!font-normal">
-                <div className="font-medium">
-                  {user?.name} {user?.surname}
-                </div>
-                <div className="text-xs text-white/70 mt-0.5 dark:text-slate-500">
-                  {/* {$f()[0].jobs[0]} */}
-                  {getRoleName(user?.role)}
-                </div>
-              </DropdownHeader>
-              <DropdownDivider className="border-white/[0.08]" />
-              <DropdownItem className="hover:bg-white/5">
-                <Link to="/profil" className="flex items-center">
+              <Link to="/profil" className="flex items-center">
+                <DropdownItem className="hover:bg-white/5">
                   <Lucide icon="User" className="w-4 h-4 mr-2" /> Profil
-                </Link>
-              </DropdownItem>
-              {/* <DropdownItem className="hover:bg-white/5">
-                <Lucide icon="Edit" className="w-4 h-4 mr-2" /> Add Account
-              </DropdownItem> */}
-              {/* <DropdownItem className="hover:bg-white/5">
-                <Link to="/parola-sifirla" className="flex items-center">
-                  <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Parolayı
-                  Sıfırla
-                </Link>
-              </DropdownItem> */}
-              {/* <DropdownItem className="hover:bg-white/5">
-                <Link to="/yardim" className="flex items-center">
-                  <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Yardım
-                </Link>
-              </DropdownItem> */}
+                </DropdownItem>
+              </Link>
               <DropdownDivider className="border-white/[0.08]" />
-              <DropdownItem className="hover:bg-white/5">
-                <button
-                  onClick={() => logoutSystem()}
-                  className="flex items-center"
+              <div onClick={logoutSystem}>
+                <DropdownItem
+                  className="hover:bg-white/5"
                 >
-                  <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Çıkış
-                  Yap
-                </button>
-              </DropdownItem>
+                  <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Çıkış Yap
+                </DropdownItem>
+              </div>
             </DropdownContent>
           </DropdownMenu>
         </Dropdown>
