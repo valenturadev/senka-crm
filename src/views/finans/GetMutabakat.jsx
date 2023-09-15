@@ -10,6 +10,10 @@ function MutabakatDetay() {
   let myUser = JSON.parse(localUser);
   const navigate = useNavigate();
 
+
+    
+
+
   useEffect(() => {
     axios({
       method: 'GET',
@@ -27,6 +31,12 @@ function MutabakatDetay() {
       });
   }, [mutabakatId]);
 
+  const formatKey = (key) => {
+    // _ işaretlerini boşlukla değiştir
+    return key.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    
+  };
+
   const handleOnayla = () => {
     axios({
       method: 'GET',
@@ -37,7 +47,6 @@ function MutabakatDetay() {
       }
     })
       .then((response) => {
-        // Onaylama başarılı olduğunda yapılacak işlemler
         console.log("Mutabakat onaylandı.");
         navigate('/mutabakat-listesi');
       })
@@ -81,13 +90,15 @@ function MutabakatDetay() {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(mutabakat).map(([key, value]) => (
-            <tr key={key}>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{key}</td>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">{value}</td>
-            </tr>
-          ))}
-        </tbody>
+  {Object.entries(mutabakat).map(([key, value]) => (
+    <tr key={key}>
+      <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+        {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
+      </td>
+      <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">{value}</td>
+    </tr>
+  ))}
+</tbody>
       </table>
       
       <div className="mt-4">
