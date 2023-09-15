@@ -97,6 +97,7 @@ import MutabakatListesi from "../views/finans/GetAllMutabakat";
 import Mutabakat from "../views/finans/GetMutabakat";
 import TumKullanicilar from "../views/tum-kullanicilar/Main"
 import RolAtama from "../views/rol-atama/Main"
+import KullaniciGetir from "../views/tum-kullanicilar/kullanici"
 
 const Router = () => {
   const routes = [
@@ -428,6 +429,10 @@ const Router = () => {
         {
           path: "/tum-kullanicilar",
           element: <TumKullanicilar />
+        },
+        {
+          path:"/kullanici-getir/:userPhone",
+          element: <KullaniciGetir />
         },
         {
           path: "/rol-atama",
