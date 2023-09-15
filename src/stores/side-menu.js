@@ -1,6 +1,5 @@
 import { atom } from "recoil";
 
-// Local storage'den rolleri çekmek için bir fonksiyon
 function getRolesFromLocalStorage() {
   const user = JSON.parse(localStorage.getItem('user'));
   const roles = user?.role
@@ -8,11 +7,9 @@ function getRolesFromLocalStorage() {
   return roles || [];
 }
 
-// Rollerinize göre yan menüyü filtrelemek için bir fonksiyon
 function filterSideMenuByRoles(roles) {
   let filteredMenu = [];
 
-  // Rollerinize göre yan menüyü filtreleyin
   if (roles.includes('is_customer_relations')) {
     filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Müşteri İlişkileri"));
   }
@@ -169,18 +166,8 @@ const sideMenuData = [
   },
 ]
 
-const filteredMenuCustomerRelations = sideMenuData.filter(item => item.title === "Müşteri İlişkileri");
-const filteredMenuOperationTeam = sideMenuData.filter(item => item.title === "Operasyon Ekibi");
-const filteredMenuFinanceTeam = sideMenuData.filter(item => item.title === "Finans");
-const filteredMenuTeacher = sideMenuData.filter(item => item.title === "Öğretmen");
-const filteredMenuNormalUser = sideMenuData.filter(item => item.title === "Normal");
-const filteredMenuWebTeam = sideMenuData.filter(item => item.title === "Web Kontrolcü");
-const filteredMenuMuhasebe = sideMenuData.filter(item => item.title === "Muhasebe");
-
-// Local storage'den rolleri al
 const userRoles = getRolesFromLocalStorage();
 
-// Yan menüyü rollerinize göre filtreleyin
 const filteredSideMenu = filterSideMenuByRoles(userRoles);
 
 // Recoil atomunu oluşturun
