@@ -95,6 +95,8 @@ import OgretmenDetay from "../views/musteri-iliskileri/gezi-takip/ogretmenDetay"
 import MakbuzOnay from "../views/muhasebe/MakbuzOnay"
 import MutabakatListesi from "../views/finans/GetAllMutabakat";
 import Mutabakat from "../views/finans/GetMutabakat";
+import TumKullanicilar from "../views/tum-kullanicilar/Main"
+import RolAtama from "../views/rol-atama/Main"
 
 const Router = () => {
   const routes = [
@@ -422,6 +424,14 @@ const Router = () => {
         {
           path: "/gezi-formlari",
           element: <GeziFormlari />
+        },
+        {
+          path: "/tum-kullanicilar",
+          element: <TumKullanicilar />
+        },
+        {
+          path: "/rol-atama",
+          element: <RolAtama />
         },
         {
           path: "/gezi-formu/:formId",

@@ -3,11 +3,11 @@ import { atom } from "recoil";
 function getRolesFromLocalStorage() {
   const user = JSON.parse(localStorage.getItem('user'));
   const roles = user?.role
-  console.log(roles)
   return roles || [];
 }
 
-function filterSideMenuByRoles(roles) {
+function filterSideMenuByRoles() {
+  const roles = getRolesFromLocalStorage();
   let filteredMenu = [];
 
   if (roles.includes('is_customer_relations')) {
@@ -23,13 +23,16 @@ function filterSideMenuByRoles(roles) {
     filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Öğretmen"));
   }
   if (roles.includes("is_normal_user")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Normal"));
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Normal Kullanıcı"));
   }
   if (roles.includes("is_web_team")) {
     filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Web Kontrolcü"));
   }
   if (roles.includes("is_muhasebe")) {
     filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Muhasebe"));
+  }
+  if (roles.includes("is_admin")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Admin"));
   }
 
   return filteredMenu;
@@ -158,6 +161,22 @@ const sideMenuData = [
       }
     ],
   },
+  {
+    icon: "Mic",
+    title: "Admin",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/tum-kullanicilar/",
+        title: "Tüm Kullanıcılar",
+      },
+      {
+        icon: "",
+        pathname: "/rol-atama",
+        title: "Rol Atama",
+      },
+    ],
+  },
   "devider",
   {
     icon: "User",
@@ -166,9 +185,7 @@ const sideMenuData = [
   },
 ]
 
-const userRoles = getRolesFromLocalStorage();
-
-const filteredSideMenu = filterSideMenuByRoles(userRoles);
+const filteredSideMenu = filterSideMenuByRoles();
 
 // Recoil atomunu oluşturun
 const sideMenu = atom({

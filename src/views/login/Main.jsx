@@ -101,12 +101,13 @@ function Main() {
                   <a href="">Şifreni mi Unuttun?</a>
                 </div> */}
                 <div className="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-                  <button
-                    onClick={() => loginSystem()}
+                  <div
+                    onClick={loginSystem}
                     className="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top"
+                    style={{ cursor: "pointer" }}
                   >
                     Giriş Yap
-                  </button>
+                  </div>
                   <Link
                     to="/kayit-ol"
                     className="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top"

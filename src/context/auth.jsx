@@ -19,7 +19,8 @@ export const AuthProvider = ({ children }) => {
       is_teacher: false,
       is_normal_user: true,
       is_web_team: false,
-      is_muhasebe: false
+      is_muhasebe: false,
+      is_admin: false
     });
 
   useEffect(() => {
