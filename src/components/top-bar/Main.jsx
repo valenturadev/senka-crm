@@ -39,7 +39,7 @@ function Main(props) {
     const roleNamesArray = rolesArray?.map(getRoleName);
     const roleNamesString_ = roleNamesArray?.join(', ')
     setRoleNamesString(roleNamesString_);
-  }, []);
+  }, [user?.role]);
 
 
   return (
