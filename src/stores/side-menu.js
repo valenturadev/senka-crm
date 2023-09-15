@@ -1,5 +1,40 @@
 import { atom } from "recoil";
 
+function getRolesFromLocalStorage() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const roles = user?.role
+  console.log(roles)
+  return roles || [];
+}
+
+function filterSideMenuByRoles(roles) {
+  let filteredMenu = [];
+
+  if (roles.includes('is_customer_relations')) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Müşteri İlişkileri"));
+  }
+  if (roles.includes("is_operation_team")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Operasyon Ekibi"));
+  }
+  if (roles.includes("is_finance_team")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Finans"));
+  }
+  if (roles.includes("is_teacher")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Öğretmen"));
+  }
+  if (roles.includes("is_normal_user")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Normal"));
+  }
+  if (roles.includes("is_web_team")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Web Kontrolcü"));
+  }
+  if (roles.includes("is_muhasebe")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Muhasebe"));
+  }
+
+  return filteredMenu;
+}
+
 const sideMenuData = [
   {
     icon: "Home",
@@ -12,51 +47,31 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/seyahat-formlari",
-        title: "Seyahat Formları",
+        title: "Seyahatler",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/seyahat-formlari",
+            title: "Seyahat Formları",
+          },
+          {
+            icon: "",
+            pathname: "/seyahat-formu-olustur",
+            title: "Seyahat Formu Oluştur",
+          },
+
+        ],
       },
       {
         icon: "",
-        pathname: "/seyahat-formu-olustur",
-        title: "Seyahat Formu Oluştur",
-      },
-    ],
-  },
-  {
-    icon: "Book",
-    title: "Mutakabat",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/mutakabat-formlari",
-        title: "Mutakabat Formları",
-      }
-    ],
-  },
-  {
-    icon: "Anchor",
-    title: "Gezi Takip",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/ogretmen-ekle",
-        title: "Öğretmen Ekle",
-      },
-      {
-        icon: "",
-        pathname: "/gezi-formlari",
-        title: "Gezi Formları",
-      },
-    ],
-  },
-  {
-    icon: "Award",
-    title: "Finans",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/seyahat-formlari",
-        title: "Mutabakat Formları",
+        title: "Geziler",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/gezi-formlari",
+            title: "Gezi Formları",
+          },
+        ],
       },
     ],
   },
@@ -72,15 +87,20 @@ const sideMenuData = [
     ],
   },
   {
-    icon: "Bookmark",
-    title: "Öğretmen",
+    icon: "Columns",
+    title: "Normal Kullanıcı",
     subMenu: [
       {
         icon: "",
-        pathname: "/ogretmen-sifre-olustur/:phoneNumber",
-        title: "Şifre Ekleme",
+        pathname: "/sozlesme-onay",
+        title: "Sözleşme Onay",
       },
-
+    ],
+  },
+  {
+    icon: "Bookmark",
+    title: "Öğretmen",
+    subMenu: [
       {
         icon: "",
         pathname: "/tum-geziler",
@@ -116,44 +136,28 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/mutabakat-listesi/",
-        title: "Mutabakat listesi",
+        title: "Geziler",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/gezi-formlari",
+            title: "Gezi Formları",
+          },
+        ]
       },
+      {
+        icon: "",
+        title: "Mutabakat Formları",
+        subMenu: [
+          {
+            icon: "",
+            pathname: "/mutabakat-formlari",
+            title: "Mutabakat Formları",
+          }
+        ]
+      }
     ],
   },
-  /* {
-    icon: "Car",
-    title: "Araç",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/arac-programlari",
-        title: "Araç Programları",
-      },
-      {
-        icon: "",
-        pathname: "/arac-programi-olustur",
-        title: "Araç Programı Oluştur",
-      },
-    ],
-  },
-  {
-    icon: "Building",
-    title: "Otel",
-    subMenu: [
-      {
-        icon: "",
-        pathname: "/otel-programlari",
-        title: "Otel Programları",
-      },
-      {
-        icon: "",
-        pathname: "/otel-programi-olustur",
-        title: "Otel Programı Oluştur",
-      },
-    ],
-  }, */
-  // tabulator
   "devider",
   {
     icon: "User",
@@ -162,13 +166,15 @@ const sideMenuData = [
   },
 ]
 
-const filteredMenuCustomerRelations = sideMenuData
-const filteredMenuElse = sideMenuData.filter(item => item.title !== "Seyahat");
+const userRoles = getRolesFromLocalStorage();
 
+const filteredSideMenu = filterSideMenuByRoles(userRoles);
+
+// Recoil atomunu oluşturun
 const sideMenu = atom({
   key: "sideMenu",
   default: {
-    menu: filteredMenuCustomerRelations,
+    menu: filteredSideMenu,
   },
 });
 

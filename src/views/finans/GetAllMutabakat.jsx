@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Mutabakatlar() {
   const [mutabakatlar, setMutabakatlar] = useState([]);
   const [error, setError] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState('all'); // Varsayılan olarak 'hepsi' seçili
+  const [selectedStatus, setSelectedStatus] = useState('waiting'); // Varsayılan olarak 'hepsi' seçili
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
 
@@ -39,12 +39,7 @@ function Mutabakatlar() {
       <h1 className="text-2xl font-bold mb-4">Mutabakatlar</h1>
       <div className="mb-4">
         {/* Durum butonları */}
-        <button
-          onClick={() => handleStatusClick('all')}
-          className={`mr-2 ${selectedStatus === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} border border-blue-500 p-2 rounded-lg focus:outline-none`}
-        >
-          Hepsi
-        </button>
+        
         <button
           onClick={() => handleStatusClick('waiting')}
           className={`mr-2 ${selectedStatus === 'waiting' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} border border-blue-500 p-2 rounded-lg focus:outline-none`}
@@ -61,8 +56,15 @@ function Mutabakatlar() {
           onClick={() => handleStatusClick('rejected')}
           className={`mr-2 ${selectedStatus === 'rejected' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} border border-blue-500 p-2 rounded-lg focus:outline-none`}
         >
-          Red edilenler
+          Reddedilenler
         </button>
+        <button
+          onClick={() => handleStatusClick('all')}
+          className={`mr-2 ${selectedStatus === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} border border-blue-500 p-2 rounded-lg focus:outline-none`}
+        >
+          Hepsi
+        </button>
+        
       </div>
       <table className="min-w-full">
         <thead>
