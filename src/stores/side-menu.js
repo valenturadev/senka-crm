@@ -10,32 +10,29 @@ function getRolesFromLocalStorage() {
 
 // Rollerinize göre yan menüyü filtrelemek için bir fonksiyon
 function filterSideMenuByRoles(roles) {
-  let filteredMenu = sideMenuData;
+  let filteredMenu = [];
 
   // Rollerinize göre yan menüyü filtreleyin
   if (roles.includes('is_customer_relations')) {
-    filteredMenu = filteredMenuCustomerRelations;
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Müşteri İlişkileri"));
   }
-  else if (roles.includes("is_operation_team")) {
-    filteredMenu = filteredMenuOperationTeam;
+  if (roles.includes("is_operation_team")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Operasyon Ekibi"));
   }
-  else if (roles.includes("is_finance_team")) {
-    filteredMenu = filteredMenuFinanceTeam;
+  if (roles.includes("is_finance_team")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Finans"));
   }
-  else if (roles.includes("is_teacher")) {
-    filteredMenu = filteredMenuTeacher;
+  if (roles.includes("is_teacher")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Öğretmen"));
   }
-  else if (roles.includes("is_normal_user")) {
-    filteredMenu = filteredMenuNormalUser;
+  if (roles.includes("is_normal_user")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Normal"));
   }
-  else if (roles.includes("is_web_team")) {
-    filteredMenu = filteredMenuWebTeam;
+  if (roles.includes("is_web_team")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Web Kontrolcü"));
   }
-  else if (roles.includes("is_muhasebe")) {
-    filteredMenu = filteredMenuMuhasebe;
-  }
-  else {
-    filteredMenu = filteredMenuElse;
+  if (roles.includes("is_muhasebe")) {
+    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Muhasebe"));
   }
 
   return filteredMenu;
@@ -89,6 +86,17 @@ const sideMenuData = [
         icon: "",
         pathname: "/seyahat-formlari",
         title: "Mutabakat Formları",
+      },
+    ],
+  },
+  {
+    icon: "Columns",
+    title: "Normal Kullanıcı",
+    subMenu: [
+      {
+        icon: "",
+        pathname: "/sozlesme-onay",
+        title: "Sözleşme Onay",
       },
     ],
   },
