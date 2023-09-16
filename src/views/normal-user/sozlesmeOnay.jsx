@@ -7,24 +7,42 @@ function SozlesmeOnay() {
     const [userData, setUserData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editedFields, setEditedFields] = useState({});
-    const [file, setFile] = useState(null); // Yüklenen dosya için state
     const [error, setError] = useState(null);
     const { tel, id } = useParams();
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
+    const [showPrivacyPopup, setShowPrivacyPopup] = useState(false);
+    const [showServicePopup, setShowServicePopup] = useState(false);
+    const [controlPrivacyPopup, setControlPrivacyPopup] = useState(false);
+    const [controlServicePopup, setControlServicePopup] = useState(false);
+  
+    // PDF dosyalarının yolları
+    const privacyPdfPath = '/src/assets/pdf/GizlilikSozlesmesi.pdf';
+    const servicePdfPath = '/src/assets/pdf/HizmetSozlesmesi.pdf';
 
-    // State tanımlamaları
-    const [isPdf1Selected, setIsPdf1Selected] = useState(false);
-    const [isPdf2Selected, setIsPdf2Selected] = useState(false);
-
-    // PDF dosya adlarını belirtin (assets klasöründe)
-    const pdf1FileName = 'GizlilikSozlesmesi.pdf';
-    const pdf2FileName = 'HizmetSozlesmesi.pdf';
-
-    // PDF dosyalarının yolunu oluşturun
-    const pdf1FilePath = `../../assets/${pdf1FileName}`;
-    const pdf2FilePath = `../../assets/${pdf2FileName}`;
-
+    const openPrivacyPopup = () => {
+        setShowPrivacyPopup(true);
+        if (controlPrivacyPopup) {
+            setControlPrivacyPopup(false);
+        }else{
+            setControlPrivacyPopup(true);
+        }
+    };
+    
+    const openServicePopup = () => {
+        setShowServicePopup(true);
+        if (controlServicePopup) {
+            setControlServicePopup(false);
+        }else{
+            setControlServicePopup(true);
+        }
+    };
+    
+    const closePopup = () => {
+        setShowPrivacyPopup(false);
+        setShowServicePopup(false);
+    };
+    
     useEffect(() => {
         axios({
             method: 'GET',
@@ -34,13 +52,13 @@ function SozlesmeOnay() {
                 "Authorization": `Bearer ${myUser?.access}`
             }
         })
-            .then((response) => {
-                setUserData(response.data.data);
-            })
-            .catch((error) => {
-                setError('API çağrısı sırasında hata oluştu');
-                console.error('API çağrısı sırasında hata oluştu:', error);
-            });
+        .then((response) => {
+            setUserData(response.data.data);
+        })
+        .catch((error) => {
+            setError('API çağrısı sırasında hata oluştu');
+            console.error('API çağrısı sırasında hata oluştu:', error);
+        });
     }, [tel, id, myUser?.access]);
 
     const renderBoolean = (value) => {
@@ -68,6 +86,10 @@ function SozlesmeOnay() {
     };
 
     const handleSaveClick = () => {
+        if (!controlPrivacyPopup || !controlServicePopup) {
+            errorMessage("Lütfen Gizlilik ve Hizmet Sözleşmelerini kabul edin.");
+            return;
+        }
 
         axios({
             method: 'PATCH',
@@ -78,17 +100,17 @@ function SozlesmeOnay() {
             },
             data: {
                 veli_ad_soyad: editedFields.veli_ad_soyad,
-                adres: editedFields.adres,
-                veli_tc: editedFields.veli_tc
+                adres: "sadd",
+                veli_tc: "31232132113"
             }
         })
-            .then((response) => {
-                successMessage("Veriler güncellendi!");
-                setEditedFields({});
-            })
-            .catch((error) => {
-                errorMessage("Veriler güncellenirken hata oluştu!")
-            });
+        .then((response) => {
+            successMessage("Veriler güncellendi!");
+            setEditedFields({});
+        })
+        .catch((error) => {
+            errorMessage("Veriler güncellenirken hata oluştu!")
+        });
     };
 
     if (error) {
@@ -113,6 +135,7 @@ function SozlesmeOnay() {
             )}
             <div className="border rounded p-4">
                 {Object.keys(userData).map((field) => (
+                    // IP alanını hariç tut
                     field !== 'ip' && (
                         <div key={field} className="mb-2 flex">
                             <span className="font-semibold w-40">
@@ -149,44 +172,74 @@ function SozlesmeOnay() {
                         İptal
                     </button>
                 )}
-                <div className="mt-4">
-                    <h2 className="text-xl font-semibold mb-2">Sözleşmeler</h2>
-                    <label className="flex items-center space-x-2">
-                        <input
-                            type="checkbox"
-                            checked={isPdf1Selected}
-                            onChange={() => setIsPdf1Selected(!isPdf1Selected)}
-                            className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <a
-                            href={pdf1FilePath}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
-                        >
-                            {pdf1FileName}
-                        </a>
-                    </label>
 
-                    <label className="flex items-center space-x-2">
+                {/* Gizlilik Sözleşmesi ve Hizmet Sözleşmesi Checkboxları */}
+                <div className="mt-4">
+                    <label className="flex items-center">
                         <input
                             type="checkbox"
-                            checked={isPdf2Selected}
-                            onChange={() => setIsPdf2Selected(!isPdf2Selected)}
-                            className="form-checkbox h-5 w-5 text-blue-600"
+                            className="form-checkbox"
+                            onChange={openPrivacyPopup}
                         />
-                        <a
-                            href={pdf2FilePath}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
-                        >
-                            {pdf2FileName}
-                        </a>
+                        <span className="ml-2">Gizlilik Sözleşmesi'ni kabul ediyorum</span>
+                    </label>
+                    <label className="flex items-center mt-2">
+                        <input
+                            type="checkbox"
+                            className="form-checkbox"
+                            onChange={openServicePopup}
+                        />
+                        <span className="ml-2">Hizmet Sözleşmesi'ni kabul ediyorum</span>
                     </label>
                 </div>
             </div>
+            
+            // Gizlilik Sözleşmesi Popup
+            // Gizlilik Sözleşmesi Popup
+{showPrivacyPopup && (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-8 max-w-3xl mx-auto rounded-lg shadow-lg relative">
+            <button
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                onClick={closePopup}
+            >
+                X
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Gizlilik Sözleşmesi</h2>
+            <div className="h-96 overflow-y-auto">
+                <iframe
+                    src={privacyPdfPath}
+                    title="Gizlilik Sözleşmesi"
+                    width="100%"
+                    height="100%"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+)}
 
+// Hizmet Sözleşmesi Popup
+{showServicePopup && (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-8 max-w-3xl mx-auto rounded-lg shadow-lg relative">
+            <button
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                onClick={closePopup}
+            >
+                X
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Hizmet Sözleşmesi</h2>
+            <div className="h-96 overflow-y-auto">
+                <iframe
+                    src={servicePdfPath}
+                    title="Hizmet Sözleşmesi"
+                    width="100%"
+                    height="100%"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+)}
         </div>
     );
 }
