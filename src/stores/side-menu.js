@@ -95,8 +95,8 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/sozlesme-onay",
-        title: "Sözleşme Onay",
+        pathname: "/tum-ogrencilerim",
+        title: "Tüm Öğrencilerim",
       },
     ],
   },

@@ -105,6 +105,8 @@ import OgrenciSozlesme from "../views/teacher/OgrenciSozlesme";
 import SozlesmeOnay from "../views/normal-user/sozlesmeOnay";
 import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik"
 import HizmetSozlesmesi from "../views/sozlesmeler/hizmet"
+import TumOgrencilerim from "../views/normal-user/tumOgrencilerim"
+
 
 const Router = () => {
   const routes = [
@@ -488,6 +490,10 @@ const Router = () => {
         {
           path: "/mutakabat-formu-duzenle/:formId",
           element: <AgreementDetail />,
+        },
+        {
+          path: "/tum-ogrencilerim",
+          element: <TumOgrencilerim />,
         },
         {
           path: "/otel-programlari",
