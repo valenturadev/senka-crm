@@ -13,6 +13,18 @@ function SozlesmeOnay() {
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
 
+    // State tanımlamaları
+    const [isPdf1Selected, setIsPdf1Selected] = useState(false);
+    const [isPdf2Selected, setIsPdf2Selected] = useState(false);
+
+    // PDF dosya adlarını belirtin (assets klasöründe)
+    const pdf1FileName = 'GizlilikSozlesmesi.pdf';
+    const pdf2FileName = 'HizmetSozlesmesi.pdf';
+
+    // PDF dosyalarının yolunu oluşturun
+    const pdf1FilePath = `../../assets/${pdf1FileName}`;
+    const pdf2FilePath = `../../assets/${pdf2FileName}`;
+
     useEffect(() => {
         axios({
             method: 'GET',
@@ -66,8 +78,8 @@ function SozlesmeOnay() {
             },
             data: {
                 veli_ad_soyad: editedFields.veli_ad_soyad,
-                adres: "sadd",
-                veli_tc: "31232132113"
+                adres: editedFields.adres,
+                veli_tc: editedFields.veli_tc
             }
         })
             .then((response) => {
@@ -101,7 +113,6 @@ function SozlesmeOnay() {
             )}
             <div className="border rounded p-4">
                 {Object.keys(userData).map((field) => (
-                    // IP alanını hariç tut
                     field !== 'ip' && (
                         <div key={field} className="mb-2 flex">
                             <span className="font-semibold w-40">
@@ -139,7 +150,7 @@ function SozlesmeOnay() {
                     </button>
                 )}
                 <div className="mt-4">
-                    <h2 className="text-xl font-semibold mb-2">PDF Dosyaları</h2>
+                    <h2 className="text-xl font-semibold mb-2">Sözleşmeler</h2>
                     <label className="flex items-center space-x-2">
                         <input
                             type="checkbox"
