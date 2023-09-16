@@ -139,25 +139,13 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        title: "Geziler",
-        subMenu: [
-          {
-            icon: "",
-            pathname: "/gezi-formlari",
-            title: "Gezi Formları",
-          },
-        ]
+        pathname: "/web-gezi-formlari",
+        title: "Gezi Formları",
       },
       {
         icon: "",
+        pathname: "/web-mutabakat-formlari",
         title: "Mutabakat Formları",
-        subMenu: [
-          {
-            icon: "",
-            pathname: "/mutabakat-formlari",
-            title: "Mutabakat Formları",
-          }
-        ]
       }
     ],
   },

@@ -431,8 +431,16 @@ const Router = () => {
           element: <TumKullanicilar />
         },
         {
-          path:"/kullanici-getir/:userPhone",
+          path: "/kullanici-getir/:userPhone",
           element: <KullaniciGetir />
+        },
+        {
+          path: "/web-gezi-formlari",
+          element: <WebGeziFormlari />
+        },
+        {
+          path: "/web-mutabakat-formlari",
+          element: <WebMutabakFormlari />
         },
         {
           path: "/rol-atama",
