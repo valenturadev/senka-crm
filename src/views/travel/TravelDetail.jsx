@@ -65,7 +65,6 @@ const TravelDetail = () => {
       );
       const responseData = await response.data.data;
       setData(responseData);
-      console.log("r:", responseData)
       if (responseData) {
         setName(responseData.isim || "");
         setSurname(responseData.soyisim || "");
@@ -163,17 +162,14 @@ const TravelDetail = () => {
     let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
-        `https://senka.valentura.com/api/müşteri_ilişkileri/Api/verify-travel-forms/travel-id=${formId}`,
+        `https://senka.valentura.com/api/customer-relations/travel-forms/approve-travel-form/id=${formId}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${myUser?.token}`,
+            Authorization: `Bearer ${myUser?.access}`,
           },
         }
       );
-
-      console.log(response.data); // Output the response data
-
       successMessage("Form başarıyla onaylandı!");
     } catch (error) {
       console.log(error);
@@ -185,17 +181,15 @@ const TravelDetail = () => {
     let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
-        `https://senka.valentura.com/api/müşteri_ilişkileri/Api/non-verify-travel-forms/travel-id=${formId}`,
+        `https://senka.valentura.com/api/customer-relations/travel-forms/reject-travel-form/id=${formId}`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${myUser?.token}`,
+            Authorization: `Bearer ${myUser?.access}`,
           },
         }
       );
-
-      console.log(response.data); // Output the response data
-      errorMessage("Form başarıyla reddedildi!");
+      successMessage("Form başarıyla reddedildi!");
     } catch (error) {
       console.log(error);
     }
@@ -220,34 +214,31 @@ const TravelDetail = () => {
                       Seyahat Formu ile ilgili bilgileri düzenleyebilirsiniz.
                     </p>
                   </div>
-                  {user?.role === "is_customer_relations" && (
-
-                    <div className="flex flex-row items-center">
-                      {isApprove ?
-                        <button
-                          disabled
-                          className="text-white text-center font-medium font-poppins text-m leading-5 bg-yellow-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
-                        >
-                          KABUL EDİLMİŞ
-                        </button>
-                        : <button
-                          onClick={() => {
-                            verifyTravelForm();
-                          }}
-                          className="text-white text-center font-medium font-poppins text-xl leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
-                        >
-                          KABUL ET
-                        </button>}
+                  <div className="flex flex-row items-center">
+                    {isApprove ?
                       <button
-                        onClick={() => {
-                          declineTravelForm();
-                        }}
-                        className="text-white text-center font-medium font-poppins text-xl leading-5 bg-red-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center ml-2"
+                        disabled
+                        className="text-white text-center font-medium font-poppins text-m leading-5 bg-yellow-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
                       >
-                        REDDET
+                        KABUL EDİLMİŞ
                       </button>
-                    </div>
-                  )}
+                      : <button
+                        onClick={() => {
+                          verifyTravelForm();
+                        }}
+                        className="text-white text-center font-medium font-poppins text-xl leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
+                      >
+                        KABUL ET
+                      </button>}
+                    <button
+                      onClick={() => {
+                        declineTravelForm();
+                      }}
+                      className="text-white text-center font-medium font-poppins text-xl leading-5 bg-red-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center ml-2"
+                    >
+                      REDDET
+                    </button>
+                  </div>
                 </div>
                 <div className="px-4 py-5 sm:px-6">
                   <div className="relative mt-8">

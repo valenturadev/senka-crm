@@ -171,8 +171,6 @@ const AgreementDetail = () => {
                     },
                 }
             );
-
-            console.log(response.data); // Output the response data
         } catch (error) {
             console.error(error);
         }
@@ -191,8 +189,6 @@ const AgreementDetail = () => {
                     },
                 }
             );
-
-            console.log(response.data); // Output the response data
         } catch (error) {
             console.error(error);
         }
@@ -211,8 +207,6 @@ const AgreementDetail = () => {
                     },
                 }
             );
-
-            console.log(response.data); // Output the response data
         } catch (error) {
             console.error(error);
         }
@@ -238,26 +232,24 @@ const AgreementDetail = () => {
                                             Mutabakat Formu ile ilgili bilgileri düzenleyebilirsiniz.
                                         </p>
                                     </div>
-                                    {(user?.role === "is_finance") && (
-                                        <div className="flex flex-row">
-                                            <button
-                                                onClick={() => {
-                                                    verifyMutabakatForm()
-                                                }}
-                                                className="text-white text-center font-medium font-poppins text-xl font-normal leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
-                                            >
-                                                KABUL ET
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    declineMutabakatForm()
-                                                }}
-                                                className="text-white text-center font-medium font-poppins text-xl font-normal leading-5 bg-red-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center ml-2"
-                                            >
-                                                REDDET
-                                            </button>
-                                        </div>
-                                    )}
+                                    <div className="flex flex-row">
+                                        <button
+                                            onClick={() => {
+                                                verifyMutabakatForm()
+                                            }}
+                                            className="text-white text-center font-medium font-poppins text-xl font-normal leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
+                                        >
+                                            KABUL ET
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                declineMutabakatForm()
+                                            }}
+                                            className="text-white text-center font-medium font-poppins text-xl font-normal leading-5 bg-red-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center ml-2"
+                                        >
+                                            REDDET
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="px-4 py-5 sm:px-6">
                                     <div className="relative mt-8">

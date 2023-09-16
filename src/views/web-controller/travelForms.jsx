@@ -1,35 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Bold } from 'lucide';
+import AuthContext from '../../context/auth';
 
 function TravelForms() {
     const [geziler, setGeziler] = useState([]);
-    let localUser = localStorage.getItem("user");
-    let myUser = JSON.parse(localUser);
-
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { user } = useContext(AuthContext);
+    const [status, setStatus] = useState("waiting");
     useEffect(() => {
-        axios({
-            method: 'GET',
-            url: 'https://senka.valentura.com/api/web-team/get-all-travels/status=waiting',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${myUser?.access}`
-            }
-        })
-            .then((response) => {
-                setGeziler(response.data.data);
-                console.log(JSON.stringify(geziler))
-            })
-            .catch((error) => {
-                console.error('API çağrısı sırasında hata oluştu:', error);
-            });
+        getData("waiting")
     }, []);
+    const getData = async (_status) => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
+        try {
+            const response = await fetch(`https://senka.valentura.com/api/web-team/get-all-travels/status=${_status}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${myUser?.access}`
+                }
+            });
+            const data = await response.json();
+            console.log(data.data);
+            setData(data.data);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+            errorMessage("Geziler getirilemedi!")
+        }
+    };
 
+    const handleStatus = (stringStatus) => {
+        setStatus(stringStatus);
+        setLoading(true);
+        getData(stringStatus);
+    };
+
+    function getButtonClasses(statusButton) {
+        if (statusButton === status) {
+            return `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`
+
+        } else {
+            return 'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent'
+
+        }
+    }
 
     return (
         <div>
             <h1>Gezi Tablosu</h1>
+            <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
+                <div className="flex items-center space-x-4">
+                    <button className={getButtonClasses("waiting")} onClick={() => handleStatus("waiting")} >Bekleyenler</button>
+                    <button className={getButtonClasses("approved")} onClick={() => handleStatus("approved")}>Onaylananlar</button>
+                    <button className={getButtonClasses("rejected")} onClick={() => handleStatus("rejected")}>Onaylanmayanlar</button>
+                    <button className={getButtonClasses("all")} onClick={() => handleStatus("all")}>Hepsi</button>
+                </div>
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full">
                     <thead>
