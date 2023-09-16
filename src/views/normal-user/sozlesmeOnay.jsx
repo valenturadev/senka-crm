@@ -101,22 +101,26 @@ function SozlesmeOnay() {
             )}
             <div className="border rounded p-4">
                 {Object.keys(userData).map((field) => (
-                    <div key={field} className="mb-2 flex">
-                        <span className="font-semibold w-40">
-                            {field.replace(/_/g, ' ').replace(/\b\w/g, (match) => match.toUpperCase())}:</span>
-                        {isEditing ? (
-                            <input
-                                type="text"
-                                value={editedFields[field] || userData[field]}
-                                onChange={(e) => handleFieldChange(field, e.target.value)}
-                                className="border rounded px-2 py-1 flex-grow"
-                            />
-                        ) : (
-                            <span className="px-2 py-1 flex-grow">
-                                {field.startsWith('is_') ? renderBoolean(userData[field]) : userData[field]}
+                    // IP alanını hariç tut
+                    field !== 'ip' && (
+                        <div key={field} className="mb-2 flex">
+                            <span className="font-semibold w-40">
+                                {field.replace(/_/g, ' ').replace(/\b\w/g, (match) => match.toUpperCase())}:
                             </span>
-                        )}
-                    </div>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    value={editedFields[field] || userData[field]}
+                                    onChange={(e) => handleFieldChange(field, e.target.value)}
+                                    className="border rounded px-2 py-1 flex-grow"
+                                />
+                            ) : (
+                                <span className="px-2 py-1 flex-grow">
+                                    {field.startsWith('is_') ? renderBoolean(userData[field]) : userData[field]}
+                                </span>
+                            )}
+                        </div>
+                    )
                 ))}
                 {isEditing && (
                     <button
@@ -134,7 +138,44 @@ function SozlesmeOnay() {
                         İptal
                     </button>
                 )}
+                <div className="mt-4">
+                    <h2 className="text-xl font-semibold mb-2">PDF Dosyaları</h2>
+                    <label className="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            checked={isPdf1Selected}
+                            onChange={() => setIsPdf1Selected(!isPdf1Selected)}
+                            className="form-checkbox h-5 w-5 text-blue-600"
+                        />
+                        <a
+                            href={pdf1FilePath}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                        >
+                            {pdf1FileName}
+                        </a>
+                    </label>
+
+                    <label className="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            checked={isPdf2Selected}
+                            onChange={() => setIsPdf2Selected(!isPdf2Selected)}
+                            className="form-checkbox h-5 w-5 text-blue-600"
+                        />
+                        <a
+                            href={pdf2FilePath}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                        >
+                            {pdf2FileName}
+                        </a>
+                    </label>
+                </div>
             </div>
+
         </div>
     );
 }

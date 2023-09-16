@@ -102,6 +102,8 @@ import WebGeziFormlari from "../views/web-controller/travelForms"
 import WebMutabakFormlari from "../views/web-controller/mutabakatForms"
 import OgrenciSozlesme from "../views/teacher/OgrenciSozlesme";
 import SozlesmeOnay from "../views/normal-user/sozlesmeOnay";
+import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik"
+import HizmetSozlesmesi from "../views/sozlesmeler/hizmet"
 
 const Router = () => {
   const routes = [
@@ -409,6 +411,14 @@ const Router = () => {
         {
           path: "/ogrenci-sozlesme-getir/:studentId",
           element: <OgrenciSozlesme />,
+        },
+        {
+          path: "/gizlilik-sozlesmesi",
+          element: <GizlilikSozlesmesi />,
+        },
+        {
+          path: "/hizmet-sozlesmesi",
+          element: <HizmetSozlesmesi />,
         },
         {
           path: "/ogrenci/:studentId",
