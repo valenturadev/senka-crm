@@ -98,6 +98,8 @@ import Mutabakat from "../views/finans/GetMutabakat";
 import TumKullanicilar from "../views/tum-kullanicilar/Main"
 import RolAtama from "../views/rol-atama/Main"
 import KullaniciGetir from "../views/tum-kullanicilar/kullanici"
+import WebGeziFormlari from "../views/web-controller/travelForms"
+import WebMutabakFormlari from "../views/web-controller/mutabakatForms"
 
 const Router = () => {
   const routes = [
