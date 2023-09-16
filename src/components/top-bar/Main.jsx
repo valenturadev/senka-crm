@@ -49,8 +49,8 @@ function Main(props) {
         {/* BEGIN: Breadcrumb */}
         <div className="flex items-center gap-2">
           <div className="flex flex-col">
-            <p className="font-semibold text-xl">Hoşgeldin {user?.firstname}</p>
-            <p className="text-center text-gray-500 md:text-lg">
+            <p className="font-semibold text-xl mt-1">Hoşgeldin {user?.firstname}</p>
+            <p className="text-center text-gray-500 md:text-sm">
               ({roleNamesString})
             </p>
           </div>

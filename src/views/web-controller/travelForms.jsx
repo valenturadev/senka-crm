@@ -5,14 +5,52 @@ import { Bold } from 'lucide';
 import AuthContext from '../../context/auth';
 
 function TravelForms() {
-    const [geziler, setGeziler] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user } = useContext(AuthContext);
-    const [status, setStatus] = useState("waiting");
+    const [status, setStatus] = useState("all");
     useEffect(() => {
-        getData("waiting")
+        getData("all")
     }, []);
+
+    const verifyTravelForm = async (formId) => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
+        try {
+            const response = await axios.get(
+                `https://senka.valentura.com/api/web-team/activate-travel/id=${formId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${myUser?.access}`
+                    },
+                }
+            );
+            getData(status)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const declineTravelForm = async (formId) => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
+        try {
+            const response = await axios.get(
+                `https://senka.valentura.com/api/web-team/deactivate-travel/id=${formId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${myUser?.access}`
+                    },
+                }
+            );
+            getData(status)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const getData = async (_status) => {
         let localUser = localStorage.getItem("user");
         let myUser = JSON.parse(localUser);
@@ -56,9 +94,8 @@ function TravelForms() {
             <h1>Gezi Tablosu</h1>
             <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
                 <div className="flex items-center space-x-4">
-                    <button className={getButtonClasses("waiting")} onClick={() => handleStatus("waiting")} >Bekleyenler</button>
-                    <button className={getButtonClasses("approved")} onClick={() => handleStatus("approved")}>Onaylananlar</button>
-                    <button className={getButtonClasses("rejected")} onClick={() => handleStatus("rejected")}>Onaylanmayanlar</button>
+                    <button className={getButtonClasses("true")} onClick={() => handleStatus("true")} >Açık</button>
+                    <button className={getButtonClasses("false")} onClick={() => handleStatus("false")}>Kapalı</button>
                     <button className={getButtonClasses("all")} onClick={() => handleStatus("all")}>Hepsi</button>
                 </div>
             </div>
@@ -71,6 +108,9 @@ function TravelForms() {
                             </th>
                             <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Aktif
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Siteye Ekle
                             </th>
                             <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Program Adı
@@ -108,7 +148,7 @@ function TravelForms() {
                         </tr>
                     </thead>
                     <tbody>
-                        {geziler?.map((gezi) => (
+                        {data?.map((gezi) => (
                             <tr key={gezi.id}>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                     <Link to={`/gezi-formu/${gezi.id}`} style={{ color: 'blue', fontWeight: Bold }}>
@@ -116,7 +156,19 @@ function TravelForms() {
                                     </Link>
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                    {gezi.is_active ? '✓' : '✗'}
+                                    {gezi.is_active ? (
+                                        <button onClick={() => declineTravelForm(gezi.id)}>✗ Reddet</button>
+                                    ) : (
+                                        <button onClick={() => verifyTravelForm(gezi.id)}>✓ Onayla</button>
+                                    )}
+                                </td>
+                                {/*                                 TODO: siteye kle
+ */}                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                                    {gezi.is_active ? (
+                                        <button onClick={() => declineTravelForm(gezi.id)}>✗ Reddet</button>
+                                    ) : (
+                                        <button onClick={() => verifyTravelForm(gezi.id)}>✓ Onayla</button>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                     {gezi.mutabakat.program_adi}
