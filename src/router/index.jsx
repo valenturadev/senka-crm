@@ -106,7 +106,7 @@ import SozlesmeOnay from "../views/normal-user/sozlesmeOnay";
 import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik"
 import HizmetSozlesmesi from "../views/sozlesmeler/hizmet"
 import TumOgrencilerim from "../views/normal-user/tumOgrencilerim"
-
+import OgrenciIade from "../views/normal-user/ogrenciIade"
 
 const Router = () => {
   const routes = [
@@ -494,6 +494,10 @@ const Router = () => {
         {
           path: "/tum-ogrencilerim",
           element: <TumOgrencilerim />,
+        },
+        {
+          path: "/ogrenci-iade/:id",
+          element: <OgrenciIade />,
         },
         {
           path: "/otel-programlari",
