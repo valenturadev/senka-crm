@@ -101,6 +101,7 @@ import KullaniciGetir from "../views/tum-kullanicilar/kullanici"
 import WebGeziFormlari from "../views/web-controller/travelForms"
 import WebMutabakFormlari from "../views/web-controller/mutabakatForms"
 import OgrenciSozlesme from "../views/teacher/OgrenciSozlesme";
+import SozlesmeOnay from "../views/normal-user/sozlesmeOnay";
 
 const Router = () => {
   const routes = [
@@ -400,6 +401,10 @@ const Router = () => {
         {
           path: "/tum-ogrenciler/:geziId",
           element: <TumOgrenciler />,
+        },
+        {
+          path: "/sozlesme-onay/tel/:tel/id/:id",
+          element: <SozlesmeOnay />,
         },
         {
           path: "/ogrenci-sozlesme-getir/:studentId",

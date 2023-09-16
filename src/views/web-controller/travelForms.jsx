@@ -162,8 +162,8 @@ function TravelForms() {
                                         <button onClick={() => verifyTravelForm(gezi.id)}>✓ Onayla</button>
                                     )}
                                 </td>
-                                {/*                                 TODO: siteye kle
- */}                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                                {/*TODO: siteye kle*/}
+                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                     {gezi.is_active ? (
                                         <button onClick={() => declineTravelForm(gezi.id)}>✗ Reddet</button>
                                     ) : (
