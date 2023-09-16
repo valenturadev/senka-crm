@@ -53,27 +53,6 @@ function TravelForms() {
             console.error(error);
         }
     };
-
-    const addToSite = async (formId) => {
-        let localUser = localStorage.getItem("user");
-        let myUser = JSON.parse(localUser);
-        try {
-            const response = await axios.get(
-                `https://senka.valentura.com/api/web-team/add-to-website-travel/id=${formId}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${myUser?.access}`
-                    },
-                }
-            );
-            successMessage("Form siteye eklendi!");
-            getData(status)
-        } catch (error) {
-            errorMessage("Form siteye eklenirken hata oluştu!")
-        }
-    };
-
     const getData = async (_status) => {
         let localUser = localStorage.getItem("user");
         let myUser = JSON.parse(localUser);
@@ -132,9 +111,6 @@ function TravelForms() {
                                 Aktif
                             </th>
                             <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Siteye Ekle
-                            </th>
-                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Program Adı
                             </th>
                             <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -183,14 +159,6 @@ function TravelForms() {
                                     ) : (
                                         <button onClick={() => verifyTravelForm(gezi.id)}>✓ Onayla</button>
                                     )}
-                                </td>
-                                {/*TODO: siteye kle*/}
-                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                    <button
-                                        onClick={() => addToSite(gezi.id)}
-                                        className="bg-blue-500 rounded-md text-white px-4 py-2 hover:bg-blue-700 cursor-pointer">
-                                        Ekle
-                                    </button>
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                     {gezi.mutabakat.program_adi}

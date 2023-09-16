@@ -3,29 +3,52 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/tr'
+import { errorMessage, successMessage } from '../../utils/toast';
 moment.locale('tr');
 
 function MutabakatForms() {
     const [geziler, setGeziler] = useState([]);
-    let localUser = localStorage.getItem("user");
-    let myUser = JSON.parse(localUser);
 
     useEffect(() => {
-        axios({
-            method: 'GET',
-            url: 'https://senka.valentura.com/api/web-team/get-all-onaylanan-form',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${myUser?.access}`
-            }
-        })
-            .then((response) => {
-                setGeziler(response.data.data);
-            })
-            .catch((error) => {
-                console.error('API çağrısı sırasında hata oluştu:', error);
-            });
+        getData()
     }, []);
+
+    const getData = async () => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: 'https://senka.valentura.com/api/web-team/get-all-onaylanan-form',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${myUser?.access}`
+                }
+            })
+            setGeziler(response.data.data);
+        } catch (error) {
+            errorMessage("Geziler getirilemedi!")
+        }
+    };
+
+    const addToSite = async (formId) => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
+        try {
+            const response = await axios.get(
+                `https://senka.valentura.com/api/web-team/add-to-website-travel/id=${formId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${myUser?.access}`
+                    },
+                }
+            );
+            successMessage("Form siteye eklendi!");
+        } catch (error) {
+            errorMessage("Form siteye eklenirken hata oluştu!")
+        }
+    };
 
     return (
         <div>
@@ -39,6 +62,9 @@ function MutabakatForms() {
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                 Aktif
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Siteye Ekle
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                 Ulaşım Aracı Birim Fiyatı
@@ -214,6 +240,13 @@ function MutabakatForms() {
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.is_approve ? '✓' : '✗'}
+                                </td>
+                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                                    <button
+                                        onClick={() => addToSite(gezi.id)}
+                                        className="bg-blue-500 rounded-md text-white px-4 py-2 hover:bg-blue-700 cursor-pointer">
+                                        Ekle
+                                    </button>
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.ulasim_araci_birim_fiyati}
