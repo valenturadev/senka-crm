@@ -118,7 +118,12 @@ function StudentTable() {
                 {student.is_cash ? '✓' : '✗'}
               </td>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                {student.is_izin_formu ? '✓' : '✗'}
+                
+                <Link to={`/ogrenci-sozlesme-getir/${student.id}`}
+                    style={{ color: 'blue', fontWeight: 'bold' }}
+                  >
+                    {student.is_izin_formu ? '✓' : '✗'}
+                    </Link>
               </td>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                 {student.is_odeme_tamamlandi ? '✓' : '✗'}
