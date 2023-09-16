@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { errorMessage } from "../../utils/toast";
 import AuthContext from "../../context/auth";
+import axios from 'axios';
 
 function Main() {
   const [data, setData] = useState([]);
@@ -30,10 +31,11 @@ function Main() {
           "Authorization": `Bearer ${myUser?.access}`
         }
       });
-      const data = await response.json();
-      setData(data.data);
+      const responseData = response.data;
+      setData(responseData.data);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setLoading(false);
       errorMessage("Mutabakat formları getirilemedi!")
     }
