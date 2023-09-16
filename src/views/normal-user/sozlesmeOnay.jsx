@@ -23,7 +23,7 @@ function SozlesmeOnay() {
     const openPrivacyPopup = () => {
         setShowPrivacyPopup(true);
         if (controlPrivacyPopup) {
-            setShowPrivacyPopup(false);
+            setControlPrivacyPopup(false);
         }else{
             setControlPrivacyPopup(true);
         }
@@ -32,7 +32,7 @@ function SozlesmeOnay() {
     const openServicePopup = () => {
         setShowServicePopup(true);
         if (controlServicePopup) {
-            setShowServicePopup(false);
+            setControlServicePopup(false);
         }else{
             setControlServicePopup(true);
         }

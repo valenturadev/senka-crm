@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Bold } from 'lucide';
 import AuthContext from '../../context/auth';
+import { errorMessage } from '../../utils/toast';
 
 function TravelForms() {
     const [data, setData] = useState([]);
@@ -26,6 +27,7 @@ function TravelForms() {
                     },
                 }
             );
+            successMessage("Form onaylandı!");
             getData(status)
         } catch (error) {
             console.error(error);
@@ -45,9 +47,30 @@ function TravelForms() {
                     },
                 }
             );
+            successMessage("Form reddedildi!");
             getData(status)
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const addToSite = async (formId) => {
+        let localUser = localStorage.getItem("user");
+        let myUser = JSON.parse(localUser);
+        try {
+            const response = await axios.get(
+                `https://senka.valentura.com/api/web-team/add-to-website-travel/id=${formId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${myUser?.access}`
+                    },
+                }
+            );
+            successMessage("Form siteye eklendi!");
+            getData(status)
+        } catch (error) {
+            errorMessage("Form siteye eklenirken hata oluştu!")
         }
     };
 
@@ -91,7 +114,6 @@ function TravelForms() {
 
     return (
         <div>
-            <h1>Gezi Tablosu</h1>
             <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
                 <div className="flex items-center space-x-4">
                     <button className={getButtonClasses("true")} onClick={() => handleStatus("true")} >Açık</button>
@@ -164,11 +186,11 @@ function TravelForms() {
                                 </td>
                                 {/*TODO: siteye kle*/}
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                    {gezi.is_active ? (
-                                        <button onClick={() => declineTravelForm(gezi.id)}>✗ Reddet</button>
-                                    ) : (
-                                        <button onClick={() => verifyTravelForm(gezi.id)}>✓ Onayla</button>
-                                    )}
+                                    <button
+                                        onClick={() => addToSite(gezi.id)}
+                                        className="bg-blue-500 rounded-md text-white px-4 py-2 hover:bg-blue-700 cursor-pointer">
+                                        Ekle
+                                    </button>
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                     {gezi.mutabakat.program_adi}

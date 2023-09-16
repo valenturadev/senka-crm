@@ -39,7 +39,7 @@ function Mutabakatlar() {
       <h1 className="text-2xl font-bold mb-4">Mutabakatlar</h1>
       <div className="mb-4">
         {/* Durum butonları */}
-        
+
         <button
           onClick={() => handleStatusClick('waiting')}
           className={`mr-2 ${selectedStatus === 'waiting' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} border border-blue-500 p-2 rounded-lg focus:outline-none`}
@@ -64,7 +64,7 @@ function Mutabakatlar() {
         >
           Hepsi
         </button>
-        
+
       </div>
       <table className="min-w-full">
         <thead>
