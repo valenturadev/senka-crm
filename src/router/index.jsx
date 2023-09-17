@@ -408,10 +408,6 @@ const Router = () => {
           element: <TumOgrenciler />,
         },
         {
-          path: "/sozlesme-onay/tel/:tel/id/:id",
-          element: <SozlesmeOnay />,
-        },
-        {
           path: "/ogrenci-sozlesme-getir/:studentId",
           element: <OgrenciSozlesme />,
         },
@@ -430,10 +426,6 @@ const Router = () => {
         {
           path: "/yeni-ogrenci/:geziId",
           element: <NewStudent />,
-        },
-        {
-          path: "/ogretmen-sifre-olustur/:phoneNumber",
-          element: <SifreEkle />,
         },
         {
           path: "/ogretmen-ekle/:geziId",
@@ -1081,6 +1073,14 @@ const Router = () => {
     {
       path: "/seyahat-formu-olustur",
       element: <CreateTravel />,
+    },
+    {
+      path: "/ogretmen-sifre-olustur/:phoneNumber",
+      element: <SifreEkle />,
+    },
+    {
+      path: "/sozlesme-onay/tel/:tel/id/:id",
+      element: <SozlesmeOnay />,
     },
   ];
 
