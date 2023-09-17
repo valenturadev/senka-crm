@@ -480,7 +480,7 @@ const Router = () => {
           element: <CreateAgreement />,
         },
         {
-          path: "/mutakabat-formu-duzenle/:formId",
+          path: "/mutabakat-formu-duzenle/:formId",
           element: <AgreementDetail />,
         },
         {

@@ -159,7 +159,7 @@ function Main() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <Link
-                                to={`/mutakabat-formu-duzenle/${item.id}`}
+                                to={`/mutabakat-formu-duzenle/${item.id}`}
                                 className="text-indigo-600 hover:text-indigo-900"
                               >
                                 Düzenle

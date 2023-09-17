@@ -52,7 +52,7 @@ function MutabakatForms() {
 
     return (
         <div>
-            <h1 className="text-xl font-semibold mb-4">Gezi Tablosu</h1>
+            <h1 className="text-xl font-semibold mb-8">Gezi Tablosu</h1>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white shadow-md border-gray-200 rounded-lg">
                     <thead className="bg-gray-50">

@@ -51,6 +51,9 @@ const AgreementDetail = () => {
     const [roomAmount, setRoomAmount] = useState(0);
     const [stayingDayAmount, setStayingDayAmount] = useState(0)
     const [hotelTotalPrice, setHotelTotalPrice] = useState(0)
+    const [hotelSNGUnitPrice, sethotelSNGUnitPrice] = useState(0)
+    const [hotelDBLUnitPrice, sethotelDBLUnitPrice] = useState(0)
+    const [hotelTRPUnitPrice, sethotelTRPUnitPrice] = useState(0)
     const [guidePrice, setGuidePrice] = useState(0)
     const [guidePerDayMealUnitPrice, setGuidePerDayMealUnitPrice] = useState(0)
     const [guideDayAmount, setGuideDayAmount] = useState(0)
@@ -75,7 +78,7 @@ const AgreementDetail = () => {
         let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
-                `https://senka.valentura.com/api/operasyon_ekibi/Api/get-mutabakat-form/mutabakat-id=${formId}`,
+                `https://senka.valentura.com/api/operation-team/mutabakat/get-mutabakat-form/id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -83,25 +86,25 @@ const AgreementDetail = () => {
                     },
                 }
             );
-            const responseData = await response.data.data[0];
+            const responseData = await response.data.data;
             setData(responseData);
             setLoading(false);
 
             if (responseData) {
                 setName(responseData.isim || "");
                 setSurname(responseData.soyisim || "");
-                setTitle(responseData.ünvan || "");
+                setTitle(responseData.unvan || "");
                 setPhone(responseData.tel_no || "");
                 setMail(responseData.email || "");
                 setExpectations(responseData.kazanim_ve_beklentiler || "");
                 setDepartureDate(responseData.gidis_tarihi || "");
-                setReturnDate(responseData.dönüs_tarihi || "");
+                setReturnDate(responseData.donus_tarihi || "");
                 setTransfers(responseData.transferler || "");
                 setProgramName(responseData.program_adi || "");
-                setTravelCountry(responseData.ülke || "");
-                setExpectedDate(responseData.öngörülen_tarih || "");
-                setExpectedStudentAmount(responseData.öngörülen_öğrenci_sayısı || "");
-                setClasses(responseData.ilgili_sınıf || "");
+                setTravelCountry(responseData.ulke || "");
+                setExpectedDate(responseData.ongorulen_tarih || "");
+                setExpectedStudentAmount(responseData.ongorulen_ogrenci_sayısı || "");
+                setClasses(responseData.ilgili_sinif || "");
                 setDepartment(responseData.zumre || "");
                 setLocationOne(responseData.lokasyon1 || "");
                 setLocationOneDeparture(responseData.lokasyon1_cikis || "");
@@ -118,6 +121,29 @@ const AgreementDetail = () => {
                 setReturnCity(responseData.dönülen_sehir || "");
                 setCampusName(responseData.kampus_adi || "");
                 setSelectedOption(responseData.ulasım_araci || "");
+
+                setvehicleUnitPrice(responseData.ulasim_araci_birim_fiyati || 0);
+                setvehicleTotalPrice(responseData.ulasim_araci_toplam_fiyati || 0);
+                setHotelName(responseData.otel_ismi || "");
+                setRoomAmount(responseData.oda_sayisi || 0);
+                setStayingDayAmount(responseData.kalinacak_gun_sayisi || 0);
+                setHotelTotalPrice(responseData.otel_toplam_fiyat || 0);
+                sethotelSNGUnitPrice(responseData.otel_SNG_birim_fiyat || 0);
+                sethotelDBLUnitPrice(responseData.otel_DBL_birim_fiyat || 0);
+                sethotelTRPUnitPrice(responseData.otel_TRP_birim_fiyat || 0);
+                setGuidePrice(responseData.rehber_yevmiyesi || 0);
+                setGuidePerDayMealUnitPrice(responseData.rehber_gunluk_yemek_birim_fiyati || 0);
+                setGuideDayAmount(responseData.rehber_gun_sayisi || 0);
+                setGuideYDPrice(responseData.rehber_YD_harc || 0);
+                setGuideTotalPrice(responseData.rehber_toplam_fiyat || 0);
+                setTeacherPerDayPrice(responseData.ogretmen_yevmiyesi || 0);
+                setTeacherNumberOfPeople(responseData.ogretmen_kisi_sayisi || 0);
+                setTeacherYDPrice(responseData.ogretmen_YD_harc || 0);
+                setTeacherTotalPrice(responseData.ogretmen_toplam_fiyat || 0);
+                setEntrancePlaces(responseData.giris_yapilan_yerler || "");
+                setEntrancePlacesUnitPrice(responseData.giris_yerleri_birim_fiyatlari || []);
+                setEntrancePlacesTotalPrice(responseData.giris_yapilan_yer_toplam_fiyat || 0);
+                setIsApprove(responseData.is_approve || false);
             }
         } catch (error) {
             console.log(error);
@@ -130,39 +156,24 @@ const AgreementDetail = () => {
         let myUser = JSON.parse(localUser);
         try {
             const response = await axios.post(
-                `https://senka.valentura.com/api/operasyon_ekibi/Api/edit-mutabakat-form/mutabakat-id=${formId}`,
+                `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
                 {
-                    kampus_adi: campusName,
-                    okul_adi: "gazi",
-                    isim: name,
-                    soyisim: surname,
-                    ünvan: title,
-                    tel_no: phone,
-                    email: mail,
-                    program_adi: programName,
-                    ülke: travelCountry,
-                    sehir: "ankara",
-                    öngörülen_tarih: expectedDate,
-                    öngörülen_ogrenci_sayisi: expectedStudentAmount,
-                    ilgili_sinif: classes,
-                    ilgili_zumre: department,
-                    kazanim_ve_beklentiler: expectations,
-                    ulasim_araci: selectedOption,
-                    gidis_tarihi: departureDate,
-                    dönüs_tarihi: returnDate,
-                    gidilecek_sehir: "antalya",
-                    dönülecek_sehir: "istanbul",
-                    transferler: transfers,
-                    lokasyon1: locationOne,
-                    lokasyon1_giris: locationOneDeparture,
-                    lokasyon1_cikis: locationOneReturn,
-                    lokasyon2: locationTwo,
-                    lokasyon2_giris: locationtwoDeparture,
-                    lokasyon2_cikis: locationTwoReturn,
-                    lokasyon3: locationThree,
-                    lokasyon3_giris: locationThreeDeparture,
-                    lokasyon3_cikis: locationThreeReturn,
-                    aktivite_ve_beklentiler: activities,
+                    ulasim_araci_birim_fiyati: vehicleUnitPrice,
+                    otel_ismi: hotelName,
+                    oda_sayisi: roomAmount,
+                    kalinacak_gun_sayisi: stayingDayAmount,
+                    otel_SNG_birim_fiyat: hotelSNGUnitPrice,
+                    otel_DBL_birim_fiyat: hotelDBLUnitPrice,
+                    otel_TRP_birim_fiyat: hotelTRPUnitPrice,
+                    rehber_yevmiyesi: guidePrice,
+                    rehber_gunluk_yemek_birim_fiyati: guidePerDayMealUnitPrice,
+                    rehber_gun_sayisi: guideDayAmount,
+                    rehber_YD_harc: guideYDPrice,
+                    ogretmen_yevmiyesi: teacherPerDayPrice,
+                    ogretmen_kisi_sayisi: teacherNumberOfPeople,
+                    ogretmen_YD_harc: teacherYDPrice,
+                    giris_yapilan_yerler: entrancePlaces,
+                    giris_yerleri_birim_fiyatlari: entrancePlacesUnitPrice,
                 },
                 {
                     headers: {
@@ -261,6 +272,7 @@ const AgreementDetail = () => {
                                                 value={campusName}
                                                 onChange={(e) => setCampusName(e.target.value)}
                                                 classNa={""}
+                                                readOnly={true}
                                             />
                                         </div>
                                     </div>
@@ -279,6 +291,7 @@ const AgreementDetail = () => {
                                                         value={name}
                                                         onChange={(e) => setName(e.target.value)}
                                                         classNa={""}
+                                                        readOnly={true}
                                                     />
                                                 </div>
                                                 <div className="w-full mr-6">
@@ -289,6 +302,7 @@ const AgreementDetail = () => {
                                                         value={surname}
                                                         onChange={(e) => setSurname(e.target.value)}
                                                         classNa={""}
+                                                        readOnly={true}
                                                     />
                                                 </div>
                                             </div>
@@ -301,6 +315,7 @@ const AgreementDetail = () => {
                                                     value={title}
                                                     onChange={(e) => setTitle(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -311,6 +326,7 @@ const AgreementDetail = () => {
                                                     value={phone}
                                                     onChange={(e) => setPhone(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -321,6 +337,7 @@ const AgreementDetail = () => {
                                                     value={mail}
                                                     onChange={(e) => setMail(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </div>
@@ -337,7 +354,8 @@ const AgreementDetail = () => {
                                                     id="outcomeExpectation"
                                                     value={expectations}
                                                     onChange={(e) => setExpectations(e.target.value)}
-                                                    className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
+                                                    className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#87bef5] bg-[#87bef5] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
@@ -362,12 +380,13 @@ const AgreementDetail = () => {
                                                 value="uçak"
                                                 checked={selectedOption === "uçak"}
                                                 label="Uçak"
+                                                readOnly={true}
                                             />
-
                                             <TravelRadioButton
                                                 value="otobüs"
                                                 checked={selectedOption === "otobüs"}
                                                 label="Otobüs"
+                                                readOnly={true}
                                             />
                                         </div>
                                         <div className="my-[20.36px] flex flex-wrap gap-[26.36px]">
@@ -379,6 +398,7 @@ const AgreementDetail = () => {
                                                     value={departureDate}
                                                     onChange={(e) => setDepartureDate(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -389,6 +409,7 @@ const AgreementDetail = () => {
                                                     value={returnDate}
                                                     onChange={(e) => setReturnDate(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-w-full">
@@ -399,6 +420,7 @@ const AgreementDetail = () => {
                                                     value={transfers}
                                                     onChange={(e) => setTransfers(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </div>
@@ -417,6 +439,7 @@ const AgreementDetail = () => {
                                                     value={programName}
                                                     onChange={(e) => setProgramName(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -427,6 +450,7 @@ const AgreementDetail = () => {
                                                     value={travelCountry}
                                                     onChange={(e) => setTravelCountry(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -437,6 +461,7 @@ const AgreementDetail = () => {
                                                     value={expectedDate}
                                                     onChange={(e) => setExpectedDate(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -449,6 +474,7 @@ const AgreementDetail = () => {
                                                         setExpectedStudentAmount(e.target.value)
                                                     }
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -459,6 +485,7 @@ const AgreementDetail = () => {
                                                     value={classes}
                                                     onChange={(e) => setClasses(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="min-md-w-[531px]">
@@ -469,6 +496,7 @@ const AgreementDetail = () => {
                                                     value={department}
                                                     onChange={(e) => setDepartment(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </div>
@@ -486,6 +514,7 @@ const AgreementDetail = () => {
                                                     value={locationOne}
                                                     onChange={(e) => setLocationOne(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="md:min-w-[231px]">
@@ -498,6 +527,7 @@ const AgreementDetail = () => {
                                                         setLocationOneDeparture(e.target.value)
                                                     }
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="md:min-w-[231px]">
@@ -508,6 +538,7 @@ const AgreementDetail = () => {
                                                     value={locationOneReturn}
                                                     onChange={(e) => setLocationOneReturn(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </div>
@@ -520,6 +551,7 @@ const AgreementDetail = () => {
                                                     value={locationTwo}
                                                     onChange={(e) => setLocationTwo(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="md:min-w-[231px]">
@@ -532,6 +564,7 @@ const AgreementDetail = () => {
                                                         setLocationTwoDeparture(e.target.value)
                                                     }
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="md:min-w-[231px]">
@@ -542,6 +575,7 @@ const AgreementDetail = () => {
                                                     value={locationTwoReturn}
                                                     onChange={(e) => setLocationTwoReturn(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </div>
@@ -554,6 +588,7 @@ const AgreementDetail = () => {
                                                     value={locationThree}
                                                     onChange={(e) => setLocationThree(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="md:min-w-[231px]">
@@ -566,6 +601,7 @@ const AgreementDetail = () => {
                                                         setLocationThreeDeparture(e.target.value)
                                                     }
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                             <div className="md:min-w-[231px]">
@@ -576,6 +612,7 @@ const AgreementDetail = () => {
                                                     value={locationThreeReturn}
                                                     onChange={(e) => setLocationThreeReturn(e.target.value)}
                                                     classNa={""}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </div>
@@ -650,6 +687,38 @@ const AgreementDetail = () => {
                                                     onChange={(e) =>
                                                         setHotelTotalPrice(e.target.value)
                                                     }
+                                                    classNa={""}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="my-[20.36px] flex flex-wrap gap-[26.36px] ">
+                                            <div className="md:min-w-[231px]">
+                                                <TraveInputBox
+                                                    label="Otel DBL Birim Fiyatı:"
+                                                    id="hotelDBLUnitPrice"
+                                                    placeholder=""
+                                                    value={hotelDBLUnitPrice}
+                                                    onChange={(e) => sethotelDBLUnitPrice(e.target.value)}
+                                                    classNa={""}
+                                                />
+                                            </div>
+                                            <div className="md:min-w-[231px]">
+                                                <TraveInputBox
+                                                    label="Otel SNG Birim Fiyatı:"
+                                                    id="hotelSNGUnitPrice"
+                                                    placeholder=""
+                                                    value={hotelSNGUnitPrice}
+                                                    onChange={(e) => sethotelSNGUnitPrice(e.target.value)}
+                                                    classNa={""}
+                                                />
+                                            </div>
+                                            <div className="md:min-w-[231px]">
+                                                <TraveInputBox
+                                                    label="Otel TRP Birim Fiyatı:"
+                                                    id="hotelTRPUnitPrice"
+                                                    placeholder=""
+                                                    value={hotelTRPUnitPrice}
+                                                    onChange={(e) => sethotelTRPUnitPrice(e.target.value)}
                                                     classNa={""}
                                                 />
                                             </div>

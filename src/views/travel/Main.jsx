@@ -11,7 +11,6 @@ function Main() {
 
   useEffect(() => {
     getData("waiting");
-    console.log("userdas: ", user);
   }, []);
 
   const handleStatus = (stringStatus) => {
