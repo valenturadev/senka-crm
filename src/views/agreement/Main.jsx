@@ -37,7 +37,7 @@ function Main() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      errorMessage("Mutabakat formları getirilemedi!");
+      errorMessage("Mutabakat formları getirilemedi!\nYöneticinizle iletişime geçin.");
     }
   };
 

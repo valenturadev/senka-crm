@@ -22,7 +22,7 @@ function Main(props) {
   const navigation = useNavigate();
   const { user, logout } = useContext(AuthContext);
   const [searchDropdown, setSearchDropdown] = useState(false);
-  const [roleNamesString, setRoleNamesString] = useState(false);
+  const [roleNamesString, setRoleNamesString] = useState("");
   const showSearchDropdown = () => {
     setSearchDropdown(true);
   };
