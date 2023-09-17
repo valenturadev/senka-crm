@@ -8,18 +8,17 @@ function Main() {
   const [status, setStatus] = useState("waiting");
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
+
   useEffect(() => {
     getData("waiting");
     console.log("userdas: ", user);
   }, []);
-
 
   const handleStatus = (stringStatus) => {
     setStatus(stringStatus);
     setLoading(true);
     getData(stringStatus);
   };
-
 
   const getData = async (_status) => {
     let localUser = localStorage.getItem("user");
@@ -33,26 +32,22 @@ function Main() {
           "Authorization": `Bearer ${myUser?.access}`
         }
       });
-      const data = await response.json();
-      console.log(data.data);
-      setData(data.data);
+      const responseData = await response.json();
+      const travelFormData = responseData.data;
+
+      setData(travelFormData);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   };
 
   function getButtonClasses(statusButton) {
-    if (statusButton === status) {
-      return classNames(
-        `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`
-      );
-    } else {
-      return classNames(
-        'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent'
-      );
-    }
+    return classNames({
+      'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2': statusButton === status,
+      'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent': statusButton !== status
+    });
   }
 
   return (
@@ -62,7 +57,7 @@ function Main() {
       </h2>
       <div className="flex justify-between items-center px-4 py-3 text-left sm:px-6 ">
         <div className="flex items-center space-x-4">
-          <button className={getButtonClasses("waiting")} onClick={() => handleStatus("waiting")} >Bekleyenler</button>
+          <button className={getButtonClasses("waiting")} onClick={() => handleStatus("waiting")}>Bekleyenler</button>
           <button className={getButtonClasses("approved")} onClick={() => handleStatus("approved")}>Onaylananlar</button>
           <button className={getButtonClasses("rejected")} onClick={() => handleStatus("rejected")}>Onaylanmayanlar</button>
           <button className={getButtonClasses("all")} onClick={() => handleStatus("all")}>Hepsi</button>
@@ -76,21 +71,63 @@ function Main() {
                 <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900">
                   <span className="sr-only">Loading...</span>
                 </div>
-              </div>) : (
+              </div>
+            ) : (
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-
                 <div className="shadow overflow-hidden border-b border-gray-900 sm:rounded-lg">
-
                   <table className="min-w-full divide-y divide-gray-900">
                     <thead className="bg-gray-900">
                       <tr>
                         <th
-
                           scope="col"
                           className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                         >
-                          İsim - Mail
+                          Program Adı
                         </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          Okul
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          Kampüs Adı
+                        </th>
+                        {/* Diğer başlıkları ekleyin */}
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          İsim
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          Soyisim
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          Mail
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          Telefon Numarası
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                        >
+                          Gidilecek Şehir
+                        </th>
+                        {/* Diğer başlıkları ekleyin */}
                         <th scope="col" className="relative px-6 py-3">
                           <span className="sr-only">Edit</span>
                         </th>
@@ -98,19 +135,33 @@ function Main() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-900">
                       {data?.map((item) => (
-                        <tr key={item?.id}>
+                        <tr key={item.id}>
                           <td className="px-2 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {item?.isim}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                  {item?.email}
-                                </div>
-                              </div>
-                            </div>
+                            {item.program_adi}
                           </td>
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.okul}
+                          </td>
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.kampus_adi}
+                          </td>
+                          {/* Diğer verileri ekleyin */}
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.isim}
+                          </td>
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.soyisim}
+                          </td>
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.email}
+                          </td>
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.tel_no}
+                          </td>
+                          <td className="px-2 py-4 whitespace-nowrap">
+                            {item.gidilecek_sehir}
+                          </td>
+                          {/* Diğer verileri ekleyin */}
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Link
                               to={`/seyahat-formu-duzenle/${item.id}`}

@@ -11,7 +11,7 @@ function Main() {
   const [status, setStatus] = useState("waiting");
 
   useEffect(() => {
-    getData("waiting")
+    getData("waiting");
   }, []);
 
   const handleStatus = (stringStatus) => {
@@ -23,7 +23,7 @@ function Main() {
   const getData = async (_status) => {
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await axios.get(`https://senka.valentura.com/api/operation-team/mutabakat/get-all-mutabakat-forms/status=${_status}`, {
         headers: {
@@ -37,17 +37,15 @@ function Main() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      errorMessage("Mutabakat formları getirilemedi!")
+      errorMessage("Mutabakat formları getirilemedi!");
     }
   };
 
   function getButtonClasses(statusButton) {
     if (statusButton === status) {
-      return `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`
-
+      return `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`;
     } else {
-      return 'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent'
-
+      return 'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent';
     }
   }
 
@@ -80,11 +78,52 @@ function Main() {
                       <thead className="bg-gray-900">
                         <tr>
                           <th
-
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Program Adı
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Okul
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Kampüs Adı
+                          </th>
+                          <th
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                           >
                             İsim
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Soyisim
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Mail
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Telefon Numarası
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                          >
+                            Gidilecek Şehir
                           </th>
                           <th scope="col" className="relative px-6 py-3">
                             <span className="sr-only">Edit</span>
@@ -95,16 +134,28 @@ function Main() {
                         {data?.map((item) => (
                           <tr key={item.id}>
                             <td className="px-2 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="ml-4">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {item.soyisim}
-                                  </div>
-                                  <div className="text-sm text-gray-500">
-                                    {item.email}
-                                  </div>
-                                </div>
-                              </div>
+                              {item.program_adi}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.okul}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.kampus_adi}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.isim}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.soyisim}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.email}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.tel_no}
+                            </td>
+                            <td className="px-2 py-4 whitespace-nowrap">
+                              {item.gidilecek_sehir}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <Link
