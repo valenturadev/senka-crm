@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { errorMessage, successMessage } from '../../utils/toast';
 
 function AddStudent() {
   const [formData, setFormData] = useState({
@@ -24,10 +25,10 @@ function AddStudent() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   
+
     axios({
       method: 'POST',
-      url: `https://senka.valentura.com/api/teacher/add-ogrenci/gezi-id=`+geziId,
+      url: `https://senka.valentura.com/api/teacher/add-ogrenci/gezi-id=` + geziId,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -37,11 +38,13 @@ function AddStudent() {
       .then((response) => {
         // Başarılı bir şekilde öğrenci oluşturulduğunda yapılacak işlemler
         console.log('Öğrenci başarıyla oluşturuldu', response.data);
-
+        successMessage("Öğrenci başarıyla oluşturuldu")
+        window.location.href = "/tum-geziler"
         // Öğrenci oluşturulduktan sonra belirli bir sayfaya yönlendirebilirsiniz
         // Örneğin, başka bir sayfaya yönlendirme yapabilirsiniz.
       })
       .catch((error) => {
+        errorMessage('Öğrenci oluşturma sırasında hata oluştu')
         console.error('Öğrenci oluşturma sırasında hata oluştu', error);
       });
   };

@@ -21,6 +21,7 @@ function Mutabakatlar() {
     })
       .then((response) => {
         setMutabakatlar(response.data.data);
+        console.log(JSON.stringify(response.data.data))
       })
       .catch((error) => {
         setError(error);

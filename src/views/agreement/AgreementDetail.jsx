@@ -4,6 +4,7 @@ import TraveInputBox from "../../components/editInputBox/main";
 import TravelRadioButton from "../../components/travelRadioButton/main";
 import axios from "axios";
 import AuthContext from "../../context/auth";
+import { errorMessage, successMessage } from "../../utils/toast";
 
 const AgreementDetail = () => {
     const { formId } = useParams();
@@ -155,34 +156,38 @@ const AgreementDetail = () => {
         let localUser = localStorage.getItem("user");
         let myUser = JSON.parse(localUser);
         try {
-            const response = await axios.post(
-                `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
+            axios(
                 {
-                    ulasim_araci_birim_fiyati: vehicleUnitPrice,
-                    otel_ismi: hotelName,
-                    oda_sayisi: roomAmount,
-                    kalinacak_gun_sayisi: stayingDayAmount,
-                    otel_SNG_birim_fiyat: hotelSNGUnitPrice,
-                    otel_DBL_birim_fiyat: hotelDBLUnitPrice,
-                    otel_TRP_birim_fiyat: hotelTRPUnitPrice,
-                    rehber_yevmiyesi: guidePrice,
-                    rehber_gunluk_yemek_birim_fiyati: guidePerDayMealUnitPrice,
-                    rehber_gun_sayisi: guideDayAmount,
-                    rehber_YD_harc: guideYDPrice,
-                    ogretmen_yevmiyesi: teacherPerDayPrice,
-                    ogretmen_kisi_sayisi: teacherNumberOfPeople,
-                    ogretmen_YD_harc: teacherYDPrice,
-                    giris_yapilan_yerler: entrancePlaces,
-                    giris_yerleri_birim_fiyatlari: entrancePlacesUnitPrice,
-                },
-                {
+                    method: 'PATCH',
+                    url: `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
+                    data: {
+                        ulasim_araci_birim_fiyati: vehicleUnitPrice,
+                        otel_ismi: hotelName,
+                        oda_sayisi: roomAmount,
+                        kalinacak_gun_sayisi: stayingDayAmount,
+                        otel_SNG_birim_fiyat: hotelSNGUnitPrice,
+                        otel_DBL_birim_fiyat: hotelDBLUnitPrice,
+                        otel_TRP_birim_fiyat: hotelTRPUnitPrice,
+                        rehber_yevmiyesi: guidePrice,
+                        rehber_gunluk_yemek_birim_fiyati: guidePerDayMealUnitPrice,
+                        rehber_gun_sayisi: guideDayAmount,
+                        rehber_YD_harc: guideYDPrice,
+                        ogretmen_yevmiyesi: teacherPerDayPrice,
+                        ogretmen_kisi_sayisi: teacherNumberOfPeople,
+                        ogretmen_YD_harc: teacherYDPrice,
+                        giris_yapilan_yerler: entrancePlaces,
+                        giris_yerleri_birim_fiyatlari: entrancePlacesUnitPrice,
+                    },
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${myUser?.access}`
                     },
                 }
             );
+            successMessage("Form düzenlendi!")
+            getData()
         } catch (error) {
+            errorMessage("Form düzenlenirken bir hata oluştu!")
             console.error(error);
         }
     };

@@ -128,7 +128,7 @@ const sideMenuData = [
     subMenu: [
       {
         icon: "",
-        pathname: "/mutabakat-listesi/",
+        pathname: "/mutabakat-listesi",
         title: "Mutabakat listesi",
       },
     ],

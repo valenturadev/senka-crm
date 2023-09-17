@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import 'moment/locale/tr'
 import { errorMessage, successMessage } from '../../utils/toast';
-moment.locale('tr');
 
 function MutabakatForms() {
     const [geziler, setGeziler] = useState([]);
@@ -345,7 +343,7 @@ function MutabakatForms() {
                                     {gezi.sehir}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.ongorulen_tarih).format('D MMM')}
+                                    {moment(gezi.ongorulen_tarih).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.ongorulen_ogrenci_sayisi}
@@ -360,10 +358,10 @@ function MutabakatForms() {
                                     {gezi.ulasim_araci}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.gidis_tarihi).format('D MMM')}
+                                    {moment(gezi.gidis_tarihi).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.donus_tarihi).format('D MMM')}
+                                    {moment(gezi.donus_tarihi).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.gidilecek_sehir}
@@ -378,37 +376,37 @@ function MutabakatForms() {
                                     {gezi.lokasyon1}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.lokasyon1_giris).format('D MMM HH:mm')}
+                                    {moment(gezi.lokasyon1_giris).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.lokasyon1_cikis).format('D MMM HH:mm')}
+                                    {moment(gezi.lokasyon1_cikis).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.lokasyon2}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.lokasyon2_giris).format('D MMM HH:mm')}
+                                    {moment(gezi.lokasyon2_giris).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.lokasyon2_cikis).format('D MMM HH:mm')}
+                                    {moment(gezi.lokasyon2_cikis).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.lokasyon3}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.lokasyon3_giris).format('D MMM HH:mm')}
+                                    {moment(gezi.lokasyon3_giris).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.lokasyon3_cikis).format('D MMM HH:mm')}
+                                    {moment(gezi.lokasyon3_cikis).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
                                     {gezi.kazanim_ve_beklentiler}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.created_at).format('D MMM HH:mm')}
+                                    {moment(gezi.created_at).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm text-gray-900">
-                                    {moment(gezi.updated_at).format('D MMM HH:mm')}
+                                    {moment(gezi.updated_at).format('DD/MM/YYYY')}
                                 </td>
                             </tr>
                         ))}
