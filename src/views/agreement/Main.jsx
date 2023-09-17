@@ -43,9 +43,9 @@ function Main() {
 
   function getButtonClasses(statusButton) {
     if (statusButton === status) {
-      return `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`;
+      return `px-4 py-1 text-sm text-zinc-950 font-semibold rounded-md border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2`;
     } else {
-      return 'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent';
+      return 'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-md border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent';
     }
   }
 

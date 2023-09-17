@@ -45,8 +45,8 @@ function Main() {
 
   function getButtonClasses(statusButton) {
     return classNames({
-      'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2': statusButton === status,
-      'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-full border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent': statusButton !== status
+      'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-md border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent outline-none ring-2 ring-gray-600 ring-offset-2': statusButton === status,
+      'px-4 py-1 text-sm text-zinc-950 font-semibold rounded-md border border-gray-900 hover:text-white hover:bg-gray-600 hover:border-transparent': statusButton !== status
     });
   }
 
