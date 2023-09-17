@@ -472,7 +472,7 @@ const Router = () => {
           element: <TravelDetail />,
         },
         {
-          path: "/mutakabat-formlari",
+          path: "/mutabakat-formlari",
           element: <Agreement />,
         },
         {
