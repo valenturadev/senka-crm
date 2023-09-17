@@ -9,7 +9,7 @@ function TravelForms() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user } = useContext(AuthContext);
-    const [status, setStatus] = useState("all");
+    const [status, setStatus] = useState("true");
     useEffect(() => {
         getData("all")
     }, []);
@@ -155,9 +155,9 @@ function TravelForms() {
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                     {gezi.is_active ? (
-                                        <button onClick={() => declineTravelForm(gezi.id)}>✗ Reddet</button>
+                                        <button onClick={() => declineTravelForm(gezi.id)}>✓ Reddet</button>
                                     ) : (
-                                        <button onClick={() => verifyTravelForm(gezi.id)}>✓ Onayla</button>
+                                        <button onClick={() => verifyTravelForm(gezi.id)}>✗ Onayla</button>
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
