@@ -141,7 +141,7 @@ const AgreementDetail = () => {
                 setTeacherYDPrice(responseData.ogretmen_YD_harc || 0);
                 setTeacherTotalPrice(responseData.ogretmen_toplam_fiyat || 0);
                 setEntrancePlaces(responseData.giris_yapilan_yerler || "");
-                setEntrancePlacesUnitPrice(responseData.giris_yerleri_birim_fiyatlari || []);
+                setEntrancePlacesUnitPrice(responseData.giris_yerleri_birim_fiyatlari || "");
                 setEntrancePlacesTotalPrice(responseData.giris_yapilan_yer_toplam_fiyat || 0);
                 setIsApprove(responseData.is_approve || false);
             }
@@ -354,7 +354,7 @@ const AgreementDetail = () => {
                                                     id="outcomeExpectation"
                                                     value={expectations}
                                                     onChange={(e) => setExpectations(e.target.value)}
-                                                    className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#87bef5] bg-[#87bef5] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
+                                                    className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#bddeff] bg-[#bddeff] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
                                                     readOnly={true}
                                                 />
                                             </div>
