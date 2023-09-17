@@ -2,7 +2,12 @@ import React from 'react';
 import moment from 'moment';
 
 const EditInputBox = ({ label, id, placeholder, value, onChange, classNa, readOnly = false }) => {
-    const formattedValue = moment(value).format('DD/MM/YYYY');
+    let formattedValue = value; // Initialize with the original value
+
+    if (moment.isMoment(value)) {
+        // Check if value is a valid Moment.js object
+        formattedValue = moment(value).format('DD/MM/YYYY');
+    }
 
     return (
         <div className="relative">
@@ -17,7 +22,7 @@ const EditInputBox = ({ label, id, placeholder, value, onChange, classNa, readOn
                 id={id}
                 placeholder={placeholder}
                 readOnly={readOnly}
-                value={formattedValue} // Use the formatted value
+                value={formattedValue}
                 onChange={onChange}
                 className={`block w-full ${classNa} dark:text-white px-4 py-2 border dark:bg-[#232D45] ${readOnly ? "bg-[#bddeff]" : "bg-[#F1F5F9]"} border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300`}
             />

@@ -512,6 +512,10 @@ const Router = () => {
           path: "/profil",
           element: <ProfileOverview2 />,
         },
+        {
+          path: "/sozlesme-onay/tel/:tel/id/:id",
+          element: <SozlesmeOnay />,
+        },
       ],
     },
     /*  {
@@ -1077,11 +1081,7 @@ const Router = () => {
     {
       path: "/ogretmen-sifre-olustur/:phoneNumber",
       element: <SifreEkle />,
-    },
-    {
-      path: "/sozlesme-onay/tel/:tel/id/:id",
-      element: <SozlesmeOnay />,
-    },
+    }
   ];
 
   return useRoutes(routes);

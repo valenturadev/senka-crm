@@ -15,7 +15,7 @@ function SozlesmeOnay() {
     const [showServicePopup, setShowServicePopup] = useState(false);
     const [controlPrivacyPopup, setControlPrivacyPopup] = useState(false);
     const [controlServicePopup, setControlServicePopup] = useState(false);
-  
+
     // PDF dosyalarının yolları
     const privacyPdfPath = '/src/assets/pdf/GizlilikSozlesmesi.pdf';
     const servicePdfPath = '/src/assets/pdf/HizmetSozlesmesi.pdf';
@@ -24,25 +24,25 @@ function SozlesmeOnay() {
         setShowPrivacyPopup(true);
         if (controlPrivacyPopup) {
             setControlPrivacyPopup(false);
-        }else{
+        } else {
             setControlPrivacyPopup(true);
         }
     };
-    
+
     const openServicePopup = () => {
         setShowServicePopup(true);
         if (controlServicePopup) {
             setControlServicePopup(false);
-        }else{
+        } else {
             setControlServicePopup(true);
         }
     };
-    
+
     const closePopup = () => {
         setShowPrivacyPopup(false);
         setShowServicePopup(false);
     };
-    
+
     useEffect(() => {
         axios({
             method: 'GET',
@@ -52,13 +52,13 @@ function SozlesmeOnay() {
                 "Authorization": `Bearer ${myUser?.access}`
             }
         })
-        .then((response) => {
-            setUserData(response.data.data);
-        })
-        .catch((error) => {
-            setError('API çağrısı sırasında hata oluştu');
-            console.error('API çağrısı sırasında hata oluştu:', error);
-        });
+            .then((response) => {
+                setUserData(response.data.data);
+            })
+            .catch((error) => {
+                setError('API çağrısı sırasında hata oluştu');
+                console.error('API çağrısı sırasında hata oluştu:', error);
+            });
     }, [tel, id, myUser?.access]);
 
     const renderBoolean = (value) => {
@@ -104,13 +104,13 @@ function SozlesmeOnay() {
                 veli_tc: "31232132113"
             }
         })
-        .then((response) => {
-            successMessage("Veriler güncellendi!");
-            setEditedFields({});
-        })
-        .catch((error) => {
-            errorMessage("Veriler güncellenirken hata oluştu!")
-        });
+            .then((response) => {
+                successMessage("Veriler güncellendi!");
+                setEditedFields({});
+            })
+            .catch((error) => {
+                errorMessage("Veriler güncellenirken hata oluştu!")
+            });
     };
 
     if (error) {
@@ -193,53 +193,48 @@ function SozlesmeOnay() {
                     </label>
                 </div>
             </div>
-            
-            // Gizlilik Sözleşmesi Popup
-            // Gizlilik Sözleşmesi Popup
-{showPrivacyPopup && (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-8 max-w-3xl mx-auto rounded-lg shadow-lg relative">
-            <button
-                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-                onClick={closePopup}
-            >
-                X
-            </button>
-            <h2 className="text-2xl font-bold mb-4">Gizlilik Sözleşmesi</h2>
-            <div className="h-96 overflow-y-auto">
-                <iframe
-                    src={privacyPdfPath}
-                    title="Gizlilik Sözleşmesi"
-                    width="100%"
-                    height="100%"
-                ></iframe>
-            </div>
-        </div>
-    </div>
-)}
-
-// Hizmet Sözleşmesi Popup
-{showServicePopup && (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-8 max-w-3xl mx-auto rounded-lg shadow-lg relative">
-            <button
-                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-                onClick={closePopup}
-            >
-                X
-            </button>
-            <h2 className="text-2xl font-bold mb-4">Hizmet Sözleşmesi</h2>
-            <div className="h-96 overflow-y-auto">
-                <iframe
-                    src={servicePdfPath}
-                    title="Hizmet Sözleşmesi"
-                    width="100%"
-                    height="100%"
-                ></iframe>
-            </div>
-        </div>
-    </div>
-)}
+            {showPrivacyPopup && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 max-w-3xl mx-auto rounded-lg shadow-lg relative">
+                        <button
+                            className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                            onClick={closePopup}
+                        >
+                            X
+                        </button>
+                        <h2 className="text-2xl font-bold mb-4">Gizlilik Sözleşmesi</h2>
+                        <div className="h-96 overflow-y-auto">
+                            <iframe
+                                src={privacyPdfPath}
+                                title="Gizlilik Sözleşmesi"
+                                width="100%"
+                                height="100%"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showServicePopup && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 max-w-3xl mx-auto rounded-lg shadow-lg relative">
+                        <button
+                            className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                            onClick={closePopup}
+                        >
+                            X
+                        </button>
+                        <h2 className="text-2xl font-bold mb-4">Hizmet Sözleşmesi</h2>
+                        <div className="h-96 overflow-y-auto">
+                            <iframe
+                                src={servicePdfPath}
+                                title="Hizmet Sözleşmesi"
+                                width="100%"
+                                height="100%"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

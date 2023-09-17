@@ -10,6 +10,7 @@ import AuthContext from "../../context/auth";
 import axios from 'axios';
 
 function Main() {
+
   const { user } = useContext(AuthContext);
 
   const [salesReportFilter, setSalesReportFilter] = useState();
