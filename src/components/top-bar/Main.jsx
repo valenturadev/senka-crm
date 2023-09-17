@@ -70,7 +70,7 @@ function Main(props) {
         </nav>
         {/* END: Breadcrumb */}
         {/* BEGIN: Search */}
-        <DarkModeSwitcher />
+        {/* <DarkModeSwitcher /> */}
         {/* END: Dark Mode Switcher */}
         {/* BEGIN: Search */}
         {/* <div className="intro-x relative mr-3 sm:mr-6">
