@@ -195,6 +195,10 @@ const TravelDetail = () => {
     }
   };
 
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
   return (
     <>
       <div>
@@ -351,12 +355,14 @@ const TravelDetail = () => {
                         value="uçak"
                         checked={selectedOption === "uçak"}
                         label="Uçak"
+                        onChange={handleOptionChange}
                       />
 
                       <TravelRadioButton
                         value="otobüs"
                         checked={selectedOption === "otobüs"}
                         label="Otobüs"
+                        onChange={handleOptionChange}
                       />
                     </div>
                     <div className="my-[20.36px] flex flex-wrap gap-[26.36px]">
