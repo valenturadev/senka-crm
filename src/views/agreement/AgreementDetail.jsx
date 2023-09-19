@@ -197,7 +197,7 @@ const AgreementDetail = () => {
         let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
-                `https://senka.valentura.com/api/finans/Api/verify-mutabakat-form/mutabakat-id=${formId}`,
+                `https://senka.valentura.com/api/operation-team/mutabakat/approve-mutabakat-form/id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
