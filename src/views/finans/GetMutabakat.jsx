@@ -34,9 +34,13 @@ function MutabakatDetay() {
 
   const formatValue = (key, value) => {
     if (key === 'is_approve') {
-      return value ? 'Onaylandı' : 'Onaylanmadı';
-    } else if (value === null || value === false) {
-      return 'Bilgi Yok';
+      if (value === true) {
+        return 'Onaylandı';
+      } else if (value === false) {
+        return 'Onaylanmadı';
+      } else {
+        return 'Bilgi Yok';
+      }
     }
     return value;
   };
@@ -82,6 +86,8 @@ function MutabakatDetay() {
     return <div>Hata oluştu: {error.message}</div>;
   }
 
+  const isOnaylandi = mutabakat.is_approve === true || mutabakat.is_approve === false;
+
   return (
     <div>
       <h1>Mutabakat Detayları</h1>
@@ -106,14 +112,16 @@ function MutabakatDetay() {
         </tbody>
       </table>
 
-      <div className="mt-4">
-        <button onClick={handleOnayla} className="bg-green-500 text-white px-4 py-2 rounded-lg mr-4">
-          Onayla
-        </button>
-        <button onClick={handleReddet} className="bg-red-500 text-white px-4 py-2 rounded-lg">
-          Reddet
-        </button>
-      </div>
+      {!isOnaylandi && (
+        <div className="mt-4">
+          <button onClick={handleOnayla} className="bg-green-500 text-white px-4 py-2 rounded-lg mr-4">
+            Onayla
+          </button>
+          <button onClick={handleReddet} className="bg-red-500 text-white px-4 py-2 rounded-lg">
+            Reddet
+          </button>
+        </div>
+      )}
     </div>
   );
 }
