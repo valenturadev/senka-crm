@@ -25,7 +25,13 @@ const TravelDetail = () => {
   const [expectations, setExpectations] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
-  const [transfers, setTransfers] = useState("");
+  const [transfers, setTransfers] = useState([
+    {
+      arac: "",
+      kalkilan_durak: "",
+      goturulen_durak: "",
+    },
+  ]);
   const [programName, setProgramName] = useState("");
   const [travelCountry, setTravelCountry] = useState("");
   const [expectedStudentAmount, setExpectedStudentAmount] = useState("");
@@ -42,13 +48,28 @@ const TravelDetail = () => {
   const [city, setCity] = useState("");
   const [travelCity, setTravelCity] = useState("");
   const [returnCity, setReturnCity] = useState("");
-  const [isApprove, setIsApprove] = useState(false)
+  const [isApprove, setIsApprove] = useState(false);
   useEffect(() => {
     getData();
   }, []);
 
+  const handleAddTransfer = () => {
+    setTransfers([
+      ...transfers,
+      { arac: "", kalkilan_durak: "", goturulen_durak: "" },
+    ]);
+  };
+  const handleRemoveTransfer = (index) => {
+    const updatedTransfers = [...transfers];
+    updatedTransfers.splice(index, 1);
+    setTransfers(updatedTransfers);
+  };
+
   const handleAddLocation = () => {
-    setLocations([...locations, { lokasyon: "", giris: new Date(), cikis: new Date() }]);
+    setLocations([
+      ...locations,
+      { lokasyon: "", giris: new Date(), cikis: new Date() },
+    ]);
   };
 
   const handleRemoveLocation = (index) => {
@@ -66,7 +87,7 @@ const TravelDetail = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${myUser?.access}`
+            Authorization: `Bearer ${myUser?.access}`,
           },
         }
       );
@@ -81,7 +102,7 @@ const TravelDetail = () => {
         setExpectations(responseData.kazanim_ve_beklentiler || "");
         setDepartureDate(responseData.gidis_tarihi);
         setReturnDate(responseData.donus_tarihi);
-        setTransfers(responseData.transferler || "");
+        setTransfers(JSON.parse(responseData.transferler) || "");
         setProgramName(responseData.program_adi || "");
         setTravelCountry(responseData.ulke || "");
         setExpectedStudentAmount(responseData.ongorulen_ogrenci_sayisi || "");
@@ -94,7 +115,7 @@ const TravelDetail = () => {
         setReturnCity(responseData.dönülen_sehir || "");
         setCampusName(responseData.kampus_adi || "");
         setSelectedOption(responseData.ulasim_araci || "");
-        setIsApprove(responseData.travel_form_is_approve || false)
+        setIsApprove(responseData.travel_form_is_approve || false);
       }
     } catch (error) {
       console.log(error);
@@ -134,14 +155,14 @@ const TravelDetail = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${myUser?.access}`
+            Authorization: `Bearer ${myUser?.access}`,
           },
         }
       );
       setLoading(false);
-      successMessage("Seyahat formu başarıyla güncellendi!")
+      successMessage("Seyahat formu başarıyla güncellendi!");
     } catch (error) {
-      errorMessage("Seyahat formu düzenlenirken hata oluştu!")
+      errorMessage("Seyahat formu düzenlenirken hata oluştu!");
       console.error(error);
     }
   };
@@ -208,21 +229,23 @@ const TravelDetail = () => {
                     </p>
                   </div>
                   <div className="flex flex-row items-center">
-                    {isApprove ?
+                    {isApprove ? (
                       <button
                         disabled
                         className="text-white text-center font-medium font-poppins text-m leading-5 bg-yellow-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
                       >
                         KABUL EDİLMİŞ
                       </button>
-                      : <button
+                    ) : (
+                      <button
                         onClick={() => {
                           verifyTravelForm();
                         }}
                         className="text-white text-center font-medium font-poppins text-xl leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
                       >
                         KABUL ET
-                      </button>}
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         declineTravelForm();
@@ -360,27 +383,85 @@ const TravelDetail = () => {
                           label="Gidiş Tarihi:"
                           id="gidis_tarihi"
                           selectedDate={new Date(departureDate)}
-                          onChange={date => setDepartureDate(date)}
+                          onChange={(date) => setDepartureDate(date)}
                         />
                       </div>
-                      <div className='min-md-w-[531px]'>
+                      <div className="min-md-w-[531px]">
                         <TraveInputDateBox
                           label="Dönüş Tarihi:"
                           id="donus_tarihi"
                           selectedDate={new Date(returnDate)}
-                          onChange={date => setReturnDate(date)}
+                          onChange={(date) => setReturnDate(date)}
                         />
                       </div>
-                      <div className="min-w-full">
-                        <TraveInputBox
-                          label="Transferler:"
-                          id="title"
-                          placeholder=""
-                          value={transfers}
-                          onChange={(e) => setTransfers(e.target.value)}
-                          classNa={""}
-                        />
+                    </div>
+                  </div>
+                  <h2 className="text-base font-semibold mb-4 flex flex-shrink-0 w-135 flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
+                    TRANSFERLER
+                  </h2>
+
+                  <div>
+                    {transfers.map((transfer, index) => (
+                      <div key={index} className="mb-4">
+                        <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
+                          Transfer {index + 1}
+                        </h2>
+                        <div className="min-md-w-[531px]">
+                          <TraveInputBox
+                            label="Araç Adı"
+                            id={`arac-${index}`}
+                            placeholder=""
+                            value={transfer.arac}
+                            onChange={(e) => {
+                              const updatedTransfers = [...transfers];
+                              updatedTransfers[index].arac = e.target.value;
+                              setTransfers(updatedTransfers);
+                            }}
+                          />
+                        </div>
+                        <div className="min-md-w-[531px]">
+                          <TraveInputBox
+                            label="Kalkılan Durak"
+                            id={`kalkilan_durak-${index}`}
+                            placeholder=""
+                            value={transfer.kalkilan_durak}
+                            onChange={(e) => {
+                              const updatedTransfers = [...transfers];
+                              updatedTransfers[index].kalkilan_durak =
+                                e.target.value;
+                              setTransfers(updatedTransfers);
+                            }}
+                          />
+                        </div>
+                        <div className="min-md-w-[531px]">
+                          <TraveInputBox
+                            label="Götürülen Durak"
+                            id={`goturulen_durak-${index}`}
+                            placeholder=""
+                            value={transfer.goturulen_durak}
+                            onChange={(e) => {
+                              const updatedTransfers = [...transfers];
+                              updatedTransfers[index].goturulen_durak =
+                                e.target.value;
+                              setTransfers(updatedTransfers);
+                            }}
+                          />
+                        </div>
+                        <button
+                          onClick={() => handleRemoveTransfer(index)} // Silme işlemini başlatan fonksiyonu çağırın
+                          className="text-red-500 font-medium font-poppins text-base leading-5 hover:underline mt-2"
+                        >
+                          Sil
+                        </button>
                       </div>
+                    ))}
+                    <div className="mt-4">
+                      <button
+                        onClick={handleAddTransfer}
+                        className="text-white bg-red-500 hover:bg-red-600 font-medium font-poppins text-base leading-5 py-2 px-4 rounded-lg"
+                      >
+                        Transfer Ekle
+                      </button>
                     </div>
                   </div>
 
@@ -446,67 +527,66 @@ const TravelDetail = () => {
                     KONAKLAMA
                   </h2>
                   <div>
-                  <div>
-                  {locations.map((location, index) => (
-  <div key={index} className="mb-4">
-    <div className="flex justify-between">
-      <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-        Lokasyon {index + 1}
-      </h2>
-      {locations.length > 1 && (
-        <button
-          onClick={() => handleRemoveLocation(index)}
-          className="text-red-500 font-medium font-poppins text-base leading-5 hover:underline"
-        >
-          Sil
-        </button>
-      )}
-    </div>
-    <TraveInputBox
-      label="Lokasyon Adı"
-      id={`lokasyon-${index}`}
-      placeholder=""
-      value={location.lokasyon}
-      onChange={(e) => {
-        const updatedLocations = [...locations];
-        updatedLocations[index].lokasyon = e.target.value;
-        setLocations(updatedLocations);
-      }}
-    />
-    <div className="flex gap-4">
-      <TraveInputDateBox
-        label="Giriş Tarihi"
-        id={`giris-${index}`}
-        selectedDate={new Date(location.giris)}
-        onChange={(date) => {
-          const updatedLocations = [...locations];
-          updatedLocations[index].giris = date;
-          setLocations(updatedLocations);
-        }}
-      />
-      <TraveInputDateBox
-        label="Çıkış Tarihi"
-        id={`cikis-${index}`}
-        selectedDate={new Date(location.cikis)}
-        onChange={(date) => {
-          const updatedLocations = [...locations];
-          updatedLocations[index].cikis = date;
-          setLocations(updatedLocations);
-        }}
-      />
-    </div>
-  </div>
-))}
-<div className="mt-4">
-      <button
-        onClick={handleAddLocation}
-        className="text-white bg-red-500 hover:bg-red-600 font-medium font-poppins text-base leading-5 py-2 px-4 rounded-lg"
-      >
-        Lokasyon Ekle
-      </button>
-    </div>
-        </div>
-
+                    <div>
+                      {locations.map((location, index) => (
+                        <div key={index} className="mb-4">
+                          <div className="flex justify-between">
+                            <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
+                              Lokasyon {index + 1}
+                            </h2>
+                            {locations.length > 1 && (
+                              <button
+                                onClick={() => handleRemoveLocation(index)}
+                                className="text-red-500 font-medium font-poppins text-base leading-5 hover:underline"
+                              >
+                                Sil
+                              </button>
+                            )}
+                          </div>
+                          <TraveInputBox
+                            label="Lokasyon Adı"
+                            id={`lokasyon-${index}`}
+                            placeholder=""
+                            value={location.lokasyon}
+                            onChange={(e) => {
+                              const updatedLocations = [...locations];
+                              updatedLocations[index].lokasyon = e.target.value;
+                              setLocations(updatedLocations);
+                            }}
+                          />
+                          <div className="flex gap-4">
+                            <TraveInputDateBox
+                              label="Giriş Tarihi"
+                              id={`giris-${index}`}
+                              selectedDate={new Date(location.giris)}
+                              onChange={(date) => {
+                                const updatedLocations = [...locations];
+                                updatedLocations[index].giris = date;
+                                setLocations(updatedLocations);
+                              }}
+                            />
+                            <TraveInputDateBox
+                              label="Çıkış Tarihi"
+                              id={`cikis-${index}`}
+                              selectedDate={new Date(location.cikis)}
+                              onChange={(date) => {
+                                const updatedLocations = [...locations];
+                                updatedLocations[index].cikis = date;
+                                setLocations(updatedLocations);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      <div className="mt-4">
+                        <button
+                          onClick={handleAddLocation}
+                          className="text-white bg-red-500 hover:bg-red-600 font-medium font-poppins text-base leading-5 py-2 px-4 rounded-lg"
+                        >
+                          Lokasyon Ekle
+                        </button>
+                      </div>
+                    </div>
 
                     <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
                       NOT: * Lütfen elinizde varsa günlük program detayını
@@ -517,19 +597,26 @@ const TravelDetail = () => {
                       yapılacaktır.{" "}
                     </p>
                   </div>
-                  {
-                    loading ?
-                      <div style={{ width: "300px", marginLeft: 30, marginTop: "12px" }}>
-                        <CircularProgress style={{ 'color': 'red' }} />
-                      </div> :
-                      <button
-                        onClick={() => {
-                          editTravelForm();
-                        }}
-                        className="text-white text-center font-medium font-poppins text-3xl font-normal leading-5 bg-red-500 border-none rounded-lg w-52 h-14 flex flex-col justify-center my-[5.12px] items-center"
-                      >
-                        DÜZENLE
-                      </button>}
+                  {loading ? (
+                    <div
+                      style={{
+                        width: "300px",
+                        marginLeft: 30,
+                        marginTop: "12px",
+                      }}
+                    >
+                      <CircularProgress style={{ color: "red" }} />
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        editTravelForm();
+                      }}
+                      className="text-white text-center font-medium font-poppins text-3xl font-normal leading-5 bg-red-500 border-none rounded-lg w-52 h-14 flex flex-col justify-center my-[5.12px] items-center"
+                    >
+                      DÜZENLE
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
