@@ -65,7 +65,7 @@ function Main() {
   useEffect(() => {
     // Sayfa yüklendiğinde öğretmenin varlığını sorgulamak için bir API isteği gönderelim
     const apiUrl = 'https://senka.valentura.com/api/teacher/get-teacher/';
-    
+
     fetch(apiUrl + 'phone=' + phoneNumber)
       .then((response) => {
         if (response.ok) {
@@ -88,10 +88,10 @@ function Main() {
   }, []);
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto bg-white text-gray-700 rounded-lg p-4">
       <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 font-bold">
+          <label htmlFor="password" className="block font-bold">
             Şifre
           </label>
           <div className="relative">
@@ -114,7 +114,7 @@ function Main() {
           </div>
         </div>
         <div className="mb-4">
-          <label htmlFor="passwordAgain" className="block text-gray-700 font-bold">
+          <label htmlFor="passwordAgain" className="block font-bold">
             Şifreyi Tekrar Girin
           </label>
           <div className="relative">
@@ -136,8 +136,11 @@ function Main() {
             </button>
           </div>
         </div>
-        <button type="submit" className={`bg-blue-500 text-white px-4 py-2 rounded-lg ${!teacherExists ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={!teacherExists}>
+        <button
+          type="submit"
+          className={`bg-blue-500 text-white px-4 py-2 rounded-lg ${!teacherExists ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!teacherExists}
+        >
           Oluştur
         </button>
         <p className="mt-2 text-red-500">{message}</p>

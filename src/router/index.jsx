@@ -2,6 +2,7 @@ import { useRoutes } from "react-router-dom";
 import SideMenu from "../layouts/side-menu/Main";
 import SimpleMenu from "../layouts/simple-menu/Main";
 import TopMenu from "../layouts/top-menu/Main";
+
 import DashboardOverview1 from "../views/dashboard-overview-1/Main";
 import DashboardOverview2 from "../views/dashboard-overview-2/Main";
 import DashboardOverview3 from "../views/dashboard-overview-3/Main";
@@ -95,6 +96,17 @@ import OgretmenDetay from "../views/musteri-iliskileri/gezi-takip/ogretmenDetay"
 import MakbuzOnay from "../views/muhasebe/MakbuzOnay"
 import MutabakatListesi from "../views/finans/GetAllMutabakat";
 import Mutabakat from "../views/finans/GetMutabakat";
+import TumKullanicilar from "../views/tum-kullanicilar/Main"
+import RolAtama from "../views/rol-atama/Main"
+import KullaniciGetir from "../views/tum-kullanicilar/kullanici"
+import WebGeziFormlari from "../views/web-controller/travelForms"
+import WebMutabakFormlari from "../views/web-controller/mutabakatForms"
+import OgrenciSozlesme from "../views/teacher/OgrenciSozlesme";
+import SozlesmeOnay from "../views/normal-user/sozlesmeOnay";
+import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik"
+import HizmetSozlesmesi from "../views/sozlesmeler/hizmet"
+import TumOgrencilerim from "../views/normal-user/tumOgrencilerim"
+import OgrenciIade from "../views/normal-user/ogrenciIade"
 
 const Router = () => {
   const routes = [
@@ -396,16 +408,24 @@ const Router = () => {
           element: <TumOgrenciler />,
         },
         {
+          path: "/ogrenci-sozlesme-getir/:studentId",
+          element: <OgrenciSozlesme />,
+        },
+        {
+          path: "/gizlilik-sozlesmesi",
+          element: <GizlilikSozlesmesi />,
+        },
+        {
+          path: "/hizmet-sozlesmesi",
+          element: <HizmetSozlesmesi />,
+        },
+        {
           path: "/ogrenci/:studentId",
           element: <Ogrenci />,
         },
         {
           path: "/yeni-ogrenci/:geziId",
           element: <NewStudent />,
-        },
-        {
-          path: "/ogretmen-sifre-olustur/:phoneNumber",
-          element: <SifreEkle />,
         },
         {
           path: "/ogretmen-ekle/:geziId",
@@ -424,6 +444,26 @@ const Router = () => {
           element: <GeziFormlari />
         },
         {
+          path: "/tum-kullanicilar",
+          element: <TumKullanicilar />
+        },
+        {
+          path: "/kullanici-getir/:userPhone",
+          element: <KullaniciGetir />
+        },
+        {
+          path: "/web-gezi-formlari",
+          element: <WebGeziFormlari />
+        },
+        {
+          path: "/web-mutabakat-formlari",
+          element: <WebMutabakFormlari />
+        },
+        {
+          path: "/rol-atama",
+          element: <RolAtama />
+        },
+        {
           path: "/gezi-formu/:formId",
           element: <GeziFormu />
         },
@@ -432,7 +472,7 @@ const Router = () => {
           element: <TravelDetail />,
         },
         {
-          path: "/mutakabat-formlari",
+          path: "/mutabakat-formlari",
           element: <Agreement />,
         },
         {
@@ -440,8 +480,16 @@ const Router = () => {
           element: <CreateAgreement />,
         },
         {
-          path: "/mutakabat-formu-duzenle/:formId",
+          path: "/mutabakat-formu-duzenle/:formId",
           element: <AgreementDetail />,
+        },
+        {
+          path: "/tum-ogrencilerim",
+          element: <TumOgrencilerim />,
+        },
+        {
+          path: "/ogrenci-iade/:id",
+          element: <OgrenciIade />,
         },
         {
           path: "/otel-programlari",
@@ -463,6 +511,10 @@ const Router = () => {
         {
           path: "/profil",
           element: <ProfileOverview2 />,
+        },
+        {
+          path: "/sozlesme-onay/tel/:tel/id/:id",
+          element: <SozlesmeOnay />,
         },
       ],
     },
@@ -1026,6 +1078,10 @@ const Router = () => {
       path: "/seyahat-formu-olustur",
       element: <CreateTravel />,
     },
+    {
+      path: "/ogretmen-sifre-olustur/:phoneNumber",
+      element: <SifreEkle />,
+    }
   ];
 
   return useRoutes(routes);

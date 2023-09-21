@@ -22,7 +22,7 @@ function Main(props) {
   const navigation = useNavigate();
   const { user, logout } = useContext(AuthContext);
   const [searchDropdown, setSearchDropdown] = useState(false);
-  const [roleNamesString, setRoleNamesString] = useState(false);
+  const [roleNamesString, setRoleNamesString] = useState("");
   const showSearchDropdown = () => {
     setSearchDropdown(true);
   };
@@ -49,8 +49,8 @@ function Main(props) {
         {/* BEGIN: Breadcrumb */}
         <div className="flex items-center gap-2">
           <div className="flex flex-col">
-            <p className="font-semibold text-xl">Hoşgeldin {user?.firstname}</p>
-            <p className="text-center text-gray-500 md:text-lg">
+            <p className="font-semibold text-xl mt-1">Hoşgeldin {user?.firstname}</p>
+            <p className="text-left text-gray-500 md:text-sm">
               ({roleNamesString})
             </p>
           </div>
@@ -70,7 +70,7 @@ function Main(props) {
         </nav>
         {/* END: Breadcrumb */}
         {/* BEGIN: Search */}
-        <DarkModeSwitcher />
+        {/* <DarkModeSwitcher /> */}
         {/* END: Dark Mode Switcher */}
         {/* BEGIN: Search */}
         {/* <div className="intro-x relative mr-3 sm:mr-6">

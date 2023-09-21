@@ -10,6 +10,7 @@ import AuthContext from "../../context/auth";
 import axios from 'axios';
 
 function Main() {
+
   const { user } = useContext(AuthContext);
 
   const [salesReportFilter, setSalesReportFilter] = useState();
@@ -79,7 +80,7 @@ function Main() {
                 </div>
               </Link>
               <Link
-                to="/mutakabat-formlari"
+                to="/mutabakat-formlari"
                 className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y"
               >
                 <div className="report-box zoom-in">
@@ -145,7 +146,7 @@ function Main() {
                 </div>
               </Link>
               <Link
-                to="/mutakabat-formlari"
+                to="/mutabakat-formlari"
                 className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y"
               >
                 <div className="report-box zoom-in">
@@ -252,7 +253,7 @@ function Main() {
               <h2 className="text-lg font-medium truncate mr-5">
                 Seyahat Raporu
               </h2>
-              <a href="" className="ml-auto text-primary truncate">
+              <a href="/seyahat-formlari" className="ml-auto text-primary truncate">
                 Daha Fazla
               </a>
             </div>
@@ -286,7 +287,7 @@ function Main() {
               <h2 className="text-lg font-medium truncate mr-5">
                 Mutabakat Raporu
               </h2>
-              <a href="" className="ml-auto text-primary truncate">
+              <a href="/mutabakat-formlari" className="ml-auto text-primary truncate">
                 Daha Fazla
               </a>
             </div>

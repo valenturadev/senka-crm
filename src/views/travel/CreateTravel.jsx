@@ -80,7 +80,7 @@ const CreateTravel = () => {
                     ongorulen_ogrenci_sayisi: expectedStudentAmount,
                     ilgili_sinif: classes,
                     ilgili_zumre: department,
-                    kazanim_ve_beklentiler: expectations,
+                    aktivite_ve_beklentiler: expectations,
                     ulasim_araci: selectedOption,
                     gidis_tarihi: departureDate,
                     donus_tarihi: returnDate,

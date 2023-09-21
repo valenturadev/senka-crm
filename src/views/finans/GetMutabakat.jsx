@@ -90,21 +90,21 @@ function MutabakatDetay() {
 
   return (
     <div>
-      <h1>Mutabakat Detayları</h1>
-      <table className="min-w-full">
-        <thead>
+      <h1 className="text-2xl font-semibold mb-4">Mutabakat Detayları</h1>
+      <table className="min-w-full divide-y divide-gray-900">
+        <thead className="bg-gray-900">
           <tr>
-            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Özellik</th>
-            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Değer</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Özellik</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Değer</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody> 
           {Object.entries(mutabakat).map(([key, value]) => (
             <tr key={key}>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+              <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
               {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
               </td>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+              <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
                 {formatValue(key, value)}
               </td>
             </tr>

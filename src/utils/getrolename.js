@@ -6,7 +6,8 @@ export const getRoleName = (role) => {
     "is_teacher": "Öğretmen",
     "is_normal_user": "Kullanıcı",
     "is_web_team": "Web Kontrolcüsü",
-    "is_muhasebe": "Muhasebe"
+    "is_muhasebe": "Muhasebe",
+    "is_admin": "Admin"
   };
 
   return roleMappings[role] || role;
