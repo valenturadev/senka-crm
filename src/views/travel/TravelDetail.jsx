@@ -28,19 +28,16 @@ const TravelDetail = () => {
   const [transfers, setTransfers] = useState("");
   const [programName, setProgramName] = useState("");
   const [travelCountry, setTravelCountry] = useState("");
-  const [expectedDate, setExpectedDate] = useState(new Date());
   const [expectedStudentAmount, setExpectedStudentAmount] = useState("");
   const [classes, setClasses] = useState("");
   const [department, setDepartment] = useState("");
-  const [locationOne, setLocationOne] = useState("");
-  const [locationOneDeparture, setLocationOneDeparture] = useState(new Date());
-  const [locationOneReturn, setLocationOneReturn] = useState(new Date());
-  const [locationTwo, setLocationTwo] = useState("");
-  const [locationtwoDeparture, setLocationTwoDeparture] = useState(new Date());
-  const [locationTwoReturn, setLocationTwoReturn] = useState(new Date());
-  const [locationThree, setLocationThree] = useState("");
-  const [locationThreeDeparture, setLocationThreeDeparture] = useState(new Date());
-  const [locationThreeReturn, setLocationThreeReturn] = useState(new Date());
+  const [locations, setLocations] = useState([
+    {
+      lokasyon: "",
+      giris: new Date(),
+      cikis: new Date(),
+    },
+  ]);
   const [schoolName, setSchoolName] = useState("");
   const [city, setCity] = useState("");
   const [travelCity, setTravelCity] = useState("");
@@ -49,6 +46,16 @@ const TravelDetail = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleAddLocation = () => {
+    setLocations([...locations, { lokasyon: "", giris: new Date(), cikis: new Date() }]);
+  };
+
+  const handleRemoveLocation = (index) => {
+    const updatedLocations = [...locations];
+    updatedLocations.splice(index, 1);
+    setLocations(updatedLocations);
+  };
 
   const getData = async () => {
     let localUser = localStorage.getItem("user");
@@ -77,19 +84,10 @@ const TravelDetail = () => {
         setTransfers(responseData.transferler || "");
         setProgramName(responseData.program_adi || "");
         setTravelCountry(responseData.ulke || "");
-        setExpectedDate(responseData.ongorulen_tarih);
         setExpectedStudentAmount(responseData.ongorulen_ogrenci_sayisi || "");
         setClasses(responseData.ilgili_sinif || "");
         setDepartment(responseData.zumre || "");
-        setLocationOne(responseData.lokasyon1 || "");
-        setLocationOneDeparture(responseData.lokasyon1_cikis);
-        setLocationOneReturn(responseData.lokasyon1_giris);
-        setLocationTwo(responseData.lokasyon2 || "");
-        setLocationTwoDeparture(responseData.lokasyon2_cikis);
-        setLocationTwoReturn(responseData.lokasyon2_giris);
-        setLocationThree(responseData.lokasyon3 || "");
-        setLocationThreeDeparture(responseData.lokasyon3_cikis);
-        setLocationThreeReturn(responseData.lokasyon3_giris);
+        setLocations(JSON.parse(responseData.lokasyons) || "");
         setSchoolName(responseData.okul || "");
         setCity(responseData.sehir || "");
         setTravelCity(responseData.gidilen_sehir || "");
@@ -121,7 +119,6 @@ const TravelDetail = () => {
           program_adi: programName,
           ulke: travelCountry,
           sehir: city,
-          ongorulen_tarih: expectedDate,
           ongorulen_ogrenci_sayisi: expectedStudentAmount,
           ilgili_sinif: classes,
           ilgili_zumre: department,
@@ -132,15 +129,7 @@ const TravelDetail = () => {
           gidilecek_sehir: travelCity,
           donulecek_sehir: returnCity,
           transferler: transfers,
-          lokasyon1: locationOne,
-          lokasyon1_giris: locationOneDeparture,
-          lokasyon1_cikis: locationOneReturn,
-          lokasyon2: locationTwo,
-          lokasyon2_giris: locationtwoDeparture,
-          lokasyon2_cikis: locationTwoReturn,
-          lokasyon3: locationThree,
-          lokasyon3_giris: locationThreeDeparture,
-          lokasyon3_cikis: locationThreeReturn,
+          lokasyon1: locations,
         },
         {
           headers: {
@@ -421,14 +410,6 @@ const TravelDetail = () => {
                         />
                       </div>
                       <div className="min-md-w-[531px]">
-                        <TraveInputDateBox
-                          label="Ön Görülen Tarih:"
-                          id="on_gorulen_tarih"
-                          selectedDate={new Date(expectedDate)}
-                          onChange={date => setExpectedDate(date)}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
                         <TraveInputBox
                           label="Ön Görülen Öğrenci Sayısı:"
                           id="ongorulen_ogrenci_sayisi"
@@ -465,90 +446,66 @@ const TravelDetail = () => {
                     KONAKLAMA
                   </h2>
                   <div>
-                    <div className="my-[20.36px] flex flex-wrap gap-[26.36px] ">
-                      <div className="md:min-w-[231px]">
-                        <TraveInputBox
-                          label="1.Lokasyon:"
-                          id="fullName"
-                          placeholder=""
-                          value={locationOne}
-                          onChange={(e) => setLocationOne(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="md:min-w-[231px]">
-                        <TraveInputDateBox
-                          label="Giriş Tarihi:"
-                          id="giris_tarihi"
-                          selectedDate={new Date(locationOneDeparture)}
-                          onChange={date => setLocationOneDeparture(date)}
-                        />
-                      </div>
-                      <div className="md:min-w-[231px]">
-                        <TraveInputDateBox
-                          label="Çıkış Tarihi:"
-                          id="cikis_tarihi_1"
-                          selectedDate={new Date(locationOneReturn)}
-                          onChange={date => setLocationOneReturn(date)}
-                        />
-                      </div>
-                    </div>
-                    <div className="my-[20.36px] flex flex-wrap gap-[26.36px] ">
-                      <div className="md:min-w-[231px]">
-                        <TraveInputBox
-                          label="2.Lokasyon:"
-                          id="fullName"
-                          placeholder=""
-                          value={locationTwo}
-                          onChange={(e) => setLocationTwo(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="md:min-w-[231px]">
-                        <TraveInputDateBox
-                          label="Giriş Tarihi:"
-                          id="giris_tarihi_2"
-                          selectedDate={new Date(locationtwoDeparture)}
-                          onChange={date => setLocationTwoDeparture(date)}
-                        />
-                      </div>
-                      <div className="md:min-w-[231px]">
-                        <TraveInputDateBox
-                          label="Çıkış Tarihi:"
-                          id="cikis_tarihi_2"
-                          selectedDate={new Date(locationTwoReturn)}
-                          onChange={date => setLocationTwoReturn(date)}
-                        />
-                      </div>
-                    </div>
-                    <div className="my-[20.36px] flex flex-wrap gap-[26.36px] ">
-                      <div className="md:min-w-[231px]">
-                        <TraveInputBox
-                          label="3.Lokasyon:"
-                          id="fullName"
-                          placeholder=""
-                          value={locationThree}
-                          onChange={(e) => setLocationThree(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="md:min-w-[231px]">
-                        <TraveInputDateBox
-                          label="Giriş Tarihi:"
-                          id="giris_tarihi_3"
-                          selectedDate={new Date(locationThreeDeparture)}
-                          onChange={date => setLocationThreeDeparture(date)}
-                        />
-                      </div>
-                      <div className="md:min-w-[231px]">
-                        <TraveInputDateBox
-                          label="Çıkış Tarihi:"
-                          id="cikis_tarihi_3"
-                          selectedDate={new Date(locationThreeReturn)}
-                          onChange={date => setLocationThreeReturn(date)}
-                        />
-                      </div>
-                    </div>
+                  <div>
+                  {locations.map((location, index) => (
+  <div key={index} className="mb-4">
+    <div className="flex justify-between">
+      <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
+        Lokasyon {index + 1}
+      </h2>
+      {locations.length > 1 && (
+        <button
+          onClick={() => handleRemoveLocation(index)}
+          className="text-red-500 font-medium font-poppins text-base leading-5 hover:underline"
+        >
+          Sil
+        </button>
+      )}
+    </div>
+    <TraveInputBox
+      label="Lokasyon Adı"
+      id={`lokasyon-${index}`}
+      placeholder=""
+      value={location.lokasyon}
+      onChange={(e) => {
+        const updatedLocations = [...locations];
+        updatedLocations[index].lokasyon = e.target.value;
+        setLocations(updatedLocations);
+      }}
+    />
+    <div className="flex gap-4">
+      <TraveInputDateBox
+        label="Giriş Tarihi"
+        id={`giris-${index}`}
+        selectedDate={new Date(location.giris)}
+        onChange={(date) => {
+          const updatedLocations = [...locations];
+          updatedLocations[index].giris = date;
+          setLocations(updatedLocations);
+        }}
+      />
+      <TraveInputDateBox
+        label="Çıkış Tarihi"
+        id={`cikis-${index}`}
+        selectedDate={new Date(location.cikis)}
+        onChange={(date) => {
+          const updatedLocations = [...locations];
+          updatedLocations[index].cikis = date;
+          setLocations(updatedLocations);
+        }}
+      />
+    </div>
+  </div>
+))}
+<div className="mt-4">
+      <button
+        onClick={handleAddLocation}
+        className="text-white bg-red-500 hover:bg-red-600 font-medium font-poppins text-base leading-5 py-2 px-4 rounded-lg"
+      >
+        Lokasyon Ekle
+      </button>
+    </div>
+        </div>
 
 
                     <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
