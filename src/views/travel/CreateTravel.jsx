@@ -17,7 +17,7 @@ function TravelForm() {
         ongorulen_ogrenci_sayisi: '',
         ilgili_sinif: '',
         ilgili_zumre: '',
-        kazanim_ve_beklentiler: '',
+        aktivite_ve_beklentiler: '',
         ulasim_araci: '',
         gidis_tarihi: '',
         donus_tarihi: '',
@@ -239,13 +239,13 @@ function TravelForm() {
 
                 {/* Kazanım ve Beklentiler */}
                 <div className="mb-10">
-                    <label htmlFor="kazanim_ve_beklentiler" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="aktivite_ve_beklentiler" className="block text-sm font-medium text-gray-700">
                         Kazanım ve Beklentiler
                     </label>
                     <textarea
-                        id="kazanim_ve_beklentiler"
-                        name="kazanim_ve_beklentiler"
-                        value={formData.kazanim_ve_beklentiler}
+                        id="aktivite_ve_beklentiler"
+                        name="aktivite_ve_beklentiler"
+                        value={formData.aktivite_ve_beklentiler}
                         onChange={handleChangeStandard}
                         className="mt-1 p-2 w-full rounded-md border-gray-300"
                     />

@@ -1,629 +1,686 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
-import TraveInputBox from "../../components/editInputBox/main";
-import TravelRadioButton from "../../components/travelRadioButton/main";
-import axios from "axios";
-import AuthContext from "../../context/auth";
-import { errorMessage, successMessage } from "../../utils/toast";
-import TraveInputDateBox from "../../components/travelInputDateBox/main";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const TravelDetail = () => {
+function TravelFormDetails() {
+  const [formData, setFormData] = useState({
+    id: '',
+    isim: '',
+    onayli_kisi: '',
+    okul_adi: '',
+    kampus_adi: '',
+    soyisim: '',
+    unvan: '',
+    tel_no: '',
+    email: '',
+    program_adi: '',
+    ulke: '',
+    sehir: '',
+    ongorulen_ogrenci_sayisi: '',
+    ilgili_sinif: '',
+    zumre: '',
+    ulasim_araci: '',
+    gidis_tarihi: '',
+    donus_tarihi: '',
+    gidilecek_sehir: '',
+    donulecek_sehir: '',
+    transferler: [],
+    lokasyons: [],
+    aktivite_ve_beklentiler: '',
+    is_approve: null,
+    created_at: '',
+    updated_at: '',
+  });
+
+  const [isEditable, setIsEditable] = useState(false); // Düzenleme durumunu takip eder
+  const [editedData, setEditedData] = useState({}); // Düzenlenen verileri tutar
+  const isApproveValue = formData.is_approve !== null ? formData.is_approve : undefined;
+
+
   const { formId } = useParams();
+  let localUser = localStorage.getItem("user");
+  let myUser = JSON.parse(localUser);
 
-  const { user } = useContext(AuthContext);
-
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [campusName, setCampusName] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [title, setTitle] = useState("");
-  const [phone, setPhone] = useState("");
-  const [mail, setMail] = useState("");
-  const [expectations, setExpectations] = useState("");
-  const [departureDate, setDepartureDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
-  const [transfers, setTransfers] = useState([
-    {
-      arac: "",
-      kalkilan_durak: "",
-      goturulen_durak: "",
-    },
-  ]);
-  const [programName, setProgramName] = useState("");
-  const [travelCountry, setTravelCountry] = useState("");
-  const [expectedStudentAmount, setExpectedStudentAmount] = useState("");
-  const [classes, setClasses] = useState("");
-  const [department, setDepartment] = useState("");
-  const [locations, setLocations] = useState([
-    {
-      lokasyon: "",
-      giris: new Date(),
-      cikis: new Date(),
-    },
-  ]);
-  const [schoolName, setSchoolName] = useState("");
-  const [city, setCity] = useState("");
-  const [travelCity, setTravelCity] = useState("");
-  const [returnCity, setReturnCity] = useState("");
-  const [isApprove, setIsApprove] = useState(false);
   useEffect(() => {
-    getData();
-  }, []);
-
-  const handleAddTransfer = () => {
-    setTransfers([
-      ...transfers,
-      { arac: "", kalkilan_durak: "", goturulen_durak: "" },
-    ]);
-  };
-  const handleRemoveTransfer = (index) => {
-    const updatedTransfers = [...transfers];
-    updatedTransfers.splice(index, 1);
-    setTransfers(updatedTransfers);
-  };
-
-  const handleAddLocation = () => {
-    setLocations([
-      ...locations,
-      { lokasyon: "", giris: new Date(), cikis: new Date() },
-    ]);
-  };
-
-  const handleRemoveLocation = (index) => {
-    const updatedLocations = [...locations];
-    updatedLocations.splice(index, 1);
-    setLocations(updatedLocations);
-  };
-
-  const getData = async () => {
-    let localUser = localStorage.getItem("user");
-    let myUser = JSON.parse(localUser);
-    try {
-      const response = await axios.get(
-        `https://senka.valentura.com/api/customer-relations/travel-forms/get-travel-form/id=${formId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myUser?.access}`,
-          },
-        }
-      );
-      const responseData = await response.data.data;
-      setData(responseData);
-      if (responseData) {
-        setName(responseData.isim || "");
-        setSurname(responseData.soyisim || "");
-        setTitle(responseData.unvan || "");
-        setPhone(responseData.tel_no || "");
-        setMail(responseData.email || "");
-        setExpectations(responseData.kazanim_ve_beklentiler || "");
-        setDepartureDate(responseData.gidis_tarihi);
-        setReturnDate(responseData.donus_tarihi);
-        setTransfers(JSON.parse(responseData.transferler) || "");
-        setProgramName(responseData.program_adi || "");
-        setTravelCountry(responseData.ulke || "");
-        setExpectedStudentAmount(responseData.ongorulen_ogrenci_sayisi || "");
-        setClasses(responseData.ilgili_sinif || "");
-        setDepartment(responseData.zumre || "");
-        setLocations(JSON.parse(responseData.lokasyons) || "");
-        setSchoolName(responseData.okul || "");
-        setCity(responseData.sehir || "");
-        setTravelCity(responseData.gidilen_sehir || "");
-        setReturnCity(responseData.dönülen_sehir || "");
-        setCampusName(responseData.kampus_adi || "");
-        setSelectedOption(responseData.ulasim_araci || "");
-        setIsApprove(responseData.travel_form_is_approve || false);
+    axios({
+      method: 'GET',
+      url: `https://senka.valentura.com/api/customer-relations/travel-forms/get-travel-form/id=${formId}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
       }
-    } catch (error) {
-      console.log(error);
-    }
+    })
+      .then((response) => {
+        const responseData = response.data.data;
+        const transferler = JSON.parse(responseData.transferler);
+        const lokasyons = JSON.parse(responseData.lokasyons);
+        setFormData({
+          ...responseData,
+          transferler,
+          lokasyons,
+        });
+      })
+  }, [formId]);
+
+  const handleEditClick = () => {
+    setIsEditable(true);
+    setEditedData({ ...formData });
   };
 
-  const editTravelForm = async () => {
-    let localUser = localStorage.getItem("user");
-    let myUser = JSON.parse(localUser);
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        `https://senka.valentura.com/api/customer-relations/travel-forms/edit-travel-form/id=${formId}`,
-        {
-          kampus_adi: campusName,
-          okul_adi: schoolName,
-          isim: name,
-          soyisim: surname,
-          unvan: title,
-          tel_no: phone,
-          email: mail,
-          program_adi: programName,
-          ulke: travelCountry,
-          sehir: city,
-          ongorulen_ogrenci_sayisi: expectedStudentAmount,
-          ilgili_sinif: classes,
-          ilgili_zumre: department,
-          aktivite_ve_beklentiler: expectations,
-          ulasim_araci: selectedOption,
-          gidis_tarihi: departureDate,
-          donus_tarihi: returnDate,
-          gidilecek_sehir: travelCity,
-          donulecek_sehir: returnCity,
-          transferler: transfers,
-          lokasyon1: locations,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myUser?.access}`,
-          },
+  const handleCancelEdit = () => {
+    setIsEditable(false);
+    setEditedData({});
+  };
+
+
+  const handleSaveEdit = () => {
+    const editedFormData = { ...formData, ...editedData };
+    setIsEditable(false);
+
+    axios({
+      method: 'POST',
+      url: `https://senka.valentura.com/api/customer-relations/travel-forms/edit-travel-form/id=${formId}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      },
+      data: editedFormData,
+    })
+      .then((response) => {
+        try {
+          const responseData = JSON.parse(response.data);
+          // JSON verilerini başarıyla işleyin
+        } catch (error) {
+          console.error("JSON parsing error:", error);
+          // JSON verileri işlenirken bir hata oluştuğunda konsola hata mesajını yazdırın
         }
-      );
-      setLoading(false);
-      successMessage("Seyahat formu başarıyla güncellendi!");
-    } catch (error) {
-      errorMessage("Seyahat formu düzenlenirken hata oluştu!");
-      console.error(error);
-    }
+      })
+      .catch((error) => {
+        // Hata durumunu işleyin
+        console.error("API request error:", error);
+      });
+
   };
 
-  const verifyTravelForm = async () => {
-    let localUser = localStorage.getItem("user");
-    let myUser = JSON.parse(localUser);
-    try {
-      const response = await axios.get(
-        `https://senka.valentura.com/api/customer-relations/travel-forms/approve-travel-form/id=${formId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myUser?.access}`,
-          },
-        }
-      );
-      successMessage("Form başarıyla onaylandı!");
-    } catch (error) {
-      console.log(error);
-    }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedData((prevEditedData) => ({
+      ...prevEditedData,
+      [name]: value,
+    }));
   };
 
-  const declineTravelForm = async () => {
-    let localUser = localStorage.getItem("user");
-    let myUser = JSON.parse(localUser);
-    try {
-      const response = await axios.get(
-        `https://senka.valentura.com/api/customer-relations/travel-forms/reject-travel-form/id=${formId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myUser?.access}`,
-          },
-        }
-      );
-      successMessage("Form başarıyla reddedildi!");
-    } catch (error) {
-      console.log(error);
-    }
+  // Transferler alanını düzenlerken
+  const handleTransferInputChange = (e, index) => {
+    const { name, value } = e.target;
+    setEditedData((prevEditedData) => {
+      const updatedTransferler = [...prevEditedData.transferler]; // Önceki transferler dizisini kopyalayın
+      updatedTransferler[index] = {
+        ...updatedTransferler[index], // Önceki transfer nesnesini kopyalayın
+        [name]: value, // Belirli alanı güncelleyin
+      };
+      return {
+        ...prevEditedData,
+        transferler: updatedTransferler, // Güncellenmiş transferler dizisini ayarlayın
+      };
+    });
   };
 
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
+  // Lokasyonlar alanını düzenlerken
+  const handleLokasyonInputChange = (e, index) => {
+    const { name, value } = e.target;
+    setEditedData((prevEditedData) => {
+      const updatedLokasyons = [...prevEditedData.lokasyons]; // Önceki lokasyonlar dizisini kopyalayın
+      updatedLokasyons[index] = {
+        ...updatedLokasyons[index], // Önceki lokasyon nesnesini kopyalayın
+        [name]: value, // Belirli alanı güncelleyin
+      };
+      return {
+        ...prevEditedData,
+        lokasyons: updatedLokasyons, // Güncellenmiş lokasyonlar dizisini ayarlayın
+      };
+    });
   };
+
+  const handleApprove = () => {
+    // Onay API isteği gönderme
+    axios({
+      method: 'GET',
+      url: `https://senka.valentura.com/api/customer-relations/travel-forms/approve-travel-form/id=${formId}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      }
+    })
+      .then((response) => {
+        // Onay işlemi başarılı bir şekilde tamamlandığında yapılacak işlemler
+        console.log("Form onaylandı:", response.data);
+      })
+      .catch((error) => {
+        // Hata durumunu işleyin
+        console.error("Onay isteği hatası:", error);
+      });
+  };
+
+  const handleReject = () => {
+    // Reddetme API isteği gönderme
+    axios({
+      method: 'GET',
+      url: `https://senka.valentura.com/api/customer-relations/travel-forms/reject-travel-form/id=${formId}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      }
+    })
+      .then((response) => {
+        // Reddetme işlemi başarılı bir şekilde tamamlandığında yapılacak işlemler
+        console.log("Form reddedildi:", response.data);
+      })
+      .catch((error) => {
+        // Hata durumunu işleyin
+        console.error("Reddetme isteği hatası:", error);
+      });
+  };
+
 
   return (
-    <>
-      <div>
-        <h2 className="text-3xl font-medium leading-none mt-3">
-          Seyahat Formunu Düzenle
-        </h2>
-        <div className="mt-6">
-          <div className="grid grid-cols-1 gap-6">
-            <div className="col-span-1">
-              <div className="bg-white dark:bg-[#232D45] shadow overflow-hidden sm:rounded-lg">
-                <div className="flex flex-row items-center">
-                  <div className="px-4 py-5 sm:px-6">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                      Seyahat Formu
-                    </h3>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
-                      Seyahat Formu ile ilgili bilgileri düzenleyebilirsiniz.
-                    </p>
-                  </div>
-                  <div className="flex flex-row items-center">
-                    {isApprove ? (
-                      <button
-                        disabled
-                        className="text-white text-center font-medium font-poppins text-m leading-5 bg-yellow-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
-                      >
-                        KABUL EDİLMİŞ
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          verifyTravelForm();
-                        }}
-                        className="text-white text-center font-medium font-poppins text-xl leading-5 bg-green-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center"
-                      >
-                        KABUL ET
-                      </button>
-                    )}
-                    <button
-                      onClick={() => {
-                        declineTravelForm();
-                      }}
-                      className="text-white text-center font-medium font-poppins text-xl leading-5 bg-red-500 border-none rounded-lg w-36 h-12 flex flex-col justify-center my-[5.12px] items-center ml-2"
-                    >
-                      REDDET
-                    </button>
-                  </div>
-                </div>
-                <div className="px-4 py-5 sm:px-6">
-                  <div className="relative mt-8">
-                    <div className="md-w-[531px] mb-[11.64px]">
-                      <TraveInputBox
-                        label="Kampüs Adı"
-                        id="campusName"
-                        placeholder=""
-                        value={campusName}
-                        onChange={(e) => setCampusName(e.target.value)}
-                        classNa={""}
-                      />
-                    </div>
-                  </div>
-                  <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                    KİŞİ BİLGİLERİ{" "}
-                  </h2>
-                  <div>
-                    <div className="my-[20.36px] flex flex-wrap gap-[26.36px]">
-                      <div className="flex gap-4  w-full">
-                        {" "}
-                        <div className="w-full">
-                          <TraveInputBox
-                            label="Adı:"
-                            id="fullName"
-                            placeholder=""
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            classNa={""}
-                          />
-                        </div>
-                        <div className="w-full mr-6">
-                          <TraveInputBox
-                            label="Soyadı:"
-                            id="fullName"
-                            placeholder=""
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                            classNa={""}
-                          />
-                        </div>
-                      </div>
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+      <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu Detayları</h1>
 
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="Ünvanı:"
-                          id="title"
-                          placeholder=""
-                          value={title}
-                          onChange={(e) => setTitle(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="Cep Telefonu:"
-                          id="telNo"
-                          placeholder=""
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="Eposta Adresi:"
-                          id="campusName"
-                          placeholder=""
-                          value={mail}
-                          onChange={(e) => setMail(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                    KAZANIMLAR VE BEKLENTİLER{" "}
-                  </h2>
-                  <div>
-                    <div className="my-[20.36px] flex flex-col">
-                      <div className="min-w-full ">
-                        <textarea
-                          type="text"
-                          id="outcomeExpectation"
-                          value={expectations}
-                          onChange={(e) => setExpectations(e.target.value)}
-                          className="block min-h-[110px] text-start h-full dark:text-white dark:bg-[#232D45] bg-[#F1F5F9] w-full px-4 py-2 border border-gray-500 rounded-xl focus:ring focus:ring-red-300 focus:outline-none focus:border-red-300 transition-all duration-300"
-                        />
-                      </div>
-                      <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
-                        Size daha iyi program hazırlayabilmemiz için aşağıdaki
-                        konularda detaylı bilgilendirme vermenizi önemle rica
-                        ederiz.
-                      </p>
-                    </div>
-                  </div>
-
-                  <h2 className="text-base font-semibold mb-4 flex flex-shrink-0 w-135 flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                    PROGRAM DETAYI
-                  </h2>
-
-                  <div>
-                    <div>
-                      <span className="mr-[45px] px-2 font-normal text-[#6C6A6A] left-[7px] -top-[13.2px] dark:text-white  text-gray-500 pointer-events-none transition-all duration-300">
-                        {" "}
-                        Gezi Ulaşım Aracı :
-                      </span>
-                      <TravelRadioButton
-                        value="uçak"
-                        checked={selectedOption === "uçak"}
-                        label="Uçak"
-                        onChange={handleOptionChange}
-                      />
-
-                      <TravelRadioButton
-                        value="otobüs"
-                        checked={selectedOption === "otobüs"}
-                        label="Otobüs"
-                        onChange={handleOptionChange}
-                      />
-                    </div>
-                    <div className="my-[20.36px] flex flex-wrap gap-[26.36px]">
-                      <div className="min-md-w-[531px]">
-                        <TraveInputDateBox
-                          label="Gidiş Tarihi:"
-                          id="gidis_tarihi"
-                          selectedDate={new Date(departureDate)}
-                          onChange={(date) => setDepartureDate(date)}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputDateBox
-                          label="Dönüş Tarihi:"
-                          id="donus_tarihi"
-                          selectedDate={new Date(returnDate)}
-                          onChange={(date) => setReturnDate(date)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <h2 className="text-base font-semibold mb-4 flex flex-shrink-0 w-135 flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                    TRANSFERLER
-                  </h2>
-
-                  <div>
-                    {transfers.map((transfer, index) => (
-                      <div key={index} className="mb-4">
-                        <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                          Transfer {index + 1}
-                        </h2>
-                        <div className="min-md-w-[531px]">
-                          <TraveInputBox
-                            label="Araç Adı"
-                            id={`arac-${index}`}
-                            placeholder=""
-                            value={transfer.arac}
-                            onChange={(e) => {
-                              const updatedTransfers = [...transfers];
-                              updatedTransfers[index].arac = e.target.value;
-                              setTransfers(updatedTransfers);
-                            }}
-                          />
-                        </div>
-                        <div className="min-md-w-[531px]">
-                          <TraveInputBox
-                            label="Kalkılan Durak"
-                            id={`kalkilan_durak-${index}`}
-                            placeholder=""
-                            value={transfer.kalkilan_durak}
-                            onChange={(e) => {
-                              const updatedTransfers = [...transfers];
-                              updatedTransfers[index].kalkilan_durak =
-                                e.target.value;
-                              setTransfers(updatedTransfers);
-                            }}
-                          />
-                        </div>
-                        <div className="min-md-w-[531px]">
-                          <TraveInputBox
-                            label="Götürülen Durak"
-                            id={`goturulen_durak-${index}`}
-                            placeholder=""
-                            value={transfer.goturulen_durak}
-                            onChange={(e) => {
-                              const updatedTransfers = [...transfers];
-                              updatedTransfers[index].goturulen_durak =
-                                e.target.value;
-                              setTransfers(updatedTransfers);
-                            }}
-                          />
-                        </div>
-                        <button
-                          onClick={() => handleRemoveTransfer(index)} // Silme işlemini başlatan fonksiyonu çağırın
-                          className="text-red-500 font-medium font-poppins text-base leading-5 hover:underline mt-2"
-                        >
-                          Sil
-                        </button>
-                      </div>
-                    ))}
-                    <div className="mt-4">
-                      <button
-                        onClick={handleAddTransfer}
-                        className="text-white bg-red-500 hover:bg-red-600 font-medium font-poppins text-base leading-5 py-2 px-4 rounded-lg"
-                      >
-                        Transfer Ekle
-                      </button>
-                    </div>
-                  </div>
-
-                  <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                    TALEP EDİLEN GEZİ BİLGİLERİ{" "}
-                  </h2>
-                  <div>
-                    <div className="my-[20.36px] flex flex-wrap gap-[26.36px] ">
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="Program Adı:"
-                          id="fullName"
-                          placeholder=""
-                          value={programName}
-                          onChange={(e) => setProgramName(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="Gidilecek Ülke/Şehir(ler):"
-                          id="title"
-                          placeholder=""
-                          value={travelCountry}
-                          onChange={(e) => setTravelCountry(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="Ön Görülen Öğrenci Sayısı:"
-                          id="ongorulen_ogrenci_sayisi"
-                          placeholder=""
-                          value={expectedStudentAmount}
-                          onChange={(e) =>
-                            setExpectedStudentAmount(e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="İlgili Sınıf/Sınıflar:"
-                          id="telNo"
-                          placeholder=""
-                          value={classes}
-                          onChange={(e) => setClasses(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                      <div className="min-md-w-[531px]">
-                        <TraveInputBox
-                          label="İlgili Zümre:"
-                          id="campusName"
-                          placeholder=""
-                          value={department}
-                          onChange={(e) => setDepartment(e.target.value)}
-                          classNa={""}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center dark:text-red-500 text-[#6C6A6A] font-Poppins font-semibold text-19.393 leading-21.332">
-                    KONAKLAMA
-                  </h2>
-                  <div>
-                    <div>
-                      {locations.map((location, index) => (
-                        <div key={index} className="mb-4">
-                          <div className="flex justify-between">
-                            <h2 className="text-base font-semibold flex flex-shrink-0 w-135 mb-[22.36px] flex-col justify-center text-red-500 font-Poppins font-semibold text-19.393 leading-21.332">
-                              Lokasyon {index + 1}
-                            </h2>
-                            {locations.length > 1 && (
-                              <button
-                                onClick={() => handleRemoveLocation(index)}
-                                className="text-red-500 font-medium font-poppins text-base leading-5 hover:underline"
-                              >
-                                Sil
-                              </button>
-                            )}
-                          </div>
-                          <TraveInputBox
-                            label="Lokasyon Adı"
-                            id={`lokasyon-${index}`}
-                            placeholder=""
-                            value={location.lokasyon}
-                            onChange={(e) => {
-                              const updatedLocations = [...locations];
-                              updatedLocations[index].lokasyon = e.target.value;
-                              setLocations(updatedLocations);
-                            }}
-                          />
-                          <div className="flex gap-4">
-                            <TraveInputDateBox
-                              label="Giriş Tarihi"
-                              id={`giris-${index}`}
-                              selectedDate={new Date(location.giris)}
-                              onChange={(date) => {
-                                const updatedLocations = [...locations];
-                                updatedLocations[index].giris = date;
-                                setLocations(updatedLocations);
-                              }}
-                            />
-                            <TraveInputDateBox
-                              label="Çıkış Tarihi"
-                              id={`cikis-${index}`}
-                              selectedDate={new Date(location.cikis)}
-                              onChange={(date) => {
-                                const updatedLocations = [...locations];
-                                updatedLocations[index].cikis = date;
-                                setLocations(updatedLocations);
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      <div className="mt-4">
-                        <button
-                          onClick={handleAddLocation}
-                          className="text-white bg-red-500 hover:bg-red-600 font-medium font-poppins text-base leading-5 py-2 px-4 rounded-lg"
-                        >
-                          Lokasyon Ekle
-                        </button>
-                      </div>
-                    </div>
-
-                    <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
-                      NOT: * Lütfen elinizde varsa günlük program detayını
-                      bizimle paylaşınız.{" "}
-                    </p>
-                    <p className="text-red-500 font-Poppins font-semibold text-16.484 leading-21.332 flex flex-shrink-0 w-994 flex-col justify-center">
-                      ** Gezi talebinize en geç 3 iş günü içerisinde dönüş
-                      yapılacaktır.{" "}
-                    </p>
-                  </div>
-                  {loading ? (
-                    <div
-                      style={{
-                        width: "300px",
-                        marginLeft: 30,
-                        marginTop: "12px",
-                      }}
-                    >
-                      <CircularProgress style={{ color: "red" }} />
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        editTravelForm();
-                      }}
-                      className="text-white text-center font-medium font-poppins text-3xl font-normal leading-5 bg-red-500 border-none rounded-lg w-52 h-14 flex flex-col justify-center my-[5.12px] items-center"
-                    >
-                      DÜZENLE
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Düzenle, Kabul Et ve Reddet Butonları */}
+      {!isEditable ? (
+        <div className="mb-4 space-x-2">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            onClick={handleEditClick}
+          >
+            Düzenle
+          </button>
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            onClick={handleApprove} // Kabul Et butonuna tıklandığında handleApprove fonksiyonunu çağırın
+          >
+            Kabul Et
+          </button>
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            onClick={handleReject} // Reddet butonuna tıklandığında handleReject fonksiyonunu çağırın
+          >
+            Reddet
+          </button>
         </div>
-      </div>
-    </>
+      ) : (
+        <div className="mb-4 space-x-2">
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            onClick={handleSaveEdit}
+          >
+            Kaydet
+          </button>
+          <button
+            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+            onClick={handleCancelEdit}
+          >
+            İptal Et
+          </button>
+        </div>
+      )}
+
+      <form>
+        {/* ID */}
+        <div className="mb-4">
+          <label htmlFor="id" className="block text-sm font-medium text-gray-700">
+            ID
+          </label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            value={isEditable ? editedData.id : formData.id}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* İsim */}
+        <div className="mb-4">
+          <label htmlFor="isim" className="block text-sm font-medium text-gray-700">
+            İsim
+          </label>
+          <input
+            type="text"
+            id="isim"
+            name="isim"
+            value={isEditable ? editedData.isim : formData.isim}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Onaylı Kişi */}
+        <div className="mb-4">
+          <label htmlFor="onayli_kisi" className="block text-sm font-medium text-gray-700">
+            Onaylı Kişi
+          </label>
+          <input
+            type="text"
+            id="onayli_kisi"
+            name="onayli_kisi"
+            value={isEditable ? editedData.onayli_kisi : formData.onayli_kisi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Okul */}
+        <div className="mb-4">
+          <label htmlFor="okul_adi" className="block text-sm font-medium text-gray-700">
+            Okul
+          </label>
+          <input
+            type="text"
+            id="okul_adi"
+            name="okul_adi"
+            value={isEditable ? editedData.okul_adi : formData.okul_adi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Kampüs Adı */}
+        <div className="mb-4">
+          <label htmlFor="kampus_adi" className="block text-sm font-medium text-gray-700">
+            Kampüs Adı
+          </label>
+          <input
+            type="text"
+            id="kampus_adi"
+            name="kampus_adi"
+            value={isEditable ? editedData.kampus_adi : formData.kampus_adi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Soyisim */}
+        <div className="mb-4">
+          <label htmlFor="soyisim" className="block text-sm font-medium text-gray-700">
+            Soyisim
+          </label>
+          <input
+            type="text"
+            id="soyisim"
+            name="soyisim"
+            value={isEditable ? editedData.soyisim : formData.soyisim}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Ünvan */}
+        <div className="mb-4">
+          <label htmlFor="unvan" className="block text-sm font-medium text-gray-700">
+            Ünvan
+          </label>
+          <input
+            type="text"
+            id="unvan"
+            name="unvan"
+            value={isEditable ? editedData.unvan : formData.unvan}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Telefon Numarası */}
+        <div className="mb-4">
+          <label htmlFor="tel_no" className="block text-sm font-medium text-gray-700">
+            Telefon Numarası
+          </label>
+          <input
+            type="text"
+            id="tel_no"
+            name="tel_no"
+            value={isEditable ? editedData.tel_no : formData.tel_no}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Email */}
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={isEditable ? editedData.email : formData.email}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Program Adı */}
+        <div className="mb-4">
+          <label htmlFor="program_adi" className="block text-sm font-medium text-gray-700">
+            Program Adı
+          </label>
+          <input
+            type="text"
+            id="program_adi"
+            name="program_adi"
+            value={isEditable ? editedData.program_adi : formData.program_adi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Ülke */}
+        <div className="mb-4">
+          <label htmlFor="ulke" className="block text-sm font-medium text-gray-700">
+            Ülke
+          </label>
+          <input
+            type="text"
+            id="ulke"
+            name="ulke"
+            value={isEditable ? editedData.ulke : formData.ulke}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Şehir */}
+        <div className="mb-4">
+          <label htmlFor="sehir" className="block text-sm font-medium text-gray-700">
+            Şehir
+          </label>
+          <input
+            type="text"
+            id="sehir"
+            name="sehir"
+            value={isEditable ? editedData.sehir : formData.sehir}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Öngörülen Öğrenci Sayısı */}
+        <div className="mb-4">
+          <label htmlFor="ongorulen_ogrenci_sayisi" className="block text-sm font-medium text-gray-700">
+            Öngörülen Öğrenci Sayısı
+          </label>
+          <input
+            type="text"
+            id="ongorulen_ogrenci_sayisi"
+            name="ongorulen_ogrenci_sayisi"
+            value={isEditable ? editedData.ongorulen_ogrenci_sayisi : formData.ongorulen_ogrenci_sayisi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* İlgili Sınıf */}
+        <div className="mb-4">
+          <label htmlFor="ilgili_sinif" className="block text-sm font-medium text-gray-700">
+            İlgili Sınıf
+          </label>
+          <input
+            type="text"
+            id="ilgili_sinif"
+            name="ilgili_sinif"
+            value={isEditable ? editedData.ilgili_sinif : formData.ilgili_sinif}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Zümre */}
+        <div className="mb-4">
+          <label htmlFor="zumre" className="block text-sm font-medium text-gray-700">
+            Zümre
+          </label>
+          <input
+            type="text"
+            id="zumre"
+            name="zumre"
+            value={isEditable ? editedData.zumre : formData.zumre}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Ulaşım Aracı */}
+        <div className="mb-4">
+          <label htmlFor="ulasim_araci" className="block text-sm font-medium text-gray-700">
+            Ulaşım Aracı
+          </label>
+          <input
+            type="text"
+            id="ulasim_araci"
+            name="ulasim_araci"
+            value={isEditable ? editedData.ulasim_araci : formData.ulasim_araci}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Gidiş Tarihi */}
+        <div className="mb-4">
+          <label htmlFor="gidis_tarihi" className="block text-sm font-medium text-gray-700">
+            Gidiş Tarihi
+          </label>
+          <input
+            type="text"
+            id="gidis_tarihi"
+            name="gidis_tarihi"
+            value={isEditable ? editedData.gidis_tarihi : formData.gidis_tarihi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Dönüş Tarihi */}
+        <div className="mb-4">
+          <label htmlFor="donus_tarihi" className="block text-sm font-medium text-gray-700">
+            Dönüş Tarihi
+          </label>
+          <input
+            type="text"
+            id="donus_tarihi"
+            name="donus_tarihi"
+            value={isEditable ? editedData.donus_tarihi : formData.donus_tarihi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Gidilecek Şehir */}
+        <div className="mb-4">
+          <label htmlFor="gidilecek_sehir" className="block text-sm font-medium text-gray-700">
+            Gidilecek Şehir
+          </label>
+          <input
+            type="text"
+            id="gidilecek_sehir"
+            name="gidilecek_sehir"
+            value={isEditable ? editedData.gidilecek_sehir : formData.gidilecek_sehir}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Dönülecek Şehir */}
+        <div className="mb-4">
+          <label htmlFor="donulecek_sehir" className="block text-sm font-medium text-gray-700">
+            Dönülecek Şehir
+          </label>
+          <input
+            type="text"
+            id="donulecek_sehir"
+            name="donulecek_sehir"
+            value={isEditable ? editedData.donulecek_sehir : formData.donulecek_sehir}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Transferler */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Transferler</label>
+          {formData.transferler.map((transfer, index) => (
+            <div key={index} className="flex space-x-4 items-center mb-2">
+              <input
+                type="text"
+                name={`transferler[${index}].arac`}
+                value={isEditable ? editedData.transferler[index].arac : transfer.arac}
+                readOnly={!isEditable}
+                className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                onChange={handleTransferInputChange}
+              />
+              <input
+                type="text"
+                name={`transferler[${index}].kalkilan_durak`}
+                value={isEditable ? editedData.transferler[index].kalkilan_durak : transfer.kalkilan_durak}
+                readOnly={!isEditable}
+                className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                onChange={handleTransferInputChange}
+              />
+              <input
+                type="text"
+                name={`transferler[${index}].goturulen_durak`}
+                value={isEditable ? editedData.transferler[index].goturulen_durak : transfer.goturulen_durak}
+                readOnly={!isEditable}
+                className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                onChange={handleTransferInputChange}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Lokasyonlar */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Lokasyonlar</label>
+          {formData.lokasyons.map((lokasyon, index) => (
+            <div key={index} className="flex space-x-4 items-center mb-2">
+              <input
+                type="text"
+                name={`lokasyons[${index}].lokasyon`}
+                value={isEditable ? editedData.lokasyons[index].lokasyon : lokasyon.lokasyon}
+                readOnly={!isEditable}
+                className={`p-2 w-1/3 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                onChange={handleLokasyonInputChange}
+              />
+              <input
+                type="text"
+                name={`lokasyons[${index}].giris`}
+                value={isEditable ? editedData.lokasyons[index].giris : lokasyon.giris}
+                readOnly={!isEditable}
+                className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                onChange={handleLokasyonInputChange}
+              />
+              <input
+                type="text"
+                name={`lokasyons[${index}].cikis`}
+                value={isEditable ? editedData.lokasyons[index].cikis : lokasyon.cikis}
+                readOnly={!isEditable}
+                className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                onChange={handleLokasyonInputChange}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Kazanım ve Beklentiler */}
+        <div className="mb-4">
+          <label htmlFor="aktivite_ve_beklentiler" className="block text-sm font-medium text-gray-700">
+            Kazanım ve Beklentiler
+          </label>
+          <textarea
+            id="aktivite_ve_beklentiler"
+            name="aktivite_ve_beklentiler"
+            rows="4"
+            value={isEditable ? editedData.aktivite_ve_beklentiler : formData.aktivite_ve_beklentiler}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        {/* Onay Durumu */}
+        {/* <div className="mb-4">
+                    <label htmlFor="is_approve" className="block text-sm font-medium text-gray-700">
+                        Onay Durumu
+                    </label>
+                    <select
+                        id="is_approve"
+                        name="is_approve"
+                        value={isEditable ? editedData.is_approve : isApproveValue}
+                        readOnly={!isEditable}
+                        className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+                        onChange={handleInputChange}
+                    >
+                        <option value="null">Seçiniz</option>
+                        <option value="true">Onaylandı</option>
+                        <option value="false">Reddedildi</option>
+                    </select>
+                </div>    */}
+
+        {/* Oluşturulma Tarihi */}
+        <div className="mb-4">
+          <label htmlFor="created_at" className="block text-sm font-medium text-gray-700">
+            Oluşturulma Tarihi
+          </label>
+          <input
+            type="text"
+            id="created_at"
+            name="created_at"
+            value={formData.created_at}
+            readOnly={true}
+            className="mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200"
+          />
+        </div>
+
+        {/* Güncelleme Tarihi */}
+        <div className="mb-4">
+          <label htmlFor="updated_at" className="block text-sm font-medium text-gray-700">
+            Güncelleme Tarihi
+          </label>
+          <input
+            type="text"
+            id="updated_at"
+            name="updated_at"
+            value={formData.updated_at}
+            readOnly={true}
+            className="mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200"
+          />
+        </div>
+      </form>
+    </div>
   );
-};
-export default TravelDetail;
+}
+
+export default TravelFormDetails;
