@@ -238,7 +238,7 @@ function TravelFormDetails() {
             id="id"
             name="id"
             value={isEditable ? editedData.id : formData.id}
-            readOnly={!isEditable}
+            readOnly={true}
             className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
             onChange={handleInputChange}
           />

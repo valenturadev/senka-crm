@@ -107,6 +107,8 @@ import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik"
 import HizmetSozlesmesi from "../views/sozlesmeler/hizmet"
 import TumOgrencilerim from "../views/normal-user/tumOgrencilerim"
 import OgrenciIade from "../views/normal-user/ogrenciIade"
+import AddSchool from "../views/admin/AddSchool";
+import AddCampus from "../views/admin/AddCampus";
 
 const Router = () => {
   const routes = [
@@ -462,6 +464,14 @@ const Router = () => {
         {
           path: "/rol-atama",
           element: <RolAtama />
+        },
+        {
+          path: "/okul-ekle",
+          element: <AddSchool />
+        },
+        {
+          path: "/kampus-ekle/:id",
+          element: <AddCampus />
         },
         {
           path: "/gezi-formu/:formId",
