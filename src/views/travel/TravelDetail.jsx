@@ -237,57 +237,9 @@ function TravelFormDetails() {
             type="text"
             id="id"
             name="id"
-            value={isEditable ? editedData.id : formData.id}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
+            value={formData.id}
 
-        {/* İsim */}
-        <div className="mb-4">
-          <label htmlFor="isim" className="block text-sm font-medium text-gray-700">
-            İsim
-          </label>
-          <input
-            type="text"
-            id="isim"
-            name="isim"
-            value={isEditable ? editedData.isim : formData.isim}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Onaylı Kişi */}
-        <div className="mb-4">
-          <label htmlFor="onayli_kisi" className="block text-sm font-medium text-gray-700">
-            Onaylı Kişi
-          </label>
-          <input
-            type="text"
-            id="onayli_kisi"
-            name="onayli_kisi"
-            value={isEditable ? editedData.onayli_kisi : formData.onayli_kisi}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Okul */}
-        <div className="mb-4">
-          <label htmlFor="okul_adi" className="block text-sm font-medium text-gray-700">
-            Okul
-          </label>
-          <input
-            type="text"
-            id="okul_adi"
-            name="okul_adi"
-            value={isEditable ? editedData.okul_adi : formData.okul_adi}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200`}
             onChange={handleInputChange}
           />
         </div>
@@ -308,244 +260,182 @@ function TravelFormDetails() {
           />
         </div>
 
-        {/* Soyisim */}
+        <h5 className="text-xl mb-6 text-blue-900">Kişisel Bilgiler</h5>
+
+        <div className="mb-4 flex space-x-4">
+          {/* İsim */}
+          <div className="flex-1">
+            <label htmlFor="isim" className="block text-sm font-medium text-gray-700">
+              İsim
+            </label>
+            <input
+              type="text"
+              id="isim"
+              name="isim"
+              value={isEditable ? editedData.isim : formData.isim}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Soyisim */}
+          <div className="flex-1">
+            <label htmlFor="soyisim" className="block text-sm font-medium text-gray-700">
+              Soyisim
+            </label>
+            <input
+              type="text"
+              id="soyisim"
+              name="soyisim"
+              value={isEditable ? editedData.soyisim : formData.soyisim}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        <div className="mb-4 flex space-x-4">
+
+          {/* Okul */}
+          <div className="flex-1">
+            <label htmlFor="okul_adi" className="block text-sm font-medium text-gray-700">
+              Okul
+            </label>
+            <input
+              type="text"
+              id="okul_adi"
+              name="okul_adi"
+              value={isEditable ? editedData.okul_adi : formData.okul_adi}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+
+
+          {/* Ünvan */}
+          <div className="flex-1">
+            <label htmlFor="unvan" className="block text-sm font-medium text-gray-700">
+              Ünvan
+            </label>
+            <input
+              type="text"
+              id="unvan"
+              name="unvan"
+              value={isEditable ? editedData.unvan : formData.unvan}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Telefon Numarası */}
+          <div className="flex-1">
+            <label htmlFor="tel_no" className="block text-sm font-medium text-gray-700">
+              Telefon Numarası
+            </label>
+            <input
+              type="text"
+              id="tel_no"
+              name="tel_no"
+              value={isEditable ? editedData.tel_no : formData.tel_no}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Email */}
+          <div className="flex-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={isEditable ? editedData.email : formData.email}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          /</div>
+
+        <h5 className="text-xl mb-6 text-blue-900"> Kazanım ve Beklentiler</h5>
+
+
+        {/* Kazanım ve Beklentiler */}
         <div className="mb-4">
-          <label htmlFor="soyisim" className="block text-sm font-medium text-gray-700">
-            Soyisim
+          <label htmlFor="aktivite_ve_beklentiler" className="block text-sm font-medium text-gray-700">
+            Kazanım ve Beklentiler
           </label>
-          <input
-            type="text"
-            id="soyisim"
-            name="soyisim"
-            value={isEditable ? editedData.soyisim : formData.soyisim}
+          <textarea
+            id="aktivite_ve_beklentiler"
+            name="aktivite_ve_beklentiler"
+            rows="4"
+            value={isEditable ? editedData.aktivite_ve_beklentiler : formData.aktivite_ve_beklentiler}
             readOnly={!isEditable}
             className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
             onChange={handleInputChange}
           />
         </div>
 
-        {/* Ünvan */}
-        <div className="mb-4">
-          <label htmlFor="unvan" className="block text-sm font-medium text-gray-700">
-            Ünvan
-          </label>
-          <input
-            type="text"
-            id="unvan"
-            name="unvan"
-            value={isEditable ? editedData.unvan : formData.unvan}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
+        <h5 className="text-xl mb-6 text-blue-900"> Program Detayı</h5>
 
-        {/* Telefon Numarası */}
-        <div className="mb-4">
-          <label htmlFor="tel_no" className="block text-sm font-medium text-gray-700">
-            Telefon Numarası
-          </label>
-          <input
-            type="text"
-            id="tel_no"
-            name="tel_no"
-            value={isEditable ? editedData.tel_no : formData.tel_no}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
+        <div className="mb-4 flex space-x-4">
 
-        {/* Email */}
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={isEditable ? editedData.email : formData.email}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
+          {/* Ulaşım Aracı */}
+          <div className="flex-1">
+            <label htmlFor="ulasim_araci" className="block text-sm font-medium text-gray-700">
+              Ulaşım Aracı
+            </label>
+            <input
+              type="text"
+              id="ulasim_araci"
+              name="ulasim_araci"
+              value={isEditable ? editedData.ulasim_araci : formData.ulasim_araci}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
 
-        {/* Program Adı */}
-        <div className="mb-4">
-          <label htmlFor="program_adi" className="block text-sm font-medium text-gray-700">
-            Program Adı
-          </label>
-          <input
-            type="text"
-            id="program_adi"
-            name="program_adi"
-            value={isEditable ? editedData.program_adi : formData.program_adi}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
+          {/* Gidiş Tarihi */}
+          <div className="flex-1">
+            <label htmlFor="gidis_tarihi" className="block text-sm font-medium text-gray-700">
+              Gidiş Tarihi
+            </label>
+            <input
+              type="text"
+              id="gidis_tarihi"
+              name="gidis_tarihi"
+              value={isEditable ? editedData.gidis_tarihi : formData.gidis_tarihi}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
 
-        {/* Ülke */}
-        <div className="mb-4">
-          <label htmlFor="ulke" className="block text-sm font-medium text-gray-700">
-            Ülke
-          </label>
-          <input
-            type="text"
-            id="ulke"
-            name="ulke"
-            value={isEditable ? editedData.ulke : formData.ulke}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Şehir */}
-        <div className="mb-4">
-          <label htmlFor="sehir" className="block text-sm font-medium text-gray-700">
-            Şehir
-          </label>
-          <input
-            type="text"
-            id="sehir"
-            name="sehir"
-            value={isEditable ? editedData.sehir : formData.sehir}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Öngörülen Öğrenci Sayısı */}
-        <div className="mb-4">
-          <label htmlFor="ongorulen_ogrenci_sayisi" className="block text-sm font-medium text-gray-700">
-            Öngörülen Öğrenci Sayısı
-          </label>
-          <input
-            type="text"
-            id="ongorulen_ogrenci_sayisi"
-            name="ongorulen_ogrenci_sayisi"
-            value={isEditable ? editedData.ongorulen_ogrenci_sayisi : formData.ongorulen_ogrenci_sayisi}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* İlgili Sınıf */}
-        <div className="mb-4">
-          <label htmlFor="ilgili_sinif" className="block text-sm font-medium text-gray-700">
-            İlgili Sınıf
-          </label>
-          <input
-            type="text"
-            id="ilgili_sinif"
-            name="ilgili_sinif"
-            value={isEditable ? editedData.ilgili_sinif : formData.ilgili_sinif}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Zümre */}
-        <div className="mb-4">
-          <label htmlFor="zumre" className="block text-sm font-medium text-gray-700">
-            Zümre
-          </label>
-          <input
-            type="text"
-            id="zumre"
-            name="zumre"
-            value={isEditable ? editedData.zumre : formData.zumre}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Ulaşım Aracı */}
-        <div className="mb-4">
-          <label htmlFor="ulasim_araci" className="block text-sm font-medium text-gray-700">
-            Ulaşım Aracı
-          </label>
-          <input
-            type="text"
-            id="ulasim_araci"
-            name="ulasim_araci"
-            value={isEditable ? editedData.ulasim_araci : formData.ulasim_araci}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Gidiş Tarihi */}
-        <div className="mb-4">
-          <label htmlFor="gidis_tarihi" className="block text-sm font-medium text-gray-700">
-            Gidiş Tarihi
-          </label>
-          <input
-            type="text"
-            id="gidis_tarihi"
-            name="gidis_tarihi"
-            value={isEditable ? editedData.gidis_tarihi : formData.gidis_tarihi}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Dönüş Tarihi */}
-        <div className="mb-4">
-          <label htmlFor="donus_tarihi" className="block text-sm font-medium text-gray-700">
-            Dönüş Tarihi
-          </label>
-          <input
-            type="text"
-            id="donus_tarihi"
-            name="donus_tarihi"
-            value={isEditable ? editedData.donus_tarihi : formData.donus_tarihi}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Gidilecek Şehir */}
-        <div className="mb-4">
-          <label htmlFor="gidilecek_sehir" className="block text-sm font-medium text-gray-700">
-            Gidilecek Şehir
-          </label>
-          <input
-            type="text"
-            id="gidilecek_sehir"
-            name="gidilecek_sehir"
-            value={isEditable ? editedData.gidilecek_sehir : formData.gidilecek_sehir}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* Dönülecek Şehir */}
-        <div className="mb-4">
-          <label htmlFor="donulecek_sehir" className="block text-sm font-medium text-gray-700">
-            Dönülecek Şehir
-          </label>
-          <input
-            type="text"
-            id="donulecek_sehir"
-            name="donulecek_sehir"
-            value={isEditable ? editedData.donulecek_sehir : formData.donulecek_sehir}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
+          {/* Dönüş Tarihi */}
+          <div className="flex-1">
+            <label htmlFor="donus_tarihi" className="block text-sm font-medium text-gray-700">
+              Dönüş Tarihi
+            </label>
+            <input
+              type="text"
+              id="donus_tarihi"
+              name="donus_tarihi"
+              value={isEditable ? editedData.donus_tarihi : formData.donus_tarihi}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
 
         {/* Transferler */}
@@ -581,6 +471,151 @@ function TravelFormDetails() {
           ))}
         </div>
 
+        <h5 className="text-xl mb-6 text-blue-900"> Talep Edilen Gezi Bilgileri</h5>
+
+
+        <div className="mb-4 flex space-x-4">
+
+          {/* Program Adı */}
+          <div className="flex-1">
+            <label htmlFor="program_adi" className="block text-sm font-medium text-gray-700">
+              Program Adı
+            </label>
+            <input
+              type="text"
+              id="program_adi"
+              name="program_adi"
+              value={isEditable ? editedData.program_adi : formData.program_adi}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Ülke */}
+          <div className="flex-1">
+            <label htmlFor="ulke" className="block text-sm font-medium text-gray-700">
+              Ülke
+            </label>
+            <input
+              type="text"
+              id="ulke"
+              name="ulke"
+              value={isEditable ? editedData.ulke : formData.ulke}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Şehir */}
+          <div className="flex-1">
+            <label htmlFor="sehir" className="block text-sm font-medium text-gray-700">
+              Şehir
+            </label>
+            <input
+              type="text"
+              id="sehir"
+              name="sehir"
+              value={isEditable ? editedData.sehir : formData.sehir}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Öngörülen Öğrenci Sayısı */}
+          <div className="flex-1">
+            <label htmlFor="ongorulen_ogrenci_sayisi" className="block text-sm font-medium text-gray-700">
+              Öngörülen Öğrenci Sayısı
+            </label>
+            <input
+              type="text"
+              id="ongorulen_ogrenci_sayisi"
+              name="ongorulen_ogrenci_sayisi"
+              value={isEditable ? editedData.ongorulen_ogrenci_sayisi : formData.ongorulen_ogrenci_sayisi}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+        </div>
+
+        <div className="mb-4 flex space-x-4">
+
+          {/* İlgili Sınıf */}
+          <div className="flex-1">
+            <label htmlFor="ilgili_sinif" className="block text-sm font-medium text-gray-700">
+              İlgili Sınıf
+            </label>
+            <input
+              type="text"
+              id="ilgili_sinif"
+              name="ilgili_sinif"
+              value={isEditable ? editedData.ilgili_sinif : formData.ilgili_sinif}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Zümre */}
+          <div className="flex-1">
+            <label htmlFor="zumre" className="block text-sm font-medium text-gray-700">
+              Zümre
+            </label>
+            <input
+              type="text"
+              id="zumre"
+              name="zumre"
+              value={isEditable ? editedData.zumre : formData.zumre}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Gidilecek Şehir */}
+          <div className="flex-1">
+            <label htmlFor="gidilecek_sehir" className="block text-sm font-medium text-gray-700">
+              Gidilecek Şehir
+            </label>
+            <input
+              type="text"
+              id="gidilecek_sehir"
+              name="gidilecek_sehir"
+              value={isEditable ? editedData.gidilecek_sehir : formData.gidilecek_sehir}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Dönülecek Şehir */}
+          <div className="flex-1">
+            <label htmlFor="donulecek_sehir" className="block text-sm font-medium text-gray-700">
+              Dönülecek Şehir
+            </label>
+            <input
+              type="text"
+              id="donulecek_sehir"
+              name="donulecek_sehir"
+              value={isEditable ? editedData.donulecek_sehir : formData.donulecek_sehir}
+              readOnly={!isEditable}
+              className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+              onChange={handleInputChange}
+            />
+          </div>
+
+        </div>
+
+
+
+
+
+
+
         {/* Lokasyonlar */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Lokasyonlar</label>
@@ -614,21 +649,7 @@ function TravelFormDetails() {
           ))}
         </div>
 
-        {/* Kazanım ve Beklentiler */}
-        <div className="mb-4">
-          <label htmlFor="aktivite_ve_beklentiler" className="block text-sm font-medium text-gray-700">
-            Kazanım ve Beklentiler
-          </label>
-          <textarea
-            id="aktivite_ve_beklentiler"
-            name="aktivite_ve_beklentiler"
-            rows="4"
-            value={isEditable ? editedData.aktivite_ve_beklentiler : formData.aktivite_ve_beklentiler}
-            readOnly={!isEditable}
-            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-            onChange={handleInputChange}
-          />
-        </div>
+
 
         {/* Onay Durumu */}
         {/* <div className="mb-4">
@@ -648,6 +669,22 @@ function TravelFormDetails() {
                         <option value="false">Reddedildi</option>
                     </select>
                 </div>    */}
+                
+        {/* Onaylı Kişi */}
+        <div className="mb-4">
+          <label htmlFor="onayli_kisi" className="block text-sm font-medium text-gray-700">
+            Onaylı Kişi
+          </label>
+          <input
+            type="text"
+            id="onayli_kisi"
+            name="onayli_kisi"
+            value={isEditable ? editedData.onayli_kisi : formData.onayli_kisi}
+            readOnly={!isEditable}
+            className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
+            onChange={handleInputChange}
+          />
+        </div>
 
         {/* Oluşturulma Tarihi */}
         <div className="mb-4">
