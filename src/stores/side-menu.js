@@ -163,6 +163,11 @@ const sideMenuData = [
         pathname: "/rol-atama",
         title: "Rol Atama",
       },
+      {
+        icon: "",
+        pathname: "/okul-ekle",
+        title: "Okul Ekle",
+      },
     ],
   },
   "devider",

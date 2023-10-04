@@ -669,7 +669,7 @@ function TravelFormDetails() {
                         <option value="false">Reddedildi</option>
                     </select>
                 </div>    */}
-                
+
         {/* Onaylı Kişi */}
         <div className="mb-4">
           <label htmlFor="onayli_kisi" className="block text-sm font-medium text-gray-700">

@@ -71,12 +71,9 @@ function SozlesmeOnay() {
 
     const handleFieldChange = (field, value) => {
         if (
-            field === 'ogrenci_adi_soyadi' ||
             field === 'veli_ad_soyad' ||
             field === 'adres' ||
-            field === 'tel_no' ||
-            field === 'email' ||
-            field === 'program_ismi'
+            field === 'veli_tc'
         ) {
             setEditedFields((prevState) => ({
                 ...prevState,
@@ -100,8 +97,8 @@ function SozlesmeOnay() {
             },
             data: {
                 veli_ad_soyad: editedFields.veli_ad_soyad,
-                adres: "sadd",
-                veli_tc: "31232132113"
+                adres: editedFields.adres,
+                veli_tc: editedFields.veli_tc,
             }
         })
             .then((response) => {
@@ -141,7 +138,7 @@ function SozlesmeOnay() {
                             <span className="font-semibold w-40">
                                 {field.replace(/_/g, ' ').replace(/\b\w/g, (match) => match.toUpperCase())}:
                             </span>
-                            {isEditing ? (
+                            {isEditing && !editedFields["created_at"] && !editedFields["created_at"] ? (
                                 <input
                                     type="text"
                                     value={editedFields[field] || userData[field]}
