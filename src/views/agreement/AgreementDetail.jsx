@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { toast, Toaster } from 'react-hot-toast';
+
 
 function EditableFormPage({ }) {
   const { formId } = useParams();
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
+  
 
   const [formData, setFormData] = useState({
     id: null,
@@ -108,6 +111,130 @@ function EditableFormPage({ }) {
     giris_yapilan_yerler: []
   });
 
+  const handleAddOtel = () => {
+    // Yeni bir otel eklemek için
+    const newOtel = {
+      otel_ismi: '',
+      kalinacak_gun_sayisi: '',
+      otel_SNG_birim_fiyat: '',
+      otel_SNG_oda_sayisi: '',
+      otel_DBL_birim_fiyat: '',
+      otel_DBL_oda_sayisi: '',
+      otel_TRP_birim_fiyat: '',
+      otel_TRP_oda_sayisi: ''
+    };
+    setFormData(prevState => ({
+      ...prevState,
+      oteller: [...prevState.oteller, newOtel, { ...newOtel }]
+    }));
+
+    editedData(prevState => ({
+      ...prevState,
+      oteller: [...prevState.oteller, newOtel, { ...newOtel }]
+    }));
+
+  }
+
+  const handleAddUlasimAraci = () => {
+    // Yeni bir ulaşım aracı eklemek için
+    const newUlasimAraci = {
+      ulasim_araci_ismi: '',
+      ulasim_araci_tipi: '',
+      ulasim_araci_rotasi: '',
+      arac_kisi_sayisi: '',
+      ulasim_araci_birim_fiyat: ''
+    };
+    setFormData(prevState => ({
+      ...prevState,
+      ulasim_araclari: [...prevState.ulasim_araclari, newUlasimAraci]
+    }));
+
+    editedData(prevState => ({
+      ...prevState,
+      ulasim_araclari: [...prevState.ulasim_araclari, newUlasimAraci]
+    }));
+
+  }
+
+  const handleRemoveUlasimAraci = (indexToRemove) => {
+    setFormData(prevState => ({
+      ...prevState,
+      ulasim_araclari: prevState.ulasim_araclari.filter((_, index) => index !== indexToRemove)
+    }));
+
+    editedData(prevState => ({
+      ...prevState,
+      ulasim_araclari: prevState.ulasim_araclari.filter((_, index) => index !== indexToRemove)
+    }));
+  }
+
+  const handleRemoveOtel = (indexToRemove) => {
+    setFormData(prevState => ({
+      ...prevState,
+      oteller: prevState.oteller.filter((_, index) => index !== indexToRemove)
+    }));
+    editedData(prevState => ({
+      ...prevState,
+      oteller: prevState.oteller.filter((_, index) => index !== indexToRemove)
+    }));
+  }
+
+  const handleAddRehber = () => {
+    // Yeni bir rehber eklemek için
+    const newRehber = {
+      rehber_ismi: '',
+      rehber_yevmiyesi: '',
+      rehber_gun_sayisi: '',
+      rehber_gunluk_yemek_birim_fiyati: '',
+      rehber_YD_harc: '',
+      rehber_YD_harc_gun_sayisi: ''
+    };
+    setFormData(prevState => ({
+      ...prevState,
+      rehberler: [...prevState.rehberler, newRehber]
+    }));
+    editedData(prevState => ({
+      ...prevState,
+      rehberler: [...prevState.rehberler, newRehber]
+    }));
+  }
+
+  const handleRemoveRehber = (indexToRemove) => {
+    setFormData(prevState => ({
+      ...prevState,
+      rehberler: prevState.rehberler.filter((_, index) => index !== indexToRemove)
+    }));
+    editedData(prevState => ({
+      ...prevState,
+      rehberler: prevState.rehberler.filter((_, index) => index !== indexToRemove)
+    }));
+  }
+
+
+  const handleAddYer = () => {
+    setFormData(prevState => ({
+        ...prevState,
+        giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
+    }));
+    editedData(prevState => ({
+      ...prevState,
+      giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
+  }));
+}
+
+const handleRemoveYer = (indexToRemove) => {
+    setFormData(prevState => ({
+        ...prevState,
+        giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
+    }));
+    editedData(prevState => ({
+      ...prevState,
+      giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
+  }));
+}
+
+
+
 
   useEffect(() => {
     axios({
@@ -138,7 +265,7 @@ function EditableFormPage({ }) {
           ogretmenler,
         });
       })
-      
+
   }, [formId]);
 
   useEffect(() => {
@@ -156,7 +283,7 @@ function EditableFormPage({ }) {
       giris_yapilan_yerler: [...formData.giris_yapilan_yerler]
     }));
   }, [formData]);
-  
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -189,10 +316,10 @@ function EditableFormPage({ }) {
     const { value } = event.target;
     // Split the name to extract the property we're updating
     const propertyToUpdate = event.target.name.split('.')[1].split(']')[0];
-  
+
     const updatedArray = [...formData[arrayName]];
     updatedArray[index][propertyToUpdate] = value;
-  
+
     setFormData({
       ...formData,
       [arrayName]: updatedArray
@@ -207,12 +334,12 @@ function EditableFormPage({ }) {
     const { name, value } = event.target;
     // Split the name to extract the property we're updating
     const propertyToUpdate = name.split('.')[1];
-  
+
     const updatedOgretmen = {
       ...formData.ogretmenler,
       [propertyToUpdate]: value
     };
-  
+
     setFormData({
       ...formData,
       ogretmenler: updatedOgretmen
@@ -222,7 +349,7 @@ function EditableFormPage({ }) {
       ogretmenler: updatedOgretmen
     });
   };
-  
+
 
   const handleTransferChange = (e, index, field) => {
     const newTransferler = [...formData.transferler];
@@ -271,7 +398,7 @@ function EditableFormPage({ }) {
       }
     })
       .then((response) => {
-        // İşlem başarılı olduğunda yapmak istediğiniz eylemler
+        toast.success("Başarılı bir şekilde onaylandı");
       })
       .catch(error => {
         // Hata durumunda yapmak istediğiniz eylemler
@@ -288,7 +415,7 @@ function EditableFormPage({ }) {
       }
     })
       .then((response) => {
-        // İşlem başarılı olduğunda yapmak istediğiniz eylemler
+        toast.success("Başarılı bir red edildi");
       })
       .catch(error => {
         // Hata durumunda yapmak istediğiniz eylemler
@@ -305,23 +432,23 @@ function EditableFormPage({ }) {
       data: editedData
     })
       .then(response => {
-        // İşlem başarılı olduğunda yapmak istediğiniz eylemler.
-        // Örneğin: Kullanıcıya başarılı mesajı göstermek, sayfayı yenilemek vb.
+        toast.success("Başarılı bir şekilde form gönderildi");
       })
       .catch(error => {
-        // Hata durumunda yapmak istediğiniz eylemler.
-        // Örneğin: Kullanıcıya hata mesajı göstermek.
+        const errorMessage = error.response?.data?.message || "Bir hata oluştu";
+        toast.error(errorMessage);
       });
   };
   const handleFormSubmit = (e) => {
     e.preventDefault(); // Formun varsayılan davranışını engeller.
     // Kaydedilecek veriyi gönderme işlemleri...
- }
+  }
 
   return (
     <div className="editable-form-container bg-gray-100 p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
-      <form onSubmit={handleFormSubmit}> 
+      <form onSubmit={handleFormSubmit}>
+      <Toaster />
 
         {/* İd */}
         <div className="mb-2">
@@ -649,256 +776,282 @@ function EditableFormPage({ }) {
         </div>
 
         {/* Ulaşım Araçları */}
-        <h2 className="text-xl font-semibold mt-4 mb-2">Ulaşım Araçları</h2>
-        {formData.ulasim_araclari.map((ulasim, index) => (
-          <div key={index} className="mb-2">
-            <label htmlFor={`ulasim_araci_ismi_${index}`} className="block font-semibold">Ulaşım Aracı İsmi</label>
-            <input
-              type="text"
-              id={`ulasim_araci_ismi_${index}`}
-              name={`ulasim_araclari[${index}].ulasim_araci_ismi`}
-              value={ulasim.ulasim_araci_ismi || ''}
-              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
-              className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-
-            <label htmlFor={`ulasim_araci_tipi${index}`} className="block font-semibold">Ulaşım Aracı tipi</label>
-            <input
-              type="text"
-              id={`ulasim_araci_tipi${index}`}
-              name={`ulasim_araclari[${index}].ulasim_araci_tipi`}
-              value={ulasim.ulasim_araci_tipi || ''}
-              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
-              className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-
-            <label htmlFor={`ulasim_araci_rotasi${index}`} className="block font-semibold">Ulaşım Aracı rotası</label>
-            <input
-              type="text"
-              id={`ulasim_araci_rotasi${index}`}
-              name={`ulasim_araci_rotasi[${index}].ulasim_araci_rotasi`}
-              value={ulasim.ulasim_araci_rotasi || ''}
-              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
-              className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-
-            <label htmlFor={`arac_kisi_sayisi${index}`} className="block font-semibold">Ulaşım Aracı kişi sayısı</label>
-            <input
-              type="text"
-              id={`arac_kisi_sayisi${index}`}
-              name={`arac_kisi_sayisi[${index}].arac_kisi_sayisi`}
-              value={ulasim.arac_kisi_sayisi || ''}
-              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
-              className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-
-            <label htmlFor={`ulasim_araci_birim_fiyat${index}`} className="block font-semibold">Ulaşım Aracı birim fiyatı</label>
-            <input
-              type="text"
-              id={`ulasim_araci_birim_fiyat${index}`}
-              name={`ulasim_araci_birim_fiyat[${index}].ulasim_araci_birim_fiyat`}
-              value={ulasim.ulasim_araci_birim_fiyat || ''}
-              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
-              className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-            />
-
-            {/* Diğer Alanları da Ekleyin */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold mt-4 mb-2">Ulaşım Araçları</h2>
+            <button onClick={handleAddUlasimAraci} className="p-2 bg-blue-500 text-white rounded">Ulaşım Aracı Ekle</button>
           </div>
-        ))}
+          {formData.ulasim_araclari.map((ulasim, index) => (
+            <div key={index} className="mb-4">
+              <label htmlFor={`ulasim_araci_ismi_${index}`} className="block font-semibold">Ulaşım Aracı İsmi</label>
+              <input
+                type="text"
+                id={`ulasim_araci_ismi_${index}`}
+                name={`ulasim_araclari[${index}].ulasim_araci_ismi`}
+                value={ulasim.ulasim_araci_ismi || ''}
+                onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
+                className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+
+              <label htmlFor={`ulasim_araci_tipi${index}`} className="block font-semibold">Ulaşım Aracı tipi</label>
+              <input
+                type="text"
+                id={`ulasim_araci_tipi${index}`}
+                name={`ulasim_araclari[${index}].ulasim_araci_tipi`}
+                value={ulasim.ulasim_araci_tipi || ''}
+                onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
+                className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+
+              <label htmlFor={`ulasim_araci_rotasi${index}`} className="block font-semibold">Ulaşım Aracı rotası</label>
+              <input
+                type="text"
+                id={`ulasim_araci_rotasi${index}`}
+                name={`ulasim_araci_rotasi[${index}].ulasim_araci_rotasi`}
+                value={ulasim.ulasim_araci_rotasi || ''}
+                onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
+                className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+
+              <label htmlFor={`arac_kisi_sayisi${index}`} className="block font-semibold">Ulaşım Aracı kişi sayısı</label>
+              <input
+                type="text"
+                id={`arac_kisi_sayisi${index}`}
+                name={`arac_kisi_sayisi[${index}].arac_kisi_sayisi`}
+                value={ulasim.arac_kisi_sayisi || ''}
+                onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
+                className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+
+              <label htmlFor={`ulasim_araci_birim_fiyat${index}`} className="block font-semibold">Ulaşım Aracı birim fiyatı</label>
+              <input
+                type="text"
+                id={`ulasim_araci_birim_fiyat${index}`}
+                name={`ulasim_araci_birim_fiyat[${index}].ulasim_araci_birim_fiyat`}
+                value={ulasim.ulasim_araci_birim_fiyat || ''}
+                onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
+                className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+              />
+
+              <div className="flex justify-end mt-2">
+                <button onClick={() => handleRemoveUlasimAraci(index)} className="p-1 bg-red-500 text-white rounded">Sil</button>
+              </div>
+            </div>
+          ))}
+        </div>
         {/* Diğer Alanları da Ekleyin */}
 
         {/* Oteller */}
-        <h2 className="text-xl font-semibold mt-4 mb-2">Oteller</h2>
-        {formData.oteller.map((otel, index) => (
-          <div key={index} className="mb-2">
-            <div className="flex space-x-4">
-              <div className="w-1/2">
-                <label htmlFor={`otel_ismi_${index}`} className="block font-semibold">Otel İsmi</label>
-                <input
-                  type="text"
-                  id={`otel_ismi_${index}`}
-                  name={`oteller[${index}].otel_ismi`}
-                  value={otel.otel_ismi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/2">
-                <label htmlFor={`otel_ismi_${index}`} className="block font-semibold">Kalınacak gün sayısı</label>
-                <input
-                  type="text"
-                  id={`kalinacak_gun_sayisi${index}`}
-                  name={`oteller[${index}].kalinacak_gun_sayisi`}
-                  value={otel.kalinacak_gun_sayisi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="flex space-x-4">
-              <div className="w-1/2">
-                <label htmlFor={`otel_SNG_birim_fiyat_${index}`} className="block font-semibold">Otel SNG birim fiyatı</label>
-                <input
-                  type="text"
-                  id={`otel_SNG_birim_fiyat${index}`}
-                  name={`oteller[${index}].otel_SNG_birim_fiyat`}
-                  value={otel.otel_SNG_birim_fiyat || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/2">
-                <label htmlFor={`otel_SNG_oda_sayisi_${index}`} className="block font-semibold">Otel SNG oda sayısı</label>
-                <input
-                  type="text"
-                  id={`otel_SNG_oda_sayisi${index}`}
-                  name={`oteller[${index}].otel_SNG_oda_sayisi`}
-                  value={otel.otel_SNG_oda_sayisi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="flex space-x-4">
-              <div className="w-1/2">
-                <label htmlFor={`otel_DBL_birim_fiyat_${index}`} className="block font-semibold">Otel DBL birim fiyatı</label>
-                <input
-                  type="text"
-                  id={`otel_DBL_birim_fiyat${index}`}
-                  name={`oteller[${index}].otel_DBL_birim_fiyat`}
-                  value={otel.otel_DBL_birim_fiyat || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/2">
-                <label htmlFor={`otel_DBL_oda_sayisi_${index}`} className="block font-semibold">Otel DBL oda sayısı</label>
-                <input
-                  type="text"
-                  id={`otel_DBL_oda_sayisi${index}`}
-                  name={`oteller[${index}].otel_DBL_oda_sayisi`}
-                  value={otel.otel_DBL_oda_sayisi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-            <div className="flex space-x-4">
-              <div className="w-1/2">
-                <label htmlFor={`otel_TRP_birim_fiyat_${index}`} className="block font-semibold">Otel TRP birim fiyatı</label>
-                <input
-                  type="text"
-                  id={`otel_TRP_birim_fiyat${index}`}
-                  name={`oteller[${index}].otel_TRP_birim_fiyat`}
-                  value={otel.otel_TRP_birim_fiyat || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/2">
-                <label htmlFor={`otel_TRP_oda_sayisi_${index}`} className="block font-semibold">Otel TRP oda sayısı</label>
-                <input
-                  type="text"
-                  id={`otel_TRP_oda_sayisi${index}`}
-                  name={`oteller[${index}].otel_TRP_oda_sayisi`}
-                  value={otel.otel_TRP_oda_sayisi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold mt-4 mb-2">Oteller</h2>
+            <button onClick={handleAddOtel} className="p-2 bg-blue-500 text-white rounded">Otel Ekle</button>
           </div>
-        ))}
-        {/* Diğer Alanları da Ekleyin */}
+          {formData.oteller.map((otel, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex space-x-4">
+                {/* Otel İsmi */}
+                <div className="w-1/2">
+                  <label htmlFor={`otel_ismi_${index}`} className="block font-semibold">Otel İsmi</label>
+                  <input
+                    type="text"
+                    id={`otel_ismi_${index}`}
+                    name={`oteller[${index}].otel_ismi`}
+                    value={otel.otel_ismi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                {/* Kalınacak gün sayısı */}
+                <div className="w-1/2">
+                  <label htmlFor={`kalinacak_gun_sayisi${index}`} className="block font-semibold">Kalınacak gün sayısı</label>
+                  <input
+                    type="text"
+                    id={`kalinacak_gun_sayisi${index}`}
+                    name={`oteller[${index}].kalinacak_gun_sayisi`}
+                    value={otel.kalinacak_gun_sayisi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* Otel SNG birim fiyatı ve oda sayısı */}
+              <div className="flex space-x-4">
+                <div className="w-1/2">
+                  <label htmlFor={`otel_SNG_birim_fiyat_${index}`} className="block font-semibold">Otel SNG birim fiyatı</label>
+                  <input
+                    type="text"
+                    id={`otel_SNG_birim_fiyat${index}`}
+                    name={`oteller[${index}].otel_SNG_birim_fiyat`}
+                    value={otel.otel_SNG_birim_fiyat || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <label htmlFor={`otel_SNG_oda_sayisi_${index}`} className="block font-semibold">Otel SNG oda sayısı</label>
+                  <input
+                    type="text"
+                    id={`otel_SNG_oda_sayisi${index}`}
+                    name={`oteller[${index}].otel_SNG_oda_sayisi`}
+                    value={otel.otel_SNG_oda_sayisi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* Otel DBL birim fiyatı ve oda sayısı */}
+              <div className="flex space-x-4">
+                <div className="w-1/2">
+                  <label htmlFor={`otel_DBL_birim_fiyat_${index}`} className="block font-semibold">Otel DBL birim fiyatı</label>
+                  <input
+                    type="text"
+                    id={`otel_DBL_birim_fiyat${index}`}
+                    name={`oteller[${index}].otel_DBL_birim_fiyat`}
+                    value={otel.otel_DBL_birim_fiyat || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <label htmlFor={`otel_DBL_oda_sayisi_${index}`} className="block font-semibold">Otel DBL oda sayısı</label>
+                  <input
+                    type="text"
+                    id={`otel_DBL_oda_sayisi${index}`}
+                    name={`oteller[${index}].otel_DBL_oda_sayisi`}
+                    value={otel.otel_DBL_oda_sayisi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* Otel TRP birim fiyatı ve oda sayısı */}
+              <div className="flex space-x-4">
+                <div className="w-1/2">
+                  <label htmlFor={`otel_TRP_birim_fiyat_${index}`} className="block font-semibold">Otel TRP birim fiyatı</label>
+                  <input
+                    type="text"
+                    id={`otel_TRP_birim_fiyat${index}`}
+                    name={`oteller[${index}].otel_TRP_birim_fiyat`}
+                    value={otel.otel_TRP_birim_fiyat || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <label htmlFor={`otel_TRP_oda_sayisi_${index}`} className="block font-semibold">Otel TRP oda sayısı</label>
+                  <input
+                    type="text"
+                    id={`otel_TRP_oda_sayisi${index}`}
+                    name={`oteller[${index}].otel_TRP_oda_sayisi`}
+                    value={otel.otel_TRP_oda_sayisi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end mt-2">
+                <button onClick={() => handleRemoveOtel(index)} className="p-1 bg-red-500 text-white rounded">Sil</button>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* Rehberler */}
-        <h2 className="text-xl font-semibold mt-4 mb-2">Rehberler</h2>
-        {formData.rehberler.map((rehber, index) => (
-          <div key={index} className="mb-2">
-            <div className="flex space-x-4">
-              <div className="w-1/3">
-                <label htmlFor={`rehber_ismi_${index}`} className="block font-semibold">Rehber İsmi</label>
-                <input
-                  type="text"
-                  id={`rehber_ismi_${index}`}
-                  name={`rehberler[${index}].rehber_ismi`}
-                  value={rehber.rehber_ismi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/3">
-                <label htmlFor={`rehber_yevmiyesi${index}`} className="block font-semibold">Rehber Yevmiyesi</label>
-                <input
-                  type="text"
-                  id={`rehber_yevmiyesi${index}`}
-                  name={`rehberler[${index}].rehber_yevmiyesi`}
-                  value={rehber.rehber_yevmiyesi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/3">
-                <label htmlFor={`rehber_gun_sayisi${index}`} className="block font-semibold">Rehber gün sayısı</label>
-                <input
-                  type="text"
-                  id={`rehber_gun_sayisi${index}`}
-                  name={`rehberler[${index}].rehber_gun_sayisi`}
-                  value={rehber.rehber_gun_sayisi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="flex space-x-4">
-              <div className="w-1/3">
-                <label htmlFor={`rehber_gunluk_yemek_birim_fiyati${index}`} className="block font-semibold">Rehber günlük yemek birim sayısı</label>
-                <input
-                  type="text"
-                  id={`rehber_gunluk_yemek_birim_fiyati${index}`}
-                  name={`rehberler[${index}].rehber_gunluk_yemek_birim_fiyati`}
-                  value={rehber.rehber_gunluk_yemek_birim_fiyati || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/3">
-                <label htmlFor={`rehber_YD_harc${index}`} className="block font-semibold">Rehber YD harcı</label>
-                <input
-                  type="text"
-                  id={`rehber_YD_harc${index}`}
-                  name={`rehberler[${index}].rehber_YD_harc`}
-                  value={rehber.rehber_YD_harc || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="w-1/3">
-                <label htmlFor={`rehber_YD_harc_gun_sayisi${index}`} className="block font-semibold">Rehber YD harc gün sayısı</label>
-                <input
-                  type="text"
-                  id={`rehber_YD_harc_gun_sayisi${index}`}
-                  name={`rehberler[${index}].rehber_YD_harc_gun_sayisi`}
-                  value={rehber.rehber_YD_harc_gun_sayisi || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold mt-4 mb-2">Rehberler</h2>
+            <button onClick={handleAddRehber} className="p-2 bg-blue-500 text-white rounded">Rehber Ekle</button>
           </div>
-        ))}
+
+          {formData.rehberler.map((rehber, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex space-x-4">
+                <div className="w-1/3">
+                  <label htmlFor={`rehber_ismi_${index}`} className="block font-semibold">Rehber İsmi</label>
+                  <input
+                    type="text"
+                    id={`rehber_ismi_${index}`}
+                    name={`rehberler[${index}].rehber_ismi`}
+                    value={rehber.rehber_ismi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div className="w-1/3">
+                  <label htmlFor={`rehber_yevmiyesi${index}`} className="block font-semibold">Rehber Yevmiyesi</label>
+                  <input
+                    type="text"
+                    id={`rehber_yevmiyesi${index}`}
+                    name={`rehberler[${index}].rehber_yevmiyesi`}
+                    value={rehber.rehber_yevmiyesi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div className="w-1/3">
+                  <label htmlFor={`rehber_gun_sayisi${index}`} className="block font-semibold">Rehber gün sayısı</label>
+                  <input
+                    type="text"
+                    id={`rehber_gun_sayisi${index}`}
+                    name={`rehberler[${index}].rehber_gun_sayisi`}
+                    value={rehber.rehber_gun_sayisi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-4 mt-2">
+                <div className="w-1/3">
+                  <label htmlFor={`rehber_gunluk_yemek_birim_fiyati${index}`} className="block font-semibold">Rehber günlük yemek birim sayısı</label>
+                  <input
+                    type="text"
+                    id={`rehber_gunluk_yemek_birim_fiyati${index}`}
+                    name={`rehberler[${index}].rehber_gunluk_yemek_birim_fiyati`}
+                    value={rehber.rehber_gunluk_yemek_birim_fiyati || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div className="w-1/3">
+                  <label htmlFor={`rehber_YD_harc${index}`} className="block font-semibold">Rehber YD harcı</label>
+                  <input
+                    type="text"
+                    id={`rehber_YD_harc${index}`}
+                    name={`rehberler[${index}].rehber_YD_harc`}
+                    value={rehber.rehber_YD_harc || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div className="w-1/3">
+                  <label htmlFor={`rehber_YD_harc_gun_sayisi${index}`} className="block font-semibold">Rehber YD harc gün sayısı</label>
+                  <input
+                    type="text"
+                    id={`rehber_YD_harc_gun_sayisi${index}`}
+                    name={`rehberler[${index}].rehber_YD_harc_gun_sayisi`}
+                    value={rehber.rehber_YD_harc_gun_sayisi || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end mt-2">
+                <button onClick={() => handleRemoveRehber(index)} className="p-1 bg-red-500 text-white rounded">Sil</button>
+              </div>
+            </div>
+          ))}
+        </div>
         {/* Diğer Alanları da Ekleyin */}
 
         {/* Ogretmenler */}
@@ -933,37 +1086,47 @@ function EditableFormPage({ }) {
         </div>
 
         {/* Giriş Yapılan Yerler */}
-        <h2 className="text-xl font-semibold mt-4 mb-2">Giriş Yapılan Yerler</h2>
-        {formData.giris_yapilan_yerler.map((yer, index) => (
-          <div key={index} className="mb-2">
-            <div className="flex space-x-4 mb-2">
-              <div className="w-1/2">
-                <label htmlFor={`giris_yapilan_yer_${index}`} className="block font-semibold">Giriş Yapılan Yer</label>
-                <input
-                  type="text"
-                  id={`giris_yapilan_yer_${index}`}
-                  name={`giris_yapilan_yerler[${index}].giris_yapilan_yer`}
-                  value={yer.giris_yapilan_yer || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold mt-4 mb-2">Giriş Yapılan Yerler</h2>
+            <button onClick={handleAddYer} className="p-2 bg-blue-500 text-white rounded">Yer Ekle</button>
+          </div>
+
+          {formData.giris_yapilan_yerler.map((yer, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex space-x-4">
+                <div className="w-1/2">
+                  <label htmlFor={`giris_yapilan_yer_${index}`} className="block font-semibold">Giriş Yapılan Yer</label>
+                  <input
+                    type="text"
+                    id={`giris_yapilan_yer_${index}`}
+                    name={`giris_yapilan_yerler[${index}].giris_yapilan_yer`}
+                    value={yer.giris_yapilan_yer || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div className="w-1/2">
+                  <label htmlFor={`pp${index}`} className="block font-semibold">PP</label>
+                  <input
+                    type="text"
+                    id={`pp${index}`}
+                    name={`giris_yapilan_yerler[${index}].pp`}
+                    value={yer.pp || ''}
+                    onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
+                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
 
-              <div className="w-1/2">
-                <label htmlFor={`pp${index}`} className="block font-semibold">PP</label>
-                <input
-                  type="text"
-                  id={`pp${index}`}
-                  name={`giris_yapilan_yerler[${index}].pp`}
-                  value={yer.pp || ''}
-                  onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
-                  className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                />
+              <div className="flex justify-end mt-2">
+                <button onClick={() => handleRemoveYer(index)} className="p-1 bg-red-500 text-white rounded">Sil</button>
               </div>
             </div>
+          ))}
+        </div>
 
-          </div>
-        ))}
         {/* Diğer Alanları da Ekleyin */}
 
         {/* Toplam Fiyat */}
