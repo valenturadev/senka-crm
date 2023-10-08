@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { successMessage } from '../../utils/toast';
 
 function StudentDetail() {
   const [student, setStudent] = useState(null);
@@ -12,7 +13,7 @@ function StudentDetail() {
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
   const { studentId } = useParams();
-  
+
 
   useEffect(() => {
     axios({
@@ -30,20 +31,20 @@ function StudentDetail() {
         setError('API çağrısı sırasında hata oluştu');
         console.error('API çağrısı sırasında hata oluştu:', error);
       });
-  }, [studentId, myUser?.access]);
+  }, []);
 
   const renderBoolean = (value) => {
     return value ? '✓' : '✗';
   };
 
   const handleEditClick = (field) => {
-    if (field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone') {
+    if (field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_cinsiyet_erkek' || field === 'ogrenci_sinif' || field === 'veli_phone') {
       setIsEditing(true);
     }
   };
 
   const handleFieldChange = (field, value) => {
-    if (field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone') {
+    if (field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_cinsiyet_erkek' || field === 'ogrenci_sinif' || field === 'veli_phone') {
       setEditedFields((prevState) => ({
         ...prevState,
         [field]: value,
@@ -64,10 +65,10 @@ function StudentDetail() {
       data: updatedFields
     })
       .then((response) => {
-        alert("Veriler kaydedildi!");
         setIsEditing(false);
         setEditedFields({});
-        window.location.reload();
+        successMessage("Veriler başarıyla güncellendi.")
+        // window.location.reload();
       })
       .catch((error) => {
         setError('Bilgileri güncelleme sırasında hata oluştu');
@@ -78,7 +79,7 @@ function StudentDetail() {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
-    setFileUploaded(false); 
+    setFileUploaded(false);
   };
 
   const handleUploadClick = () => {
@@ -95,7 +96,7 @@ function StudentDetail() {
         data: formData
       })
         .then((response) => {
-          alert("Fotoğraf başarıyla yüklendi!");
+          successMessage("Makbuz başarıyla gönderildi.")
           setFileUploaded(true);
         })
         .catch((error) => {
@@ -120,14 +121,16 @@ function StudentDetail() {
         {Object.keys(student).map((field) => (
           <div key={field} className="mb-2 flex">
             <span className="font-semibold w-40">{field}:</span>
-            {field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' ? (
+            {field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_cinsiyet_erkek' || field === 'ogrenci_sinif' || field === 'veli_phone' ? (
               isEditing ? (
-                <input
-                  type="text"
-                  value={editedFields[field] || student[field]}
-                  onChange={(e) => handleFieldChange(field, e.target.value)}
-                  className="border rounded px-2 py-1 flex-grow"
-                />
+                field === 'ogrenci_cinsiyet_erkek' ?
+                  <div>{student['ogrenci_cinsiyet_erkek'] ? "Erkek" : "Kız"}</div> :
+                  <input
+                    type="text"
+                    value={editedFields[field] || student[field]}
+                    onChange={(e) => handleFieldChange(field, e.target.value)}
+                    className="border rounded px-2 py-1 flex-grow"
+                  />
               ) : (
                 <span className="px-2 py-1 flex-grow">
                   {field.startsWith('is_') ? renderBoolean(student[field]) : student[field]}
@@ -139,7 +142,7 @@ function StudentDetail() {
               </span>
             )}
             {!isEditing && (
-              field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' ? (
+              field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_sinif' || field === 'veli_phone' ? (
                 <button
                   className="ml-2 text-blue-500 hover:text-blue-700"
                   onClick={() => handleEditClick(field)}
