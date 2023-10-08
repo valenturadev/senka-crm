@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { toast, Toaster } from 'react-hot-toast';
 
 function TravelFormDetails() {
   const [formData, setFormData] = useState({
@@ -87,17 +88,11 @@ function TravelFormDetails() {
       data: editedFormData,
     })
       .then((response) => {
-        try {
-          const responseData = JSON.parse(response.data);
-          // JSON verilerini başarıyla işleyin
-        } catch (error) {
-          console.error("JSON parsing error:", error);
-          // JSON verileri işlenirken bir hata oluştuğunda konsola hata mesajını yazdırın
-        }
+        toast.success("Form kaydedildi");
       })
       .catch((error) => {
         // Hata durumunu işleyin
-        console.error("API request error:", error);
+        toast.error("Form kaydedilmedi");
       });
 
   };
@@ -155,11 +150,11 @@ function TravelFormDetails() {
     })
       .then((response) => {
         // Onay işlemi başarılı bir şekilde tamamlandığında yapılacak işlemler
-        console.log("Form onaylandı:", response.data);
+        toast.success("Form onaylandı");
       })
       .catch((error) => {
         // Hata durumunu işleyin
-        console.error("Onay isteği hatası:", error);
+        toast.error("Onay isteği hatası:", error);
       });
   };
 
@@ -175,11 +170,11 @@ function TravelFormDetails() {
     })
       .then((response) => {
         // Reddetme işlemi başarılı bir şekilde tamamlandığında yapılacak işlemler
-        console.log("Form reddedildi:", response.data);
+        toast.success("Form reddedildi");
       })
       .catch((error) => {
         // Hata durumunu işleyin
-        console.error("Reddetme isteği hatası:", error);
+        toast.error("Reddetme isteği hatası:", error);
       });
   };
 
@@ -187,7 +182,7 @@ function TravelFormDetails() {
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu Detayları</h1>
-
+      <Toaster />
       {/* Düzenle, Kabul Et ve Reddet Butonları */}
       {!isEditable ? (
         <div className="mb-4 space-x-2">
