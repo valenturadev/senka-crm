@@ -76,6 +76,11 @@ const sideMenuData = [
           },
         ],
       },
+      {
+        icon: "",
+        pathname: "/finans-mutabakat",
+        title: "Finans-Mutabakat",
+      },
     ],
   },
   {

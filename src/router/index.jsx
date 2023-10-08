@@ -109,6 +109,8 @@ import TumOgrencilerim from "../views/normal-user/tumOgrencilerim"
 import OgrenciIade from "../views/normal-user/ogrenciIade"
 import AddSchool from "../views/admin/AddSchool";
 import AddCampus from "../views/admin/AddCampus";
+import FinanceMutabakat from "../views/travel/FinanceMutabakat";
+import FinanceMutabakatDetail from "../views/travel/FinanceMutabakatDetail";
 
 const Router = () => {
   const routes = [
@@ -446,6 +448,10 @@ const Router = () => {
           element: <GeziFormlari />
         },
         {
+          path: "/finans-mutabakat",
+          element: <FinanceMutabakat />
+        },
+        {
           path: "/tum-kullanicilar",
           element: <TumKullanicilar />
         },
@@ -480,6 +486,10 @@ const Router = () => {
         {
           path: "/seyahat-formu-duzenle/:formId",
           element: <TravelDetail />,
+        },
+        {
+          path: "/finans-mutabakat-duzenle/:formId",
+          element: <FinanceMutabakatDetail />,
         },
         {
           path: "/mutabakat-formlari",

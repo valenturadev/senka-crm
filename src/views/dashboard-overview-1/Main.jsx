@@ -265,12 +265,12 @@ function Main() {
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
                   <span className="truncate">{responseData?.travel_forms?.istanbul_count} İstanbul</span>
-                  <span className="font-medium ml-auto">{istanbulPercentage}%</span>
+                  <span className="font-medium ml-auto">{istanbulPercentage?.toFixed(1)}%</span>
                 </div>
                 <div className="flex items-center mt-4">
                   <div className="w-2 h-2 bg-pending rounded-full mr-3"></div>
                   <span className="truncate">{responseData?.travel_forms?.ankara_count} Ankara</span>
-                  <span className="font-medium ml-auto">{ankaraPercentage}%</span>
+                  <span className="font-medium ml-auto">{ankaraPercentage?.toFixed(1)}%</span>
                 </div>
                 <div className="flex items-center mt-4">
                   <div className="w-2 h-2 bg-warning rounded-full mr-3"></div>

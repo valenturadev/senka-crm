@@ -9,6 +9,11 @@ function AddStudent() {
     ogrenci_soyadi: '',
     ogrenci_phone: '',
     ogrenci_email: '',
+    ogrenci_dogum_tarihi: '',
+    ogrenci_tc: '',
+    ogrenci_cinsiyet: '',
+    ogrenci_sinif: '',
+    veli_phone: ''
   });
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
@@ -21,7 +26,14 @@ function AddStudent() {
       [name]: value,
     });
   };
-
+  // Cinsiyet değişikliği işlemleri
+  const handleGenderChange = (e) => {
+    const gender = e.target.value;
+    setFormData({
+      ...formData,
+      ogrenci_cinsiyet: gender == "erkek" ? true : false,
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -104,6 +116,90 @@ function AddStudent() {
             id="ogrenci_email"
             name="ogrenci_email"
             value={formData.ogrenci_email}
+            onChange={handleChange}
+            className="px-3 py-2 border rounded-lg w-full"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="ogrenci_dogum_tarihi" className="block text-gray-700 text-sm font-bold mb-2">
+            Öğrenci Doğum Tarihi
+          </label>
+          <input
+            type="date"
+            id="ogrenci_dogum_tarihi"
+            name="ogrenci_dogum_tarihi"
+            value={formData.ogrenci_dogum_tarihi}
+            onChange={handleChange}
+            className="px-3 py-2 border rounded-lg w-full"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="ogrenci_tc" className="block text-gray-700 text-sm font-bold mb-2">
+            Öğrenci TC Kimlik Numarası
+          </label>
+          <input
+            type="text"
+            id="ogrenci_tc"
+            name="ogrenci_tc"
+            value={formData.ogrenci_tc}
+            onChange={handleChange}
+            className="px-3 py-2 border rounded-lg w-full"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Öğrenci Cinsiyeti
+          </label>
+          <div>
+            <label className="mr-2">
+              <input
+                type="radio"
+                name="ogrenci_cinsiyet"
+                value="erkek"
+                checked={formData.ogrenci_cinsiyet === true}
+                onChange={handleGenderChange}
+              />
+              Erkek
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="ogrenci_cinsiyet"
+                value="kiz"
+                checked={formData.ogrenci_cinsiyet === false}
+                onChange={handleGenderChange}
+              />
+              Kız
+            </label>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="ogrenci_sinif" className="block text-gray-700 text-sm font-bold mb-2">
+            Öğrenci Sınıfı
+          </label>
+          <input
+            type="text"
+            id="ogrenci_sinif"
+            name="ogrenci_sinif"
+            value={formData.ogrenci_sinif}
+            onChange={handleChange}
+            className="px-3 py-2 border rounded-lg w-full"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="veli_phone" className="block text-gray-700 text-sm font-bold mb-2">
+            Veli Telefon Numarası
+          </label>
+          <input
+            type="text"
+            id="veli_phone"
+            name="veli_phone"
+            value={formData.veli_phone}
             onChange={handleChange}
             className="px-3 py-2 border rounded-lg w-full"
           />
