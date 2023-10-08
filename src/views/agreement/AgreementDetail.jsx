@@ -107,7 +107,7 @@ function EditableFormPage({ }) {
     },
     giris_yapilan_yerler: []
   });
-  
+
 
   useEffect(() => {
     axios({
@@ -138,7 +138,25 @@ function EditableFormPage({ }) {
           ogretmenler,
         });
       })
+      
   }, [formId]);
+
+  useEffect(() => {
+    setEditedData(prevState => ({
+      ...prevState,
+      ogrenci_sayisi: formData.ogrenci_sayisi,
+      ogretmen_sayisi: formData.ogretmen_sayisi,
+      birim_fiyat: formData.birim_fiyat,
+      ulasim_araclari: [...formData.ulasim_araclari],
+      oteller: [...formData.oteller],
+      rehberler: [...formData.rehberler],
+      ogretmenler: {
+        ...formData.ogretmenler
+      },
+      giris_yapilan_yerler: [...formData.giris_yapilan_yerler]
+    }));
+  }, [formData]);
+  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -151,7 +169,7 @@ function EditableFormPage({ }) {
       [name]: value
     });
   };
-  
+
 
   const handleArrayChange = (event, index, arrayName) => {
     const { name, value } = event.target;
@@ -161,7 +179,50 @@ function EditableFormPage({ }) {
       ...formData,
       [arrayName]: updatedArray
     });
+    setEditedData({
+      ...editedData,
+      [arrayName]: updatedArray
+    })
   };
+
+  const handleEvolvedArrayChange = (event, index, arrayName) => {
+    const { value } = event.target;
+    // Split the name to extract the property we're updating
+    const propertyToUpdate = event.target.name.split('.')[1].split(']')[0];
+  
+    const updatedArray = [...formData[arrayName]];
+    updatedArray[index][propertyToUpdate] = value;
+  
+    setFormData({
+      ...formData,
+      [arrayName]: updatedArray
+    });
+    setEditedData({
+      ...editedData,
+      [arrayName]: updatedArray
+    });
+  };
+
+  const handleOgretmenChange = (event) => {
+    const { name, value } = event.target;
+    // Split the name to extract the property we're updating
+    const propertyToUpdate = name.split('.')[1];
+  
+    const updatedOgretmen = {
+      ...formData.ogretmenler,
+      [propertyToUpdate]: value
+    };
+  
+    setFormData({
+      ...formData,
+      ogretmenler: updatedOgretmen
+    });
+    setEditedData({
+      ...editedData,
+      ogretmenler: updatedOgretmen
+    });
+  };
+  
 
   const handleTransferChange = (e, index, field) => {
     const newTransferler = [...formData.transferler];
@@ -243,20 +304,24 @@ function EditableFormPage({ }) {
       },
       data: editedData
     })
-    .then(response => {
-      // İşlem başarılı olduğunda yapmak istediğiniz eylemler.
-      // Örneğin: Kullanıcıya başarılı mesajı göstermek, sayfayı yenilemek vb.
-    })
-    .catch(error => {
-      // Hata durumunda yapmak istediğiniz eylemler.
-      // Örneğin: Kullanıcıya hata mesajı göstermek.
-    });
+      .then(response => {
+        // İşlem başarılı olduğunda yapmak istediğiniz eylemler.
+        // Örneğin: Kullanıcıya başarılı mesajı göstermek, sayfayı yenilemek vb.
+      })
+      .catch(error => {
+        // Hata durumunda yapmak istediğiniz eylemler.
+        // Örneğin: Kullanıcıya hata mesajı göstermek.
+      });
   };
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // Formun varsayılan davranışını engeller.
+    // Kaydedilecek veriyi gönderme işlemleri...
+ }
 
   return (
     <div className="editable-form-container bg-gray-100 p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
-      <form>
+      <form onSubmit={handleFormSubmit}> 
 
         {/* İd */}
         <div className="mb-2">
@@ -538,7 +603,7 @@ function EditableFormPage({ }) {
             type="number"
             id="ogrenci_sayisi"
             name="ogrenci_sayisi"
-            value={formData.ogrenci_sayisi || ''}
+            value={formData.ogrenci_sayisi || 0}
             onChange={handleChange}
             className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
           />
@@ -551,7 +616,7 @@ function EditableFormPage({ }) {
             type="number"
             id="ogretmen_sayisi"
             name="ogretmen_sayisi"
-            value={formData.ogretmen_sayisi || ''}
+            value={formData.ogretmen_sayisi || 0}
             onChange={handleChange}
             className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
           />
@@ -564,7 +629,7 @@ function EditableFormPage({ }) {
             type="number"
             id="birim_fiyat"
             name="birim_fiyat"
-            value={formData.birim_fiyat || ''}
+            value={formData.birim_fiyat || 0}
             onChange={handleChange}
             className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
           />
@@ -593,7 +658,7 @@ function EditableFormPage({ }) {
               id={`ulasim_araci_ismi_${index}`}
               name={`ulasim_araclari[${index}].ulasim_araci_ismi`}
               value={ulasim.ulasim_araci_ismi || ''}
-              onChange={(e) => handleArrayChange(e, index, 'ulasim_araclari')}
+              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
               className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             />
 
@@ -603,7 +668,7 @@ function EditableFormPage({ }) {
               id={`ulasim_araci_tipi${index}`}
               name={`ulasim_araclari[${index}].ulasim_araci_tipi`}
               value={ulasim.ulasim_araci_tipi || ''}
-              onChange={(e) => handleArrayChange(e, index, 'ulasim_araclari')}
+              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
               className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             />
 
@@ -613,7 +678,7 @@ function EditableFormPage({ }) {
               id={`ulasim_araci_rotasi${index}`}
               name={`ulasim_araci_rotasi[${index}].ulasim_araci_rotasi`}
               value={ulasim.ulasim_araci_rotasi || ''}
-              onChange={(e) => handleArrayChange(e, index, 'ulasim_araclari')}
+              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
               className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             />
 
@@ -623,7 +688,7 @@ function EditableFormPage({ }) {
               id={`arac_kisi_sayisi${index}`}
               name={`arac_kisi_sayisi[${index}].arac_kisi_sayisi`}
               value={ulasim.arac_kisi_sayisi || ''}
-              onChange={(e) => handleArrayChange(e, index, 'ulasim_araclari')}
+              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
               className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             />
 
@@ -633,7 +698,7 @@ function EditableFormPage({ }) {
               id={`ulasim_araci_birim_fiyat${index}`}
               name={`ulasim_araci_birim_fiyat[${index}].ulasim_araci_birim_fiyat`}
               value={ulasim.ulasim_araci_birim_fiyat || ''}
-              onChange={(e) => handleArrayChange(e, index, 'ulasim_araclari')}
+              onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
               className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
             />
 
@@ -654,7 +719,7 @@ function EditableFormPage({ }) {
                   id={`otel_ismi_${index}`}
                   name={`oteller[${index}].otel_ismi`}
                   value={otel.otel_ismi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -666,7 +731,7 @@ function EditableFormPage({ }) {
                   id={`kalinacak_gun_sayisi${index}`}
                   name={`oteller[${index}].kalinacak_gun_sayisi`}
                   value={otel.kalinacak_gun_sayisi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -680,7 +745,7 @@ function EditableFormPage({ }) {
                   id={`otel_SNG_birim_fiyat${index}`}
                   name={`oteller[${index}].otel_SNG_birim_fiyat`}
                   value={otel.otel_SNG_birim_fiyat || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -692,7 +757,7 @@ function EditableFormPage({ }) {
                   id={`otel_SNG_oda_sayisi${index}`}
                   name={`oteller[${index}].otel_SNG_oda_sayisi`}
                   value={otel.otel_SNG_oda_sayisi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -706,7 +771,7 @@ function EditableFormPage({ }) {
                   id={`otel_DBL_birim_fiyat${index}`}
                   name={`oteller[${index}].otel_DBL_birim_fiyat`}
                   value={otel.otel_DBL_birim_fiyat || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -718,7 +783,7 @@ function EditableFormPage({ }) {
                   id={`otel_DBL_oda_sayisi${index}`}
                   name={`oteller[${index}].otel_DBL_oda_sayisi`}
                   value={otel.otel_DBL_oda_sayisi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -731,7 +796,7 @@ function EditableFormPage({ }) {
                   id={`otel_TRP_birim_fiyat${index}`}
                   name={`oteller[${index}].otel_TRP_birim_fiyat`}
                   value={otel.otel_TRP_birim_fiyat || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -743,7 +808,7 @@ function EditableFormPage({ }) {
                   id={`otel_TRP_oda_sayisi${index}`}
                   name={`oteller[${index}].otel_TRP_oda_sayisi`}
                   value={otel.otel_TRP_oda_sayisi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'oteller')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -765,7 +830,7 @@ function EditableFormPage({ }) {
                   id={`rehber_ismi_${index}`}
                   name={`rehberler[${index}].rehber_ismi`}
                   value={rehber.rehber_ismi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'rehberler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -777,7 +842,7 @@ function EditableFormPage({ }) {
                   id={`rehber_yevmiyesi${index}`}
                   name={`rehberler[${index}].rehber_yevmiyesi`}
                   value={rehber.rehber_yevmiyesi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'rehberler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -789,7 +854,7 @@ function EditableFormPage({ }) {
                   id={`rehber_gun_sayisi${index}`}
                   name={`rehberler[${index}].rehber_gun_sayisi`}
                   value={rehber.rehber_gun_sayisi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'rehberler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -803,7 +868,7 @@ function EditableFormPage({ }) {
                   id={`rehber_gunluk_yemek_birim_fiyati${index}`}
                   name={`rehberler[${index}].rehber_gunluk_yemek_birim_fiyati`}
                   value={rehber.rehber_gunluk_yemek_birim_fiyati || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'rehberler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -815,7 +880,7 @@ function EditableFormPage({ }) {
                   id={`rehber_YD_harc${index}`}
                   name={`rehberler[${index}].rehber_YD_harc`}
                   value={rehber.rehber_YD_harc || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'rehberler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -827,7 +892,7 @@ function EditableFormPage({ }) {
                   id={`rehber_YD_harc_gun_sayisi${index}`}
                   name={`rehberler[${index}].rehber_YD_harc_gun_sayisi`}
                   value={rehber.rehber_YD_harc_gun_sayisi || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'rehberler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -847,7 +912,7 @@ function EditableFormPage({ }) {
                 id="ogretmenler.pp"
                 name="ogretmenler.pp"
                 value={formData.ogretmenler.pp || ''}
-                onChange={handleChange}
+                onChange={handleOgretmenChange}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -859,7 +924,7 @@ function EditableFormPage({ }) {
                 id="ogretmenler.yd_harc"
                 name="ogretmenler.yd_harc"
                 value={formData.ogretmenler.yd_harc || ''}
-                onChange={handleChange}
+                onChange={handleOgretmenChange}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -879,7 +944,7 @@ function EditableFormPage({ }) {
                   id={`giris_yapilan_yer_${index}`}
                   name={`giris_yapilan_yerler[${index}].giris_yapilan_yer`}
                   value={yer.giris_yapilan_yer || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'giris_yapilan_yerler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -891,7 +956,7 @@ function EditableFormPage({ }) {
                   id={`pp${index}`}
                   name={`giris_yapilan_yerler[${index}].pp`}
                   value={yer.pp || ''}
-                  onChange={(e) => handleArrayChange(e, index, 'giris_yapilan_yerler')}
+                  onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
                   className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -931,7 +996,9 @@ function EditableFormPage({ }) {
 
         {/* Submit Button */}
         <div className="mt-4 flex space-x-4">
-          <button  onClick={saveChanges}
+          <button
+            type='submit'
+            onClick={saveChanges}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
           >
             Kaydet
@@ -945,7 +1012,7 @@ function EditableFormPage({ }) {
           </button>
 
           <button
-            onClick={handleReject}xs
+            onClick={handleReject} xs
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
           >
             Red Et
