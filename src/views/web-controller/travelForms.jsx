@@ -149,7 +149,7 @@ function TravelForms() {
                         {data?.map((gezi) => (
                             <tr key={gezi.id}>
                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                    <Link to={`/gezi-formu/${gezi.id}`} style={{ color: 'blue', fontWeight: Bold }}>
+                                    <Link to={`/gezi-formu-web/${gezi.id}`} style={{ color: 'blue', fontWeight: Bold }}>
                                         {gezi.id}
                                     </Link>
                                 </td>
