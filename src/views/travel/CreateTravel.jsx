@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
+import { toast, Toaster } from 'react-hot-toast';
 
 function TravelForm() {
 
@@ -108,14 +109,14 @@ function TravelForm() {
     
           if (response.status === 200) {
             // Başarılı bir şekilde gönderildiğinde buraya gelebilirsiniz
-            console.log("Form başarıyla gönderildi!");
+            toast.success("Form başarıyla gönderildi!");
           } else {
             // Sunucudan hata alındığında buraya gelebilirsiniz
-            console.error("Form gönderimi sırasında bir hata oluştu.");
+            toast.error("Form gönderimi sırasında bir hata oluştu.");
           }
         } catch (error) {
           // Hata durumunda buraya gelebilirsiniz
-          console.error("Form gönderimi sırasında bir hata oluştu:", error);
+          toast.error("Form gönderimi sırasında bir hata oluştu:", error);
         }
       };
 
@@ -123,6 +124,7 @@ function TravelForm() {
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu</h1>
             <form onSubmit={handleSubmit}>
+            <Toaster />
                 {/* Kampüs adı */}
                 <div className="mb-4">
                     <label htmlFor="kampus_adi" className="block text-sm font-medium text-gray-700">
