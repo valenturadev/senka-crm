@@ -23,7 +23,6 @@ export default function AddCampus() {
       }
     })
       .then(response => {
-        console.log(response.data.data)
         setSchools(response?.data?.data?.campuses);
       })
       .catch(error => {
@@ -52,7 +51,7 @@ export default function AddCampus() {
         setInput({ name: '' });
       })
       .catch(error => {
-        console.error('Okul eklenemedi:', error);
+        console.error('Kampüs eklenirken bir hata oluştu:', error);
       });
   };
 
@@ -69,29 +68,31 @@ export default function AddCampus() {
         getCampus();
       })
       .catch(error => {
-        console.error('Okul silinemedi:', error);
+        console.error('Kampüs silinirken bir hata oluştu:', error);
       });
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-semibold mb-2">Kampüs Listesi</h1>
-      <ul className="list-disc list-inside mb-4">
+      <h1 className="text-2xl font-semibold mb-4">Kampüs Listesi</h1>
+      <ul className="mb-4 space-y-2">
         {schools?.map(school => (
-          <li key={school.id} className="text-gray-800 flex ">
-            {school.name}
-            <button onClick={() => deleteCampus(school.id)} className="text-red-500 ml-2">Sil</button>
+          <li key={school.id} className="bg-white rounded p-4 flex items-center justify-between shadow-md">
+            <span className="text-gray-800">{school.name}</span>
+            <button onClick={() => deleteCampus(school.id)} className="text-red-500 ml-2">Kampüsü Sil</button>
           </li>
         ))}
       </ul>
-      <input
-        type="text"
-        placeholder="Kampüs Adı"
-        value={input.name}
-        onChange={handleInputChange}
-        className="mb-2 mt-2 p-2 border rounded"
-      />
-      <button onClick={addCampus} className="bg-blue-500 text-white p-2 rounded">Kampüs Ekle</button>
+      <div className="flex space-x-2">
+        <input
+          type="text"
+          placeholder="Yeni Kampüs Adı"
+          value={input.name}
+          onChange={handleInputChange}
+          className="flex-grow p-2 border rounded focus:outline-none"
+        />
+        <button onClick={addCampus} className="bg-blue-500 text-white p-2 rounded">Kampüs Ekle</button>
+      </div>
     </div>
   );
-};
+}

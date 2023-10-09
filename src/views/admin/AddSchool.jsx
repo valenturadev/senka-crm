@@ -25,7 +25,7 @@ export default function AddSchool() {
                 setSchools(response?.data?.data);
             })
             .catch(error => {
-                console.error('API çağrısı başarısız:', error);
+                console.error('Okullar getirilirken bir hata oluştu:', error);
             });
     }
 
@@ -50,7 +50,7 @@ export default function AddSchool() {
                 setInput({ name: '' });
             })
             .catch(error => {
-                console.error('Okul eklenemedi:', error);
+                console.error('Okul eklenirken bir hata oluştu:', error);
             });
     };
 
@@ -67,29 +67,35 @@ export default function AddSchool() {
                 getSchools();
             })
             .catch(error => {
-                console.error('Okul silinemedi:', error);
+                console.error('Okul silinirken bir hata oluştu:', error);
             });
     };
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
-            <h1 className="text-2xl font-semibold mb-2">Okul Listesi</h1>
-            <ul className="list-disc list-inside mb-4">
-                {schools?.map(school => (
-                    <li key={school.id} className="text-gray-800 flex ">
-                        <Link to={`/kampus-ekle/${school.id}`} className="text-blue-500 underline">{school.name}</Link>
-                        <button onClick={() => deleteSchool(school.id)} className="text-red-500 ml-2">Sil</button>
-                    </li>
-                ))}
-            </ul>
-            <input
-                type="text"
-                placeholder="Okul Adı"
-                value={input.name}
-                onChange={handleInputChange}
-                className="mb-2 mt-2 p-2 border rounded"
-            />
-            <button onClick={addSchool} className="bg-blue-500 text-white p-2 rounded">Okul Ekle</button>
+            <h1 className="text-2xl font-semibold mb-4">Okul Listesi</h1>
+            {schools.length === 0 ? (
+                <p>Henüz okul eklenmemiş. İlk okulu eklemek için aşağıdaki formu kullanabilirsiniz.</p>
+            ) : (
+                <ul className="mb-4 space-y-2">
+                    {schools?.map(school => (
+                        <li key={school.id} className="flex items-center justify-between bg-white rounded p-4 shadow-md">
+                            <Link to={`/kampus-ekle/${school.id}`} className="text-blue-500 underline">{school.name}</Link>
+                            <button onClick={() => deleteSchool(school.id)} className="text-red-500 ml-2">Okulu Sil</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+            <div className="flex space-x-2">
+                <input
+                    type="text"
+                    placeholder="Yeni Okul Adı"
+                    value={input.name}
+                    onChange={handleInputChange}
+                    className="flex-grow p-2 border rounded focus:outline-none"
+                />
+                <button onClick={addSchool} className="bg-blue-500 text-white p-2 rounded">Okul Ekle</button>
+            </div>
         </div>
     );
 };
