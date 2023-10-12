@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams   } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-function ogretmenEkle (){
+function ogretmenEkle() {
   const [ogretmenBilgileri, setOgretmenBilgileri] = useState({
     firstname: "",
     lastname: "",
@@ -52,22 +52,22 @@ function ogretmenEkle (){
       setInputErrors(errors);
       return;
     }
-      axios({
-        method: 'POST',
-        url: `https://senka.valentura.com/api/customer-relations/gezi-takip/add-ogretmen/gezi-id=${geziId}`,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${myUser?.access}`
-        },
-        data: JSON.stringify(ogretmenBilgileri)
+    axios({
+      method: 'POST',
+      url: `https://dev.senkaturizm.com/api/customer-relations/gezi-takip/add-ogretmen/gezi-id=${geziId}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      },
+      data: JSON.stringify(ogretmenBilgileri)
+    })
+      .then((response) => {
+        console.log(response);
+        setResponseMsg(response.data.data);
       })
-        .then((response) => {
-          console.log(response);
-          setResponseMsg(response.data.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -96,11 +96,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="İsim"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.firstname}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, firstname: e.target.value })
@@ -109,11 +107,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="Soyisim"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.lastname}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, lastname: e.target.value })
@@ -122,11 +118,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="Telefon (90 Başta olacak şekilde)"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.phone}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, phone: e.target.value })
@@ -135,11 +129,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="E-posta"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.email}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, email: e.target.value })
@@ -148,11 +140,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="Okul"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.school}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, school: e.target.value })
@@ -161,11 +151,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="Kampüs"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.campus}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, campus: e.target.value })
@@ -174,11 +162,9 @@ function ogretmenEkle (){
           <input
             type="text"
             placeholder="Unvan"
-            className={`mt-1 p-2 w-full rounded-md border ${
-              inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:ring ${
-              inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
-            }`}
+            className={`mt-1 p-2 w-full rounded-md border ${inputErrors.firstname ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:ring ${inputErrors.firstname ? 'ring-red-500' : 'ring-blue-200'
+              }`}
             value={ogretmenBilgileri.title}
             onChange={(e) =>
               setOgretmenBilgileri({ ...ogretmenBilgileri, title: e.target.value })

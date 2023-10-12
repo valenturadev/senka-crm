@@ -9,19 +9,19 @@ function MuhasebeSayfasi() {
 
   useEffect(() => {
     setIsLoading(true);
-  
+
     const headers = {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${myUser?.access}`
     };
-  
-    const url = 'https://senka.valentura.com/api/muhasebe/get-all-makbuz'; 
-  
+
+    const url = 'https://dev.senkaturizm.com/api/muhasebe/get-all-makbuz';
+
     const requestOptions = {
-      method: 'GET', 
+      method: 'GET',
       headers: headers,
     };
-  
+
     axios
       .get(url, requestOptions)
       .then((response) => {
@@ -35,16 +35,16 @@ function MuhasebeSayfasi() {
   }, []);
 
   const handleOnayClick = (ogrenciId) => {
-    const onayUrl = `https://senka.valentura.com/api/muhasebe/approve-makbuz/id=${ogrenciId}`;
+    const onayUrl = `https://dev.senkaturizm.com/api/muhasebe/approve-makbuz/id=${ogrenciId}`;
 
     const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${myUser?.access}`
-      };
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${myUser?.access}`
+    };
     const requestOptions = {
-        method: 'GET', 
-        headers: headers,
-      };
+      method: 'GET',
+      headers: headers,
+    };
 
     axios
       .get(onayUrl, requestOptions, {
@@ -88,7 +88,7 @@ function MuhasebeSayfasi() {
                 <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{`${ogrenci.gezi_adi}`}</td>
                 <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{`${ogrenci.ogrenci_adi} ${ogrenci.ogrenci_soyadi}`}</td>
                 <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                  <a href={"https://senka.valentura.com"+ogrenci.makbuz} target="_blank" rel="noopener noreferrer">
+                  <a href={"https://dev.senkaturizm.com" + ogrenci.makbuz} target="_blank" rel="noopener noreferrer">
                     Makbuz Görüntüle
                   </a>
                 </td>

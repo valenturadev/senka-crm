@@ -45,7 +45,7 @@ function TravelFormDetails() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/customer-relations/travel-forms/get-travel-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/customer-relations/travel-forms/get-travel-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -80,7 +80,7 @@ function TravelFormDetails() {
 
     axios({
       method: 'POST',
-      url: `https://senka.valentura.com/api/customer-relations/travel-forms/edit-travel-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/customer-relations/travel-forms/edit-travel-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -142,7 +142,7 @@ function TravelFormDetails() {
     // Onay API isteği gönderme
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/customer-relations/travel-forms/approve-travel-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/customer-relations/travel-forms/approve-travel-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -162,7 +162,7 @@ function TravelFormDetails() {
     // Reddetme API isteği gönderme
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/customer-relations/travel-forms/reject-travel-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/customer-relations/travel-forms/reject-travel-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

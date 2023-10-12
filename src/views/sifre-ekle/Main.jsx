@@ -36,7 +36,7 @@ function Main() {
 
     if (password === passwordAgain) {
       setMessage('Şifreler eşleşiyor!');
-      const apiUrl = 'https://senka.valentura.com/api/teacher/add-password-teacher/';
+      const apiUrl = 'https://dev.senkaturizm.com/api/teacher/add-password-teacher/';
       const requestBody = {
         password: password,
         password2: passwordAgain,
@@ -64,7 +64,7 @@ function Main() {
 
   useEffect(() => {
     // Sayfa yüklendiğinde öğretmenin varlığını sorgulamak için bir API isteği gönderelim
-    const apiUrl = 'https://senka.valentura.com/api/teacher/get-teacher/';
+    const apiUrl = 'https://dev.senkaturizm.com/api/teacher/get-teacher/';
 
     fetch(apiUrl + 'phone=' + phoneNumber)
       .then((response) => {

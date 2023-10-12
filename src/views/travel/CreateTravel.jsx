@@ -99,32 +99,32 @@ function TravelForm() {
     // Form verilerini göndermek için işlev
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
-          const response = await axios.post("https://senka.valentura.com/api/users/create-travel-form", formData, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-    
-          if (response.status === 200) {
-            // Başarılı bir şekilde gönderildiğinde buraya gelebilirsiniz
-            toast.success("Form başarıyla gönderildi!");
-          } else {
-            // Sunucudan hata alındığında buraya gelebilirsiniz
-            toast.error("Form gönderimi sırasında bir hata oluştu.");
-          }
+            const response = await axios.post("https://dev.senkaturizm.com/api/users/create-travel-form", formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                // Başarılı bir şekilde gönderildiğinde buraya gelebilirsiniz
+                toast.success("Form başarıyla gönderildi!");
+            } else {
+                // Sunucudan hata alındığında buraya gelebilirsiniz
+                toast.error("Form gönderimi sırasında bir hata oluştu.");
+            }
         } catch (error) {
-          // Hata durumunda buraya gelebilirsiniz
-          toast.error("Form gönderimi sırasında bir hata oluştu:", error);
+            // Hata durumunda buraya gelebilirsiniz
+            toast.error("Form gönderimi sırasında bir hata oluştu:", error);
         }
-      };
+    };
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu</h1>
             <form onSubmit={handleSubmit}>
-            <Toaster />
+                <Toaster />
                 {/* Kampüs adı */}
                 <div className="mb-4">
                     <label htmlFor="kampus_adi" className="block text-sm font-medium text-gray-700">

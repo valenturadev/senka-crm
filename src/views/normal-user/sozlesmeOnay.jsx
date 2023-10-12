@@ -46,7 +46,7 @@ function SozlesmeOnay() {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `https://senka.valentura.com/api/users/sozlesme-getir/phone=${tel}/id=${id}`,
+            url: `https://dev.senkaturizm.com/api/users/sozlesme-getir/phone=${tel}/id=${id}`,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${myUser?.access}`
@@ -90,7 +90,7 @@ function SozlesmeOnay() {
 
         axios({
             method: 'PATCH',
-            url: `https://senka.valentura.com/api/users/sozlesme-edit/phone=${tel}/id=${id}`,
+            url: `https://dev.senkaturizm.com/api/users/sozlesme-edit/phone=${tel}/id=${id}`,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${myUser?.access}`

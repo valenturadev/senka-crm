@@ -49,7 +49,7 @@ function Main() {
     let myUser = JSON.parse(localUser);
     try {
       const response = await axios.get(
-        `https://senka.valentura.com/api/users/auth/get-profile`,
+        `https://dev.senkaturizm.com/api/users/auth/get-profile`,
         {
           headers: {
             "Content-Type": "application/json",

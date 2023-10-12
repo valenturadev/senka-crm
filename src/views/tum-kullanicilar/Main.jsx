@@ -18,7 +18,7 @@ export default function TumKullanicilar() {
 
     axios({
       method: 'GET',
-      url: 'https://senka.valentura.com/api/crm/get-all-users',
+      url: 'https://dev.senkaturizm.com/api/crm/get-all-users',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,
@@ -117,9 +117,8 @@ export default function TumKullanicilar() {
         <ul className="flex pl-0 list-none rounded my-2">
           <li
             onClick={() => paginate(1)}
-            className={`relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 border-r-0 ml-0 rounded-l cursor-pointer hover:bg-blue-200 ${
-              currentPage === 1 ? 'pointer-events-none' : ''
-            }`}
+            className={`relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 border-r-0 ml-0 rounded-l cursor-pointer hover:bg-blue-200 ${currentPage === 1 ? 'pointer-events-none' : ''
+              }`}
           >
             İlk
           </li>
@@ -127,18 +126,16 @@ export default function TumKullanicilar() {
             <li
               key={index}
               onClick={() => paginate(index + 1)}
-              className={`relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 border-r-0 ml-0 rounded-l cursor-pointer hover:bg-blue-200 ${
-                currentPage === index + 1 ? 'bg-blue-200 pointer-events-none' : ''
-              }`}
+              className={`relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 border-r-0 ml-0 rounded-l cursor-pointer hover:bg-blue-200 ${currentPage === index + 1 ? 'bg-blue-200 pointer-events-none' : ''
+                }`}
             >
               {index + 1}
             </li>
           ))}
           <li
             onClick={() => paginate(Math.ceil(filteredUsers.length / usersPerPage))}
-            className={`relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 rounded-r cursor-pointer hover:bg-blue-200 ${
-              currentPage === Math.ceil(filteredUsers.length / usersPerPage) ? 'pointer-events-none' : ''
-            }`}
+            className={`relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-blue-700 rounded-r cursor-pointer hover:bg-blue-200 ${currentPage === Math.ceil(filteredUsers.length / usersPerPage) ? 'pointer-events-none' : ''
+              }`}
           >
             Son
           </li>

@@ -19,7 +19,7 @@ function TravelForms() {
         let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
-                `https://senka.valentura.com/api/web-team/activate-travel/id=${formId}`,
+                `https://dev.senkaturizm.com/api/web-team/activate-travel/id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ function TravelForms() {
         let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
-                `https://senka.valentura.com/api/web-team/deactivate-travel/id=${formId}`,
+                `https://dev.senkaturizm.com/api/web-team/deactivate-travel/id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function TravelForms() {
         let localUser = localStorage.getItem("user");
         let myUser = JSON.parse(localUser);
         try {
-            const response = await fetch(`https://senka.valentura.com/api/web-team/get-all-travels/status=${_status}`, {
+            const response = await fetch(`https://dev.senkaturizm.com/api/web-team/get-all-travels/status=${_status}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

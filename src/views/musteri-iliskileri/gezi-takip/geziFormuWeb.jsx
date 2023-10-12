@@ -12,7 +12,7 @@ function GeziDetay() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/web-team/get-travel/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/web-team/get-travel/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

@@ -17,7 +17,7 @@ export default function RolAtama() {
   const handleRolAta = () => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/crm/get-user/phone=${telefonNumarasi}`,
+      url: `https://dev.senkaturizm.com/api/crm/get-user/phone=${telefonNumarasi}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,

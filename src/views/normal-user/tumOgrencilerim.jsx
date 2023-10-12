@@ -15,7 +15,7 @@ export default function TumOgrencilerim() {
     // Öğrenci verilerini çek
     axios({
       method: 'GET',
-      url: 'https://senka.valentura.com/api/users/geziye-katilan-user',
+      url: 'https://dev.senkaturizm.com/api/users/geziye-katilan-user',
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

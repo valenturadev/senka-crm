@@ -13,7 +13,7 @@ function Mutabakatlar() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/finance/get-all-mutabakat-forms/status=${selectedStatus}`,
+      url: `https://dev.senkaturizm.com/api/finance/get-all-mutabakat-forms/status=${selectedStatus}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

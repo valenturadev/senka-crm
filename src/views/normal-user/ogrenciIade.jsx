@@ -31,7 +31,7 @@ export default function OgrenciIade() {
 
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/users/get-ogrenci-iade/id=${id}`,
+      url: `https://dev.senkaturizm.com/api/users/get-ogrenci-iade/id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -89,7 +89,7 @@ export default function OgrenciIade() {
 
     axios({
       method: 'POST',
-      url: `https://senka.valentura.com/api/users/ogrenci-iade/id=${id}`,
+      url: `https://dev.senkaturizm.com/api/users/ogrenci-iade/id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -121,7 +121,7 @@ export default function OgrenciIade() {
             <p><strong>Program Adı:</strong> {programAdi}</p>
             {/* Diğer verileri de buraya ekleyin */}
           </div>
-          
+
           {isEditing ? (
             // Düzenleme modundayken inputları göster
             <div className="mb-4">
@@ -220,7 +220,7 @@ export default function OgrenciIade() {
               Düzenle
             </button>
           )}
-          
+
           {/* Kaydet ve İptal butonları */}
           {isEditing && (
             <>

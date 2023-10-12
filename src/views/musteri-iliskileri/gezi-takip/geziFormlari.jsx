@@ -11,7 +11,7 @@ function StudentTable() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: 'https://senka.valentura.com/api/customer-relations/gezi-takip/get-all-travels/status=all',
+      url: 'https://dev.senkaturizm.com/api/customer-relations/gezi-takip/get-all-travels/status=all',
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

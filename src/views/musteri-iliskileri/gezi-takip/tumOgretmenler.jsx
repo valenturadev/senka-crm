@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link , useNavigate} from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 function TumOgretmenler() {
   const [ogretmenler, setOgretmenler] = useState([]);
@@ -12,7 +12,7 @@ function TumOgretmenler() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/customer-relations/gezi-takip/get-all-ogretmens/gezi-id=${geziId}`,
+      url: `https://dev.senkaturizm.com/api/customer-relations/gezi-takip/get-all-ogretmens/gezi-id=${geziId}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,
@@ -28,18 +28,18 @@ function TumOgretmenler() {
 
   function handleOgretmenEkle() {
     console.log("Öğretmen ekleme butonuna tıklandı");
-    navigate('/ogretmen-ekle/'+geziId);
+    navigate('/ogretmen-ekle/' + geziId);
   }
 
   return (
     <div>
       <h1 className="text-2xl font-semibold mb-4">Gezideki Tüm Öğretmenler</h1>
       <button
-          onClick={handleOgretmenEkle}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4"
-        >
-          Geziye Öğretmen Ekle
-        </button>
+        onClick={handleOgretmenEkle}
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4"
+      >
+        Geziye Öğretmen Ekle
+      </button>
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>

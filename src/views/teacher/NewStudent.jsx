@@ -40,7 +40,7 @@ function AddStudent() {
 
     axios({
       method: 'POST',
-      url: `https://senka.valentura.com/api/teacher/add-ogrenci/gezi-id=${geziId}`,
+      url: `https://dev.senkaturizm.com/api/teacher/add-ogrenci/gezi-id=${geziId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

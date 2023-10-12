@@ -24,7 +24,7 @@ function FinanceMutabakat() {
         let myUser = JSON.parse(localUser);
 
         try {
-            const response = await fetch(`https://senka.valentura.com/api/customer-relations/finance-mutabakat-forms/get-all-onaylanan-forms`, {
+            const response = await fetch(`https://dev.senkaturizm.com/api/customer-relations/finance-mutabakat-forms/get-all-onaylanan-forms`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

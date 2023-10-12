@@ -27,7 +27,7 @@ function Main() {
   const [istanbulPercentage, setIstanbulPercentage] = useState(0)
 
   useEffect(() => {
-    axios.get('https://senka.valentura.com/api/users/ana-sayfa-oranlar')
+    axios.get('https://dev.senkaturizm.com/api/users/ana-sayfa-oranlar')
       .then(response => {
         const ankaraCount = response?.data?.data?.travel_forms?.ankara_count;
         const istanbul_count = response?.data?.data?.travel_forms?.istanbul_count;

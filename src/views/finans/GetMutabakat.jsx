@@ -13,7 +13,7 @@ function MutabakatDetay() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/finance/get-mutabakat-form/id=${mutabakatId}`,
+      url: `https://dev.senkaturizm.com/api/finance/get-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -48,7 +48,7 @@ function MutabakatDetay() {
   const handleOnayla = () => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/finance/approve-mutabakat-form/id=${mutabakatId}`,
+      url: `https://dev.senkaturizm.com/api/finance/approve-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -66,7 +66,7 @@ function MutabakatDetay() {
   const handleReddet = () => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/finance/reject-mutabakat-form/id=${mutabakatId}`,
+      url: `https://dev.senkaturizm.com/api/finance/reject-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -98,11 +98,11 @@ function MutabakatDetay() {
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Değer</th>
           </tr>
         </thead>
-        <tbody> 
+        <tbody>
           {Object.entries(mutabakat).map(([key, value]) => (
             <tr key={key}>
               <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
-              {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
+                {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
               </td>
               <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
                 {formatValue(key, value)}

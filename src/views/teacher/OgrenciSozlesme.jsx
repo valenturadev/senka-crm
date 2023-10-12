@@ -13,7 +13,7 @@ export default function OgrenciSozlesme() {
 
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/teacher/sozlesme-getir/id=${studentId}`,
+      url: `https://dev.senkaturizm.com/api/teacher/sozlesme-getir/id=${studentId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -58,7 +58,7 @@ export default function OgrenciSozlesme() {
           </div>
           <div className="mb-4">
             <p className="text-gray-700">
-              Sözleşme Linki: 
+              Sözleşme Linki:
               <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                 {link}
               </a>

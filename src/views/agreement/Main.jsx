@@ -25,7 +25,7 @@ function Main() {
     let myUser = JSON.parse(localUser);
     setLoading(true);
     try {
-      const response = await axios.get(`https://senka.valentura.com/api/operation-team/mutabakat/get-all-mutabakat-forms/status=${_status}`, {
+      const response = await axios.get(`https://dev.senkaturizm.com/api/operation-team/mutabakat/get-all-mutabakat-forms/status=${_status}`, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${myUser?.access}`

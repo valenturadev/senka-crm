@@ -8,7 +8,7 @@ function EditableFormPage({ }) {
   const { formId } = useParams();
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
-  
+
 
   const [formData, setFormData] = useState({
     id: null,
@@ -213,25 +213,25 @@ function EditableFormPage({ }) {
 
   const handleAddYer = () => {
     setFormData(prevState => ({
-        ...prevState,
-        giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
+      ...prevState,
+      giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
     }));
     editedData(prevState => ({
       ...prevState,
       giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
-  }));
-}
+    }));
+  }
 
-const handleRemoveYer = (indexToRemove) => {
+  const handleRemoveYer = (indexToRemove) => {
     setFormData(prevState => ({
-        ...prevState,
-        giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
+      ...prevState,
+      giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
     }));
     editedData(prevState => ({
       ...prevState,
       giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
-  }));
-}
+    }));
+  }
 
 
 
@@ -239,7 +239,7 @@ const handleRemoveYer = (indexToRemove) => {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/operation-team/mutabakat/get-mutabakat-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/get-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -391,7 +391,7 @@ const handleRemoveYer = (indexToRemove) => {
   const handleApprove = () => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/operation-team/mutabakat/approve-mutabakat-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/approve-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -408,7 +408,7 @@ const handleRemoveYer = (indexToRemove) => {
   const handleReject = () => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/operation-team/mutabakat/reject-mutabakat-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/reject-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -424,7 +424,7 @@ const handleRemoveYer = (indexToRemove) => {
   const saveChanges = () => {
     axios({
       method: 'PATCH',
-      url: `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
+      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -448,7 +448,7 @@ const handleRemoveYer = (indexToRemove) => {
     <div className="editable-form-container bg-gray-100 p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
       <form onSubmit={handleFormSubmit}>
-      <Toaster />
+        <Toaster />
 
         {/* İd */}
         <div className="mb-2">

@@ -45,7 +45,7 @@ function FinanceMutabakatDetail() {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `https://senka.valentura.com/api/customer-relations/finance-mutabakat-forms/get-onaylanan-mutabakat-form/id=${formId}`,
+            url: `https://dev.senkaturizm.com/api/customer-relations/finance-mutabakat-forms/get-onaylanan-mutabakat-form/id=${formId}`,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${myUser?.access}`
@@ -107,7 +107,7 @@ function FinanceMutabakatDetail() {
         // Onay API isteği gönderme
         axios({
             method: 'GET',
-            url: `https://senka.valentura.com/api/customer-relations/finance-mutabakat-forms/approve-onaylanan-mutabakat-form/id=${formId}`,
+            url: `https://dev.senkaturizm.com/api/customer-relations/finance-mutabakat-forms/approve-onaylanan-mutabakat-form/id=${formId}`,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${myUser?.access}`
@@ -129,7 +129,7 @@ function FinanceMutabakatDetail() {
         // Reddetme API isteği gönderme
         axios({
             method: 'GET',
-            url: `https://senka.valentura.com/api/customer-relations/finance-mutabakat-forms/reject-onaylanan-mutabakat-form/${formId}`,
+            url: `https://dev.senkaturizm.com/api/customer-relations/finance-mutabakat-forms/reject-onaylanan-mutabakat-form/${formId}`,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${myUser?.access}`
