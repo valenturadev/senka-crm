@@ -140,13 +140,14 @@ function Main() {
                       }
                     />
                     <input
-                      type="text"
+                      type="date"
                       className="intro-x login__input form-control py-3 px-4 block"
                       placeholder="Doğum Tarihi (2000-01-01)"
                       value={user.birthday}
                       onChange={(e) =>
                         setUser({ ...user, birthday: e.target.value })
                       }
+                      locale="tr"
                     />
                     <select
                       className="intro-x login__input form-control py-3 px-4 block"
@@ -193,7 +194,6 @@ function Main() {
                   </label>
                   <Link
                     className="text-primary dark:text-slate-200 ml-1 font-bold"
-                    to="/gizlilik-sozlesmesi"
                   >
                     Gizlilik Sözleşmesini
                   </Link>
