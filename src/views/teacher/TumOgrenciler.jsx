@@ -14,7 +14,7 @@ function StudentTable() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: 'https://dev.senkaturizm.com/api/teacher/get-all-ogrenci/gezi-id=' + geziId,
+      url: 'https://senka.valentura.com/api/teacher/get-all-ogrenci/gezi-id=' + geziId,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

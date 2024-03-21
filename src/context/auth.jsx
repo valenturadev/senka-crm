@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `https://dev.senkaturizm.com/api/users/auth/login`,
+        `https://senka.valentura.com/api/users/auth/login`,
         {
           username: transformedNumber,
           password,
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `https://dev.senkaturizm.com/api/users/auth/register`,
+        `https://senka.valentura.com/api/users/auth/register`,
         {
           firstname: userInfo?.name,
           lastname: userInfo?.surname,

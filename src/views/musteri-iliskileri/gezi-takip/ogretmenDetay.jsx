@@ -20,7 +20,7 @@ function OgretmenDetay() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/customer-relations/gezi-takip/get-ogretmen/id=${ogretmenId}`,
+      url: `https://senka.valentura.com/api/customer-relations/gezi-takip/get-ogretmen/id=${ogretmenId}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,
@@ -42,7 +42,7 @@ function OgretmenDetay() {
     // Düzenleme işlemi burada gerçekleştirilir ve API'ye gönderilir
     axios({
       method: 'PATCH',
-      url: `https://dev.senkaturizm.com/api/customer-relations/gezi-takip/update-ogretmen/id=${ogretmenId}`,
+      url: `https://senka.valentura.com/api/customer-relations/gezi-takip/update-ogretmen/id=${ogretmenId}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,

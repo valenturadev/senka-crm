@@ -17,7 +17,7 @@ function MutabakatForms() {
         try {
             const response = await axios({
                 method: 'GET',
-                url: 'https://dev.senkaturizm.com/api/web-team/get-all-onaylanan-form',
+                url: 'https://senka.valentura.com/api/web-team/get-all-onaylanan-form',
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${myUser?.access}`
@@ -34,7 +34,7 @@ function MutabakatForms() {
         let myUser = JSON.parse(localUser);
         try {
             const response = await axios.get(
-                `https://dev.senkaturizm.com/api/web-team/add-to-website-travel/id=${formId}`,
+                `https://senka.valentura.com/api/web-team/add-to-website-travel/id=${formId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",

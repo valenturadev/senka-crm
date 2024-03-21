@@ -25,7 +25,7 @@ export default function Kullanici() {
     // Kullanıcı bilgilerini getirme isteği
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/crm/get-user/phone=${userPhone}`,
+      url: `https://senka.valentura.com/api/crm/get-user/phone=${userPhone}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,
@@ -64,7 +64,7 @@ export default function Kullanici() {
     // Rollerin değiştirilmesi isteği
     axios({
       method: 'POST',
-      url: `https://dev.senkaturizm.com/api/crm/senka-user-to-role/phone=${userPhone}`,
+      url: `https://senka.valentura.com/api/crm/senka-user-to-role/phone=${userPhone}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,

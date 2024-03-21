@@ -13,7 +13,7 @@ export default function OgrenciSozlesme() {
 
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/teacher/sozlesme-getir/id=${studentId}`,
+      url: `https://senka.valentura.com/api/teacher/sozlesme-getir/id=${studentId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

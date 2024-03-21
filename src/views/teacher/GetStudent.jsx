@@ -18,7 +18,7 @@ function StudentDetail() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/teacher/get-ogrenci/id=${studentId}`,
+      url: `https://senka.valentura.com/api/teacher/get-ogrenci/id=${studentId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -57,7 +57,7 @@ function StudentDetail() {
 
     axios({
       method: 'PATCH',
-      url: `https://dev.senkaturizm.com/api/teacher/update-ogrenci/id=${studentId}`,
+      url: `https://senka.valentura.com/api/teacher/update-ogrenci/id=${studentId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -89,7 +89,7 @@ function StudentDetail() {
 
       axios({
         method: 'POST',
-        url: `https://dev.senkaturizm.com/api/teacher/add-makbuz-for-ogrenci/id=${studentId}`,
+        url: `https://senka.valentura.com/api/teacher/add-makbuz-for-ogrenci/id=${studentId}`,
         headers: {
           "Authorization": `Bearer ${myUser?.access}`
         },

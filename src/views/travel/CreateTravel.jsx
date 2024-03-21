@@ -101,7 +101,7 @@ function TravelForm() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("https://dev.senkaturizm.com/api/users/create-travel-form", formData, {
+            const response = await axios.post("https://senka.valentura.com/api/users/create-travel-form", formData, {
                 headers: {
                     "Content-Type": "application/json",
                 },

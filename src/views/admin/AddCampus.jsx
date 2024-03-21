@@ -16,7 +16,7 @@ export default function AddCampus() {
   const getCampus = () => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/crm/get-school/id=${id}`,
+      url: `https://senka.valentura.com/api/crm/get-school/id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -37,7 +37,7 @@ export default function AddCampus() {
   const addCampus = () => {
     axios({
       method: 'POST',
-      url: `https://dev.senkaturizm.com/api/crm/add-campus/school-id=${id}`,
+      url: `https://senka.valentura.com/api/crm/add-campus/school-id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -58,7 +58,7 @@ export default function AddCampus() {
   const deleteCampus = (id) => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/crm/delete-campus/id=${id}`,
+      url: `https://senka.valentura.com/api/crm/delete-campus/id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

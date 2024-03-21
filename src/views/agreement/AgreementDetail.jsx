@@ -239,7 +239,7 @@ function EditableFormPage({ }) {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/get-mutabakat-form/id=${formId}`,
+      url: `https://senka.valentura.com/api/operation-team/mutabakat/get-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -391,7 +391,7 @@ function EditableFormPage({ }) {
   const handleApprove = () => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/approve-mutabakat-form/id=${formId}`,
+      url: `https://senka.valentura.com/api/operation-team/mutabakat/approve-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -408,7 +408,7 @@ function EditableFormPage({ }) {
   const handleReject = () => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/reject-mutabakat-form/id=${formId}`,
+      url: `https://senka.valentura.com/api/operation-team/mutabakat/reject-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -424,7 +424,7 @@ function EditableFormPage({ }) {
   const saveChanges = () => {
     axios({
       method: 'PATCH',
-      url: `https://dev.senkaturizm.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
+      url: `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

@@ -15,7 +15,7 @@ function MuhasebeSayfasi() {
       "Authorization": `Bearer ${myUser?.access}`
     };
 
-    const url = 'https://dev.senkaturizm.com/api/muhasebe/get-all-makbuz';
+    const url = 'https://senka.valentura.com/api/muhasebe/get-all-makbuz';
 
     const requestOptions = {
       method: 'GET',
@@ -35,7 +35,7 @@ function MuhasebeSayfasi() {
   }, []);
 
   const handleOnayClick = (ogrenciId) => {
-    const onayUrl = `https://dev.senkaturizm.com/api/muhasebe/approve-makbuz/id=${ogrenciId}`;
+    const onayUrl = `https://senka.valentura.com/api/muhasebe/approve-makbuz/id=${ogrenciId}`;
 
     const headers = {
       "Content-Type": "application/json",

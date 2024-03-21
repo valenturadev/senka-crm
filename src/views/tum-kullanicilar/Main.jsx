@@ -18,7 +18,7 @@ export default function TumKullanicilar() {
 
     axios({
       method: 'GET',
-      url: 'https://dev.senkaturizm.com/api/crm/get-all-users',
+      url: 'https://senka.valentura.com/api/crm/get-all-users',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${myUser?.access}`,

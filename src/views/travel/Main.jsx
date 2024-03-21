@@ -24,7 +24,7 @@ function Main() {
     let myUser = JSON.parse(localUser);
 
     try {
-      const response = await fetch(`https://dev.senkaturizm.com/api/customer-relations/travel-forms/get-all-travel-forms/status=${_status}`, {
+      const response = await fetch(`https://senka.valentura.com/api/customer-relations/travel-forms/get-all-travel-forms/status=${_status}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

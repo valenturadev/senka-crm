@@ -13,7 +13,7 @@ function MutabakatDetay() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/finance/get-mutabakat-form/id=${mutabakatId}`,
+      url: `https://senka.valentura.com/api/finance/get-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -48,7 +48,7 @@ function MutabakatDetay() {
   const handleOnayla = () => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/finance/approve-mutabakat-form/id=${mutabakatId}`,
+      url: `https://senka.valentura.com/api/finance/approve-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -66,7 +66,7 @@ function MutabakatDetay() {
   const handleReddet = () => {
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/finance/reject-mutabakat-form/id=${mutabakatId}`,
+      url: `https://senka.valentura.com/api/finance/reject-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

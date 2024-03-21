@@ -31,7 +31,7 @@ export default function OgrenciIade() {
 
     axios({
       method: 'GET',
-      url: `https://dev.senkaturizm.com/api/users/get-ogrenci-iade/id=${id}`,
+      url: `https://senka.valentura.com/api/users/get-ogrenci-iade/id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -89,7 +89,7 @@ export default function OgrenciIade() {
 
     axios({
       method: 'POST',
-      url: `https://dev.senkaturizm.com/api/users/ogrenci-iade/id=${id}`,
+      url: `https://senka.valentura.com/api/users/ogrenci-iade/id=${id}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`

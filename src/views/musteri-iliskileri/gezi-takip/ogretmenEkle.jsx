@@ -54,7 +54,7 @@ function ogretmenEkle() {
     }
     axios({
       method: 'POST',
-      url: `https://dev.senkaturizm.com/api/customer-relations/gezi-takip/add-ogretmen/gezi-id=${geziId}`,
+      url: `https://senka.valentura.com/api/customer-relations/gezi-takip/add-ogretmen/gezi-id=${geziId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
