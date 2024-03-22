@@ -124,12 +124,12 @@ function EditableFormPage({ }) {
     };
     setFormData(prevState => ({
       ...prevState,
-      oteller: [...prevState.oteller, newOtel, { ...newOtel }]
+      oteller: [prevState.oteller, newOtel, { ...newOtel }]
     }));
 
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
-      oteller: [...prevState.oteller, newOtel, { ...newOtel }]
+      oteller: [prevState.oteller, newOtel, { ...newOtel }]
     }));
 
   }
@@ -145,12 +145,12 @@ function EditableFormPage({ }) {
     };
     setFormData(prevState => ({
       ...prevState,
-      ulasim_araclari: [...prevState.ulasim_araclari, newUlasimAraci]
+      ulasim_araclari: [prevState.ulasim_araclari, newUlasimAraci]
     }));
 
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
-      ulasim_araclari: [...prevState.ulasim_araclari, newUlasimAraci]
+      ulasim_araclari: [prevState.ulasim_araclari, newUlasimAraci]
     }));
 
   }
@@ -161,7 +161,7 @@ function EditableFormPage({ }) {
       ulasim_araclari: prevState.ulasim_araclari.filter((_, index) => index !== indexToRemove)
     }));
 
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
       ulasim_araclari: prevState.ulasim_araclari.filter((_, index) => index !== indexToRemove)
     }));
@@ -172,7 +172,7 @@ function EditableFormPage({ }) {
       ...prevState,
       oteller: prevState.oteller.filter((_, index) => index !== indexToRemove)
     }));
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
       oteller: prevState.oteller.filter((_, index) => index !== indexToRemove)
     }));
@@ -190,11 +190,11 @@ function EditableFormPage({ }) {
     };
     setFormData(prevState => ({
       ...prevState,
-      rehberler: [...prevState.rehberler, newRehber]
+      rehberler: [prevState.rehberler, newRehber]
     }));
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
-      rehberler: [...prevState.rehberler, newRehber]
+      rehberler: [prevState.rehberler, newRehber]
     }));
   }
 
@@ -203,7 +203,7 @@ function EditableFormPage({ }) {
       ...prevState,
       rehberler: prevState.rehberler.filter((_, index) => index !== indexToRemove)
     }));
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
       rehberler: prevState.rehberler.filter((_, index) => index !== indexToRemove)
     }));
@@ -213,11 +213,11 @@ function EditableFormPage({ }) {
   const handleAddYer = () => {
     setFormData(prevState => ({
       ...prevState,
-      giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
+      giris_yapilan_yerler: [prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
     }));
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
-      giris_yapilan_yerler: [...prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
+      giris_yapilan_yerler: [prevState.giris_yapilan_yerler, { giris_yapilan_yer: '', pp: '' }]
     }));
   }
 
@@ -226,7 +226,7 @@ function EditableFormPage({ }) {
       ...prevState,
       giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
     }));
-    editedData(prevState => ({
+    setEditedData(prevState => ({
       ...prevState,
       giris_yapilan_yerler: prevState.giris_yapilan_yerler.filter((_, index) => index !== indexToRemove)
     }));
@@ -787,7 +787,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id={`ulasim_araci_ismi_${index}`}
                 name={`ulasim_araclari[${index}].ulasim_araci_ismi`}
-                value={ulasim.ulasim_araci_ismi || ''}
+                value={ulasim?.ulasim_araci_ismi || ''}
                 onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -797,7 +797,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id={`ulasim_araci_tipi${index}`}
                 name={`ulasim_araclari[${index}].ulasim_araci_tipi`}
-                value={ulasim.ulasim_araci_tipi || ''}
+                value={ulasim?.ulasim_araci_tipi || ''}
                 onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -807,7 +807,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id={`ulasim_araci_rotasi${index}`}
                 name={`ulasim_araci_rotasi[${index}].ulasim_araci_rotasi`}
-                value={ulasim.ulasim_araci_rotasi || ''}
+                value={ulasim?.ulasim_araci_rotasi || ''}
                 onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -817,7 +817,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id={`arac_kisi_sayisi${index}`}
                 name={`arac_kisi_sayisi[${index}].arac_kisi_sayisi`}
-                value={ulasim.arac_kisi_sayisi || ''}
+                value={ulasim?.arac_kisi_sayisi || ''}
                 onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -827,7 +827,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id={`ulasim_araci_birim_fiyat${index}`}
                 name={`ulasim_araci_birim_fiyat[${index}].ulasim_araci_birim_fiyat`}
-                value={ulasim.ulasim_araci_birim_fiyat || ''}
+                value={ulasim?.ulasim_araci_birim_fiyat || ''}
                 onChange={(e) => handleEvolvedArrayChange(e, index, 'ulasim_araclari')}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -856,7 +856,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_ismi_${index}`}
                     name={`oteller[${index}].otel_ismi`}
-                    value={otel.otel_ismi || ''}
+                    value={otel?.otel_ismi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -868,7 +868,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`kalinacak_gun_sayisi${index}`}
                     name={`oteller[${index}].kalinacak_gun_sayisi`}
-                    value={otel.kalinacak_gun_sayisi || ''}
+                    value={otel?.kalinacak_gun_sayisi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -883,7 +883,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_SNG_birim_fiyat${index}`}
                     name={`oteller[${index}].otel_SNG_birim_fiyat`}
-                    value={otel.otel_SNG_birim_fiyat || ''}
+                    value={otel?.otel_SNG_birim_fiyat || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -894,7 +894,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_SNG_oda_sayisi${index}`}
                     name={`oteller[${index}].otel_SNG_oda_sayisi`}
-                    value={otel.otel_SNG_oda_sayisi || ''}
+                    value={otel?.otel_SNG_oda_sayisi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -909,7 +909,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_DBL_birim_fiyat${index}`}
                     name={`oteller[${index}].otel_DBL_birim_fiyat`}
-                    value={otel.otel_DBL_birim_fiyat || ''}
+                    value={otel?.otel_DBL_birim_fiyat || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -920,7 +920,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_DBL_oda_sayisi${index}`}
                     name={`oteller[${index}].otel_DBL_oda_sayisi`}
-                    value={otel.otel_DBL_oda_sayisi || ''}
+                    value={otel?.otel_DBL_oda_sayisi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -935,7 +935,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_TRP_birim_fiyat${index}`}
                     name={`oteller[${index}].otel_TRP_birim_fiyat`}
-                    value={otel.otel_TRP_birim_fiyat || ''}
+                    value={otel?.otel_TRP_birim_fiyat || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -946,7 +946,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`otel_TRP_oda_sayisi${index}`}
                     name={`oteller[${index}].otel_TRP_oda_sayisi`}
-                    value={otel.otel_TRP_oda_sayisi || ''}
+                    value={otel?.otel_TRP_oda_sayisi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'oteller')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -976,7 +976,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`rehber_ismi_${index}`}
                     name={`rehberler[${index}].rehber_ismi`}
-                    value={rehber.rehber_ismi || ''}
+                    value={rehber?.rehber_ismi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -988,7 +988,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`rehber_yevmiyesi${index}`}
                     name={`rehberler[${index}].rehber_yevmiyesi`}
-                    value={rehber.rehber_yevmiyesi || ''}
+                    value={rehber?.rehber_yevmiyesi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -1000,7 +1000,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`rehber_gun_sayisi${index}`}
                     name={`rehberler[${index}].rehber_gun_sayisi`}
-                    value={rehber.rehber_gun_sayisi || ''}
+                    value={rehber?.rehber_gun_sayisi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -1014,7 +1014,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`rehber_gunluk_yemek_birim_fiyati${index}`}
                     name={`rehberler[${index}].rehber_gunluk_yemek_birim_fiyati`}
-                    value={rehber.rehber_gunluk_yemek_birim_fiyati || ''}
+                    value={rehber?.rehber_gunluk_yemek_birim_fiyati || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -1026,7 +1026,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`rehber_YD_harc${index}`}
                     name={`rehberler[${index}].rehber_YD_harc`}
-                    value={rehber.rehber_YD_harc || ''}
+                    value={rehber?.rehber_YD_harc || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -1038,7 +1038,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`rehber_YD_harc_gun_sayisi${index}`}
                     name={`rehberler[${index}].rehber_YD_harc_gun_sayisi`}
-                    value={rehber.rehber_YD_harc_gun_sayisi || ''}
+                    value={rehber?.rehber_YD_harc_gun_sayisi || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'rehberler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -1100,7 +1100,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`giris_yapilan_yer_${index}`}
                     name={`giris_yapilan_yerler[${index}].giris_yapilan_yer`}
-                    value={yer.giris_yapilan_yer || ''}
+                    value={yer?.giris_yapilan_yer || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
@@ -1112,7 +1112,7 @@ function EditableFormPage({ }) {
                     type="text"
                     id={`pp${index}`}
                     name={`giris_yapilan_yerler[${index}].pp`}
-                    value={yer.pp || ''}
+                    value={yer?.pp || ''}
                     onChange={(e) => handleEvolvedArrayChange(e, index, 'giris_yapilan_yerler')}
                     className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
                   />
