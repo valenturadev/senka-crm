@@ -38,7 +38,7 @@ function MutabakatDetay() {
         return 'Onaylandı';
       } else if (value === false) {
         return 'Onaylanmadı';
-      } else {
+      } else if (value === null){
         return 'Bilgi Yok';
       }
     }
