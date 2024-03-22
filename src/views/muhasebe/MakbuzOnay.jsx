@@ -88,7 +88,7 @@ function MuhasebeSayfasi() {
                 <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{`${ogrenci.gezi_adi}`}</td>
                 <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{`${ogrenci.ogrenci_adi} ${ogrenci.ogrenci_soyadi}`}</td>
                 <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                  <a href={"https://dev.senkaturizm.com" + ogrenci.makbuz} target="_blank" rel="noopener noreferrer">
+                  <a href={"https://senka.valentura.com" + ogrenci.makbuz} target="_blank" rel="noopener noreferrer">
                     Makbuz Görüntüle
                   </a>
                 </td>
