@@ -9,7 +9,6 @@ function EditableFormPage({ }) {
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
 
-
   const [formData, setFormData] = useState({
     id: null,
     is_approve: null,
@@ -274,13 +273,13 @@ function EditableFormPage({ }) {
       ogrenci_sayisi: formData.ogrenci_sayisi,
       ogretmen_sayisi: formData.ogretmen_sayisi,
       birim_fiyat: formData.birim_fiyat,
-      ulasim_araclari: [...formData.ulasim_araclari],
-      oteller: [...formData.oteller],
-      rehberler: [...formData.rehberler],
+      ulasim_araclari: formData.ulasim_araclari,
+      oteller: formData.oteller,
+      rehberler: formData.rehberler,
       ogretmenler: {
         ...formData.ogretmenler
       },
-      giris_yapilan_yerler: [...formData.giris_yapilan_yerler]
+      giris_yapilan_yerler: formData.giris_yapilan_yerler
     }));
   }, [formData]);
 
@@ -781,7 +780,7 @@ function EditableFormPage({ }) {
             <h2 className="text-xl font-semibold mt-4 mb-2">Ulaşım Araçları</h2>
             <button onClick={handleAddUlasimAraci} className="p-2 bg-blue-500 text-white rounded">Ulaşım Aracı Ekle</button>
           </div>
-          {formData.ulasim_araclari.map((ulasim, index) => (
+          {formData.ulasim_araclari?.map((ulasim, index) => (
             <div key={index} className="mb-4">
               <label htmlFor={`ulasim_araci_ismi_${index}`} className="block font-semibold">Ulaşım Aracı İsmi</label>
               <input
@@ -847,7 +846,7 @@ function EditableFormPage({ }) {
             <h2 className="text-xl font-semibold mt-4 mb-2">Oteller</h2>
             <button onClick={handleAddOtel} className="p-2 bg-blue-500 text-white rounded">Otel Ekle</button>
           </div>
-          {formData.oteller.map((otel, index) => (
+          {formData.oteller?.map((otel, index) => (
             <div key={index} className="mb-4">
               <div className="flex space-x-4">
                 {/* Otel İsmi */}
@@ -968,7 +967,7 @@ function EditableFormPage({ }) {
             <button onClick={handleAddRehber} className="p-2 bg-blue-500 text-white rounded">Rehber Ekle</button>
           </div>
 
-          {formData.rehberler.map((rehber, index) => (
+          {formData.rehberler?.map((rehber, index) => (
             <div key={index} className="mb-4">
               <div className="flex space-x-4">
                 <div className="w-1/3">
@@ -1064,7 +1063,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id="ogretmenler.pp"
                 name="ogretmenler.pp"
-                value={formData.ogretmenler.pp || ''}
+                value={formData.ogretmenler?.pp || ''}
                 onChange={handleOgretmenChange}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -1076,7 +1075,7 @@ function EditableFormPage({ }) {
                 type="text"
                 id="ogretmenler.yd_harc"
                 name="ogretmenler.yd_harc"
-                value={formData.ogretmenler.yd_harc || ''}
+                value={formData.ogretmenler?.yd_harc || ''}
                 onChange={handleOgretmenChange}
                 className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               />
@@ -1092,7 +1091,7 @@ function EditableFormPage({ }) {
             <button onClick={handleAddYer} className="p-2 bg-blue-500 text-white rounded">Yer Ekle</button>
           </div>
 
-          {formData.giris_yapilan_yerler.map((yer, index) => (
+          {formData.giris_yapilan_yerler?.map((yer, index) => (
             <div key={index} className="mb-4">
               <div className="flex space-x-4">
                 <div className="w-1/2">
