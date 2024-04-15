@@ -120,9 +120,10 @@ function TravelForm() {
         }
     };
 
+    const wordLength = formData.aktivite_ve_beklentiler.length;
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu</h1>
+            <h1 className="text-2xl font-semibold mb-4">Gezi Talep Formu</h1>
             <form onSubmit={handleSubmit}>
                 <Toaster />
                 {/* Kampüs adı */}
@@ -250,7 +251,9 @@ function TravelForm() {
                         value={formData.aktivite_ve_beklentiler}
                         onChange={handleChangeStandard}
                         className="mt-1 p-2 w-full rounded-md border-gray-300"
+                        maxLength={500}
                     />
+                    <p>Harf sınırı: {formData.aktivite_ve_beklentiler.length} / 500</p>
                 </div>
 
                 <h5 className="text-xl mb-6 text-blue-900"> Program Detayı</h5>
@@ -284,6 +287,18 @@ function TravelForm() {
                                 className="cursor-pointer"
                             />
                             <span>Otobüs</span>
+                        </label>
+                        <label className="flex items-center space-x-2 cursor-pointer">
+                            <input
+                                type="radio"
+                                id="ulasim_araci_double"
+                                name="ulasim_araci"
+                                value="double"
+                                checked={formData.ulasim_araci === 'double'}
+                                onChange={handleChangeStandard}
+                                className="cursor-pointer"
+                            />
+                            <span>Her İkisi</span>
                         </label>
                     </div>
                 </div>

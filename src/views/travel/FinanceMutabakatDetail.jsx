@@ -150,14 +150,14 @@ function FinanceMutabakatDetail() {
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu Detayları</h1>
+            <h1 className="text-2xl font-semibold mb-4">Gezi Talep Formu Detayları</h1>
 
             <div className="mb-4 space-x-2">
                 <button
                     className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
                     onClick={handleApprove} // Kabul Et butonuna tıklandığında handleApprove fonksiyonunu çağırın
                 >
-                    Kabul Et
+                    Satışa Çık
                 </button>
                 <button
                     className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"

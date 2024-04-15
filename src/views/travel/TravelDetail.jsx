@@ -181,7 +181,7 @@ function TravelFormDetails() {
 
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-      <h1 className="text-2xl font-semibold mb-4">Gezi Seyahat Formu Detayları</h1>
+      <h1 className="text-2xl font-semibold mb-4">Gezi Talep Formu Detayları</h1>
       <Toaster />
       {/* Düzenle, Kabul Et ve Reddet Butonları */}
       {!isEditable ? (

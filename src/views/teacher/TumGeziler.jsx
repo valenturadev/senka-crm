@@ -45,10 +45,10 @@ function TravelTable() {
                 Donulecek Şehir
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                Kampüs Adı
+                Okul Adı
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                Okul Adı
+                Kampüs Adı
               </th>
             </tr>
           </thead>
@@ -70,10 +70,10 @@ function TravelTable() {
                   {travel.mutabakat.donulecek_sehir}
                 </td>
                 <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
-                  {travel.mutabakat.kampus_adi}
+                  {travel.mutabakat.okul}
                 </td>
                 <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
-                  {travel.mutabakat.okul}
+                  {travel.mutabakat.kampus_adi}
                 </td>
               </tr>
             ))}
