@@ -112,6 +112,9 @@ import AddSchool from "../views/admin/AddSchool";
 import AddCampus from "../views/admin/AddCampus";
 import FinanceMutabakat from "../views/travel/FinanceMutabakat";
 import FinanceMutabakatDetail from "../views/travel/FinanceMutabakatDetail";
+import AddHotel from "../views/admin/AddHotel";
+import RestaurantManagement from "../views/admin/AddRestaurant";
+import GuideManagement from "../views/admin/AddContact";
 
 const Router = () => {
   const routes = [
@@ -475,6 +478,18 @@ const Router = () => {
         {
           path: "/okul-ekle",
           element: <AddSchool />
+        },
+        {
+          path: "/otel-ekle",
+          element: <AddHotel />
+        },
+        {
+          path: "/rehber-ekle",
+          element: <GuideManagement />
+        },
+        {
+          path: "/restoran-ekle",
+          element: <RestaurantManagement />
         },
         {
           path: "/kampus-ekle/:id",
