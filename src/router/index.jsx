@@ -115,6 +115,8 @@ import FinanceMutabakatDetail from "../views/travel/FinanceMutabakatDetail";
 import AddHotel from "../views/admin/AddHotel";
 import RestaurantManagement from "../views/admin/AddRestaurant";
 import GuideManagement from "../views/admin/AddContact";
+import AccountingAgreementForms from "../views/muhasebe/AccountingAgreementForms";
+import Mutabakatlar from "../views/finans/GetAllMutabakat";
 
 const Router = () => {
   const routes = [
@@ -128,7 +130,7 @@ const Router = () => {
         },
         {
           path: "/mutabakat-listesi",
-          element: <MutabakatListesi />,
+          element: <Mutabakatlar />,
         },
         {
           path: "/makbuz-onay",
@@ -490,6 +492,9 @@ const Router = () => {
         {
           path: "/restoran-ekle",
           element: <RestaurantManagement />
+        }, {
+          path: "/muhasebe-mutabakat-formlari/",
+          element: <AccountingAgreementForms />
         },
         {
           path: "/kampus-ekle/:id",
