@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function AddSchool() {
     const [schools, setSchools] = useState([]);
-    const [input, setInput] = useState({ name: '' });
+    const [input, setInput] = useState({ name: '', phone_number: '', email: '' });
     let localUser = localStorage.getItem("user");
     let myUser = JSON.parse(localUser);
 
@@ -30,7 +30,8 @@ export default function AddSchool() {
     }
 
     const handleInputChange = (e) => {
-        setInput({ name: e.target.value });
+        const { name, value } = e.target;
+        setInput(prevInput => ({ ...prevInput, [name]: value }));
     };
 
     const addSchool = () => {
@@ -42,12 +43,14 @@ export default function AddSchool() {
                 "Authorization": `Bearer ${myUser?.access}`
             },
             data: {
-                "school_name": input.name
+                "school_name": input.name,
+                "phone_number": input.phone_number,
+                "email": input.email
             }
         })
             .then(response => {
                 getSchools();
-                setInput({ name: '' });
+                setInput({ name: '', phone_number: '', email: '' });
             })
             .catch(error => {
                 console.error('Okul eklenirken bir hata oluştu:', error);
@@ -80,7 +83,11 @@ export default function AddSchool() {
                 <ul className="mb-4 space-y-2">
                     {schools?.map(school => (
                         <li key={school.id} className="flex items-center justify-between bg-white rounded p-4 shadow-md">
-                            <Link to={`/kampus-ekle/${school.id}`} className="text-blue-500 underline">{school.name}</Link>
+                            <div>
+                                <Link to={`/kampus-ekle/${school.id}`} className="text-blue-500 underline">{school.name}</Link>
+                                <p>{school.phone}</p>
+                                <p>{school.email}</p>
+                            </div>
                             <button onClick={() => deleteSchool(school.id)} className="text-red-500 ml-2">Okulu Sil</button>
                         </li>
                     ))}
@@ -89,8 +96,25 @@ export default function AddSchool() {
             <div className="flex space-x-2">
                 <input
                     type="text"
+                    name="name"
                     placeholder="Yeni Okul Adı"
                     value={input.name}
+                    onChange={handleInputChange}
+                    className="flex-grow p-2 border rounded focus:outline-none"
+                />
+                <input
+                    type="text"
+                    name="phone_number"
+                    placeholder="Telefon Numarası"
+                    value={input.phone_number}
+                    onChange={handleInputChange}
+                    className="flex-grow p-2 border rounded focus:outline-none"
+                />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={input.email}
                     onChange={handleInputChange}
                     className="flex-grow p-2 border rounded focus:outline-none"
                 />
@@ -98,4 +122,4 @@ export default function AddSchool() {
             </div>
         </div>
     );
-};
+}

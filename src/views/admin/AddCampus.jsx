@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 export default function AddCampus() {
   const [schools, setSchools] = useState([]);
-  const [input, setInput] = useState({ name: '' });
+  const [input, setInput] = useState({ name: '', campus_phone: '', campus_email: '' });
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
   const { id } = useParams();
@@ -31,7 +31,8 @@ export default function AddCampus() {
   }
 
   const handleInputChange = (e) => {
-    setInput({ name: e.target.value });
+    const { name, value } = e.target;
+    setInput(prevInput => ({ ...prevInput, [name]: value }));
   };
 
   const addCampus = () => {
@@ -43,22 +44,24 @@ export default function AddCampus() {
         "Authorization": `Bearer ${myUser?.access}`
       },
       data: {
-        "campus_name": input.name
+        "campus_name": input.name,
+        "campus_phone": input.campus_phone,
+        "campus_email": input.campus_email
       }
     })
       .then(response => {
         getCampus();
-        setInput({ name: '' });
+        setInput({ name: '', campus_phone: '', campus_email: '' });
       })
       .catch(error => {
         console.error('Kampüs eklenirken bir hata oluştu:', error);
       });
   };
 
-  const deleteCampus = (id) => {
+  const deleteCampus = (campusId) => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/crm/delete-campus/id=${id}`,
+      url: `https://senka.valentura.com/api/crm/delete-campus/id=${campusId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -86,8 +89,25 @@ export default function AddCampus() {
       <div className="flex space-x-2">
         <input
           type="text"
+          name="name"
           placeholder="Yeni Kampüs Adı"
           value={input.name}
+          onChange={handleInputChange}
+          className="flex-grow p-2 border rounded focus:outline-none"
+        />
+        <input
+          type="text"
+          name="campus_phone"
+          placeholder="Telefon Numarası"
+          value={input.campus_phone}
+          onChange={handleInputChange}
+          className="flex-grow p-2 border rounded focus:outline-none"
+        />
+        <input
+          type="email"
+          name="campus_email"
+          placeholder="Email"
+          value={input.campus_email}
           onChange={handleInputChange}
           className="flex-grow p-2 border rounded focus:outline-none"
         />
