@@ -13,7 +13,7 @@ function Mutabakatlar() {
   useEffect(() => {
     axios({
       method: 'GET',
-      url: `https://senka.valentura.com/api/finance/get-all-mutabakat-forms/status=${selectedStatus}`,
+      url: `https://senka.valentura.com/api/finance/get-all-mutabakat-forms/status=all`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
@@ -64,6 +64,7 @@ function Mutabakatlar() {
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Dönülecek Şehir</th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Kampus Adı</th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Okul Adı</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Bitiş Tarihi</th>
           </tr>
         </thead>
         <tbody>
@@ -79,6 +80,7 @@ function Mutabakatlar() {
               <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">{mutabakat.donulecek_sehir}</td>
               <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">{mutabakat.kampus_adi}</td>
               <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">{mutabakat.okul}</td>
+              <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">{mutabakat.expiration_date}</td>
             </tr>
           ))}
         </tbody>

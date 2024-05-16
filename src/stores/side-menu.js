@@ -124,6 +124,10 @@ const sideMenuData = [
         icon: "",
         pathname: "/makbuz-onay/",
         title: "Makbuz onay",
+      }, {
+        icon: "",
+        pathname: "/muhasebe-mutabakat-formlari/",
+        title: "Mutabakat Formları",
       },
     ],
   },

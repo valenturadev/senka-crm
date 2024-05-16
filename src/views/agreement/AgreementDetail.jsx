@@ -110,6 +110,9 @@ function EditableFormPage({ }) {
     giris_yapilan_yerler: []
   });
 
+  const [expirationDate, setExpirationDate] = useState('');
+
+
   const handleAddOtel = () => {
     // Yeni bir otel eklemek için
     const newOtel = {
@@ -313,10 +316,12 @@ function EditableFormPage({ }) {
 
   const handleEvolvedArrayChange = (event, index, arrayName) => {
     const { value } = event.target;
-    // Split the name to extract the property we're updating
     const propertyToUpdate = event.target.name.split('.')[1].split(']')[0];
 
-    const updatedArray = [...formData[arrayName]];
+    const updatedArray = formData[arrayName] ? [...formData[arrayName]] : [];
+    if (!updatedArray[index]) {
+      updatedArray[index] = {};
+    }
     updatedArray[index][propertyToUpdate] = value;
 
     setFormData({
@@ -328,6 +333,7 @@ function EditableFormPage({ }) {
       [arrayName]: updatedArray
     });
   };
+
 
   const handleOgretmenChange = (event) => {
     const { name, value } = event.target;
@@ -389,11 +395,14 @@ function EditableFormPage({ }) {
 
   const handleApprove = () => {
     axios({
-      method: 'GET',
+      method: 'POST',
       url: `https://senka.valentura.com/api/operation-team/mutabakat/approve-mutabakat-form/id=${formId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
+      },
+      data: {
+        expiration_date: expirationDate
       }
     })
       .then((response) => {
@@ -721,6 +730,19 @@ function EditableFormPage({ }) {
             className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
           />
         </div> */}
+
+        {/* Expiration Date */}
+        <div className="mb-2">
+          <label htmlFor="expiration_date" className="block font-semibold">Geçerlilik Tarihi</label>
+          <input
+            type="date"
+            id="expiration_date"
+            name="expiration_date"
+            value={expirationDate}
+            onChange={(e) => setExpirationDate(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+          />
+        </div>
 
         {/* ogrenci_sayisi */}
         <div className="mb-2">
