@@ -46,6 +46,10 @@ const OgrenciListesi = () => {
             id: `placeholder-${i + 1}`,
             numara: i + 1,
             placeholder: true,
+            ogrenci_adi: '',
+            ogrenci_soyadi: '',
+            ogrenci_sinif: '',
+            ogrenci_phone: ''
           }));
           aracData.students = studentsWithPlaceholders;
           setArac(aracData);
@@ -115,11 +119,21 @@ const OgrenciListesi = () => {
       const [movedItem] = sourceItems.splice(sourceIndex, 1);
 
       if (!movedItem.placeholder) {
-        destinationItems.push(movedItem);
+        destinationItems.push({ 
+          id: movedItem.id, 
+          ogrenci_adi: movedItem.ogrenci_adi, 
+          ogrenci_soyadi: movedItem.ogrenci_soyadi, 
+          ogrenci_sinif: movedItem.ogrenci_sinif, 
+          ogrenci_phone: movedItem.ogrenci_phone 
+        });
         sourceItems.splice(sourceIndex, 0, {
           id: `placeholder-${sourceIndex + 1}`,
           numara: sourceIndex + 1,
           placeholder: true,
+          ogrenci_adi: '',
+          ogrenci_soyadi: '',
+          ogrenci_sinif: '',
+          ogrenci_phone: ''
         });
 
         setOgrenciler(destinationItems);
@@ -138,6 +152,10 @@ const OgrenciListesi = () => {
           id: `placeholder-${sourceIndex + 1}`,
           numara: sourceIndex + 1,
           placeholder: true,
+          ogrenci_adi: '',
+          ogrenci_soyadi: '',
+          ogrenci_sinif: '',
+          ogrenci_phone: ''
         });
         setArac({
           ...arac,
@@ -231,6 +249,13 @@ const OgrenciListesi = () => {
                       {student.placeholder ? (
                         <div>
                           <p className="text-sm font-semibold">{student.numara}</p>
+                          {student.ogrenci_adi && (
+                            <div>
+                              <p className="text-sm font-semibold">{student.ogrenci_adi} {student.ogrenci_soyadi}</p>
+                              <p className="text-gray-700 text-xs"><span className="font-semibold">Sınıf:</span> {student.ogrenci_sinif}</p>
+                              <p className="text-gray-700 text-xs"><span className="font-semibold">Telefon:</span> {student.ogrenci_phone}</p>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <Draggable key={student.id} draggableId={student.id.toString()} index={index}>
@@ -241,8 +266,8 @@ const OgrenciListesi = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <p className="text-sm font-semibold">{student.name} {student.surname}</p>
-                              <p className="text-gray-700 text-xs"><span className="font-semibold">Telefon:</span> {student.phone}</p>
+                              <p className="text-sm font-semibold">{student.ogrenci_adi} {student.ogrenci_soyadi}</p>
+                              <p className="text-gray-700 text-xs"><span className="font-semibold">Telefon:</span> {student.ogrenci_phone}</p>
                             </div>
                           )}
                         </Draggable>
@@ -258,16 +283,14 @@ const OgrenciListesi = () => {
       </DragDropContext>
       <div className="flex justify-end mt-4">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700"
           onClick={handleKaydet}
         >
           Kaydet
         </button>
       </div>
-      {error && <div className="text-red-500">Hata oluştu: {error.message}</div>}
     </div>
   );
 };
 
 export default OgrenciListesi;
-

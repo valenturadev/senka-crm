@@ -120,6 +120,7 @@ import RestaurantManagement from "../views/admin/AddRestaurant";
 import GuideManagement from "../views/admin/AddContact";
 import AccountingAgreementForms from "../views/muhasebe/AccountingAgreementForms";
 import Mutabakatlar from "../views/finans/GetAllMutabakat";
+import OgrenciOteleYerlestir from '../views/teacher/OteleYerlestir';
 
 
 const Router = () => {
@@ -131,6 +132,10 @@ const Router = () => {
         {
           path: "/mutabakat/:mutabakatId",
           element: <Mutabakat />,
+        },
+        {
+          path: "/ogrenci-otelesme/:geziId",
+          element: <OgrenciOteleYerlestir />,
         },
         {
           path: "/gezi/:id",

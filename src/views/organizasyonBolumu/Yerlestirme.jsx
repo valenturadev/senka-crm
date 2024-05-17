@@ -13,6 +13,15 @@ const AracOlustur = () => {
   const [soforTel, setSoforTel] = useState('');
   const [error, setError] = useState(null);
   const [otobusler, setOtobusler] = useState([]);
+  const [oteller, setOteller] = useState([]);
+  const [otelIsmi, setOtelIsmi] = useState('');
+  const [otelAdres, setOtelAdres] = useState('');
+  const [otelTel, setOtelTel] = useState('');
+  const [otelEmail, setOtelEmail] = useState('');
+  const [otel1KisilikOdalar, setOtel1KisilikOdalar] = useState(0);
+  const [otel2KisilikOdalar, setOtel2KisilikOdalar] = useState(0);
+  const [otel3KisilikOdalar, setOtel3KisilikOdalar] = useState(0);
+  const [otel4KisilikOdalar, setOtel4KisilikOdalar] = useState(0);
   const navigate = useNavigate();
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
@@ -29,6 +38,25 @@ const AracOlustur = () => {
     .then((response) => {
       if (response.data.error === false) {
         setOtobusler(response.data.data);
+      } else {
+        console.error('API Error:', response.data.errorMsg);
+      }
+    })
+    .catch((error) => {
+      setError(error);
+    });
+
+    axios({
+      method: 'GET',
+      url: `https://senka.valentura.com/api/operation-team/gezi/get-all-otels/id=${id}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      }
+    })
+    .then((response) => {
+      if (response.data.error === false) {
+        setOteller(response.data.data);
       } else {
         console.error('API Error:', response.data.errorMsg);
       }
@@ -90,6 +118,47 @@ const AracOlustur = () => {
     } else {
       setOtobusler([...otobusler, yeniArac]);
     }
+  };
+
+  const handleOtelEkle = () => {
+    const requestData = {
+      otel_ismi: otelIsmi,
+      otel_adres: otelAdres,
+      otel_tel: otelTel,
+      otel_email: otelEmail,
+      otel_1_kişilik_odalar: otel1KisilikOdalar,
+      otel_2_kişilik_odalar: otel2KisilikOdalar,
+      otel_3_kişilik_odalar: otel3KisilikOdalar,
+      otel_4_kişilik_odalar: otel4KisilikOdalar
+    };
+
+    axios({
+      method: 'POST',
+      url: `https://senka.valentura.com/api/operation-team/gezi/add-otel/id=${id}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      },
+      data: JSON.stringify(requestData)
+    })
+    .then((response) => {
+      if (response.data.error === false) {
+        setOteller([...oteller, requestData]);
+        setOtelIsmi('');
+        setOtelAdres('');
+        setOtelTel('');
+        setOtelEmail('');
+        setOtel1KisilikOdalar(0);
+        setOtel2KisilikOdalar(0);
+        setOtel3KisilikOdalar(0);
+        setOtel4KisilikOdalar(0);
+      } else {
+        console.error('API Error:', response.data.errorMsg);
+      }
+    })
+    .catch((error) => {
+      setError(error);
+    });
   };
 
   const handleAracClick = (aracId) => {
@@ -186,6 +255,90 @@ const AracOlustur = () => {
           </div>
         ))}
       </div>
+      <h1 className="text-3xl font-medium leading-none mt-8">Otel Oluştur</h1>
+      <div className="mt-4">
+        <label className="block mb-2 text-lg font-semibold">Otel İsmi:</label>
+        <input
+          type="text"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otelIsmi}
+          onChange={(e) => setOtelIsmi(e.target.value)}
+        />
+        <label className="block mb-2 text-lg font-semibold">Adres:</label>
+        <input
+          type="text"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otelAdres}
+          onChange={(e) => setOtelAdres(e.target.value)}
+        />
+        <label className="block mb-2 text-lg font-semibold">Telefon:</label>
+        <input
+          type="text"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otelTel}
+          onChange={(e) => setOtelTel(e.target.value)}
+        />
+        <label className="block mb-2 text-lg font-semibold">E-posta:</label>
+        <input
+          type="text"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otelEmail}
+          onChange={(e) => setOtelEmail(e.target.value)}
+        />
+        <label className="block mb-2 text-lg font-semibold">1 Kişilik Odalar:</label>
+        <input
+          type="number"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otel1KisilikOdalar}
+          onChange={(e) => setOtel1KisilikOdalar(Number(e.target.value))}
+        />
+        <label className="block mb-2 text-lg font-semibold">2 Kişilik Odalar:</label>
+        <input
+          type="number"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otel2KisilikOdalar}
+          onChange={(e) => setOtel2KisilikOdalar(Number(e.target.value))}
+        />
+        <label className="block mb-2 text-lg font-semibold">3 Kişilik Odalar:</label>
+        <input
+          type="number"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otel3KisilikOdalar}
+          onChange={(e) => setOtel3KisilikOdalar(Number(e.target.value))}
+        />
+        <label className="block mb-2 text-lg font-semibold">4 Kişilik Odalar:</label>
+        <input
+          type="number"
+          className="border rounded-md p-2 mb-4 w-full"
+          value={otel4KisilikOdalar}
+          onChange={(e) => setOtel4KisilikOdalar(Number(e.target.value))}
+        />
+        <button
+          className="mt-2 bg-blue-500 text-white p-2 rounded-md"
+          onClick={handleOtelEkle}
+        >
+          Ekle
+        </button>
+      </div>
+      <h2 className="text-2xl font-medium leading-none mt-8">Mevcut Oteller</h2>
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+        {oteller.map((otel) => (
+          <div
+            key={otel.id}
+            className="border p-2 rounded-lg shadow-lg bg-white w-full flex flex-col justify-center items-center text-center cursor-pointer"
+          >
+            <p className="text-lg font-semibold">{otel.otel_ismi}</p>
+            <p className="text-gray-700 text-sm">Adres: {otel.otel_adres}</p>
+            <p className="text-gray-700 text-sm">Telefon: {otel.otel_tel}</p>
+            <p className="text-gray-700 text-sm">E-posta: {otel.otel_email}</p>
+            <p className="text-gray-700 text-sm">1 Kişilik Odalar: {otel.otel_1_kişilik_odalar}</p>
+            <p className="text-gray-700 text-sm">2 Kişilik Odalar: {otel.otel_2_kişilik_odalar}</p>
+            <p className="text-gray-700 text-sm">3 Kişilik Odalar: {otel.otel_3_kişilik_odalar}</p>
+            <p className="text-gray-700 text-sm">4 Kişilik Odalar: {otel.otel_4_kişilik_odalar}</p>
+          </div>
+        ))}
+      </div>
+      {error && <div className="text-red-500">Hata oluştu: {error.message}</div>}
     </div>
   );
 };

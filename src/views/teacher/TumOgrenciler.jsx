@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Link, useNavigate, Navigate } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Bold } from 'lucide';
-
 
 function StudentTable() {
   const [students, setStudents] = useState([]);
@@ -21,16 +20,19 @@ function StudentTable() {
       }
     })
       .then((response) => {
-
         setStudents(response.data.data.ogrenci_list);
       })
       .catch((error) => {
         console.error('API çağrısı sırasında hata oluştu:', error);
       });
-  }, []);
+  }, [geziId, myUser?.access]);
 
   const handleCreateStudent = () => {
     navigate('/yeni-ogrenci/' + geziId);
+  };
+
+  const handlePlaceStudents = () => {
+    navigate('/ogrenci-otelesme/' + geziId);
   };
 
   return (
@@ -89,7 +91,6 @@ function StudentTable() {
                     {student.id}
                   </Link>
                 </td>
-
                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                   {student.ogrenci_adi}
                 </td>
@@ -118,10 +119,7 @@ function StudentTable() {
                   {student.is_cash ? '✓' : '✗'}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-
-                  <Link to={`/ogrenci-sozlesme-getir/${student.id}`}
-                    style={{ color: 'blue', fontWeight: 'bold' }}
-                  >
+                  <Link to={`/ogrenci-sozlesme-getir/${student.id}`} style={{ color: 'blue', fontWeight: 'bold' }}>
                     {student.is_izin_formu ? '✓' : '✗'}
                   </Link>
                 </td>
@@ -141,6 +139,12 @@ function StudentTable() {
         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
       >
         Öğrenci Ekle
+      </button>
+      <button 
+        onClick={handlePlaceStudents}
+        className="ml-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+      >
+        Öğrencileri Otele Yerleştir
       </button>
     </div>
   );
