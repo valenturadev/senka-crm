@@ -112,6 +112,10 @@ import AddSchool from "../views/admin/AddSchool";
 import AddCampus from "../views/admin/AddCampus";
 import FinanceMutabakat from "../views/travel/FinanceMutabakat";
 import FinanceMutabakatDetail from "../views/travel/FinanceMutabakatDetail";
+import Geziler from "../views/organizasyonBolumu/Geziler";
+import Yerlestirme from "../views/organizasyonBolumu/Yerlestirme";
+import OgrenciYerlestirme from "../views/organizasyonBolumu/OgrenciYerlestirme"
+
 
 const Router = () => {
   const routes = [
@@ -124,8 +128,20 @@ const Router = () => {
           element: <Mutabakat />,
         },
         {
+          path: "/gezi/:id",
+          element: <Yerlestirme />,
+        },
+        {
+          path: "/ogrenci-listesi/:id/:aracId",
+          element: <OgrenciYerlestirme />,
+        },
+        {
           path: "/mutabakat-listesi",
           element: <MutabakatListesi />,
+        },
+        {
+          path: "/geziler",
+          element: <Geziler />,
         },
         {
           path: "/makbuz-onay",

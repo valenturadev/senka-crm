@@ -92,6 +92,11 @@ const sideMenuData = [
         pathname: "/mutabakat-formlari",
         title: "Mutabakat Formları",
       },
+      {
+        icon: "",
+        pathname: "/geziler",
+        title: "Geziler",
+      },
     ],
   },
   {
