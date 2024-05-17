@@ -19,7 +19,7 @@ function TravelForm() {
         ilgili_sinif: '',
         ilgili_zumre: '',
         aktivite_ve_beklentiler: '',
-        ulasim_araci: '',
+        ulasim_araci: [],
         gidis_tarihi: '',
         donus_tarihi: '',
         gidilecek_sehir: '',
@@ -36,26 +36,43 @@ function TravelForm() {
                 lokasyon: '',
                 giris: '',
                 cikis: '',
+                is_have_hotel: false,
             },
         ],
     });
 
 
 
-    // Form verilerini güncellemek için işlev
     const handleChangeStandard = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        const { name, value, type, checked } = e.target;
+        if (name === "ulasim_araci") {
+            setFormData((prevState) => {
+                let ulasim_araci = [...prevState.ulasim_araci];
+                if (checked) {
+                    ulasim_araci.push(value);
+                } else {
+                    ulasim_araci = ulasim_araci.filter((arac) => arac !== value);
+                }
+                return { ...prevState, ulasim_araci };
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
     };
 
-    // Form verilerini güncellemek için işlev
     const handleChange = (e, field, index) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         const updatedData = { ...formData };
-        updatedData[field][index][name] = value;
+
+        if (type === 'checkbox') {
+            updatedData[field][index][name] = checked;
+        } else {
+            updatedData[field][index][name] = value;
+        }
+
         setFormData(updatedData);
     };
 
@@ -78,13 +95,13 @@ function TravelForm() {
         setFormData(updatedData);
     };
 
-    // Lokasyon eklemek için işlev
     const handleAddLokasyon = () => {
         const updatedData = { ...formData };
         updatedData.lokasyons.push({
             lokasyon: '',
             giris: '',
             cikis: '',
+            is_have_hotel: false,
         });
         setFormData(updatedData);
     };
@@ -260,45 +277,29 @@ function TravelForm() {
 
                 {/* Ulaşım Aracı */}
                 <div className="mb-4">
-                    <label htmlFor="ulasim_araci" className="block text-sm font-medium text-gray-700">
-                        Ulaşım Aracı
-                    </label>
-                    <div className="flex space-x-4">
-                        <label className="flex items-center space-x-2 cursor-pointer">
+                    <label className="block text-sm font-medium text-gray-700">Ulaşım Aracı</label>
+                    <div className="mt-2 space-y-2">
+                        <label className="flex items-center">
                             <input
-                                type="radio"
-                                id="ulasim_araci_ucak"
+                                type="checkbox"
                                 name="ulasim_araci"
                                 value="uçak"
-                                checked={formData.ulasim_araci === 'uçak'}
+                                checked={formData.ulasim_araci.includes("uçak")}
                                 onChange={handleChangeStandard}
-                                className="cursor-pointer"
+                                className="form-checkbox h-5 w-5 text-blue-600"
                             />
-                            <span>Uçak</span>
+                            <span className="ml-2">Uçak</span>
                         </label>
-                        <label className="flex items-center space-x-2 cursor-pointer">
+                        <label className="flex items-center">
                             <input
-                                type="radio"
-                                id="ulasim_araci_otobus"
+                                type="checkbox"
                                 name="ulasim_araci"
                                 value="otobüs"
-                                checked={formData.ulasim_araci === 'otobüs'}
+                                checked={formData.ulasim_araci.includes("otobüs")}
                                 onChange={handleChangeStandard}
-                                className="cursor-pointer"
+                                className="form-checkbox h-5 w-5 text-blue-600"
                             />
-                            <span>Otobüs</span>
-                        </label>
-                        <label className="flex items-center space-x-2 cursor-pointer">
-                            <input
-                                type="radio"
-                                id="ulasim_araci_double"
-                                name="ulasim_araci"
-                                value="double"
-                                checked={formData.ulasim_araci === 'double'}
-                                onChange={handleChangeStandard}
-                                className="cursor-pointer"
-                            />
-                            <span>Her İkisi</span>
+                            <span className="ml-2">Otobüs</span>
                         </label>
                     </div>
                 </div>
@@ -541,6 +542,16 @@ function TravelForm() {
                                 placeholder="Çıkış"
                                 className="p-2 w-1/4 rounded-md border-gray-300"
                             />
+                            <label className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    name="is_have_hotel"
+                                    checked={lokasyon.is_have_hotel}
+                                    onChange={(e) => handleChange(e, 'lokasyons', index)}
+                                    className="form-checkbox h-5 w-5 text-blue-600"
+                                />
+                                <span className="ml-2">Otel</span>
+                            </label>
                             <button
                                 type="button"
                                 onClick={() => handleRemoveLokasyon(index)}

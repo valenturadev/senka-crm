@@ -129,6 +129,10 @@ const sideMenuData = [
         icon: "",
         pathname: "/makbuz-onay/",
         title: "Makbuz onay",
+      }, {
+        icon: "",
+        pathname: "/muhasebe-mutabakat-formlari/",
+        title: "Mutabakat Formları",
       },
     ],
   },
@@ -178,6 +182,21 @@ const sideMenuData = [
         pathname: "/okul-ekle",
         title: "Okul Ekle",
       },
+      {
+        icon: "",
+        pathname: "/otel-ekle",
+        title: "Otel Ekle",
+      },
+      {
+        icon: "",
+        pathname: "/restoran-ekle",
+        title: "Restoran Ekle",
+      },
+      {
+        icon: "",
+        pathname: "/rehber-ekle",
+        title: "Rehber Ekle",
+      }
     ],
   },
   "devider",

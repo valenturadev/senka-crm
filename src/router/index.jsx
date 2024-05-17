@@ -115,6 +115,11 @@ import FinanceMutabakatDetail from "../views/travel/FinanceMutabakatDetail";
 import Geziler from "../views/organizasyonBolumu/Geziler";
 import Yerlestirme from "../views/organizasyonBolumu/Yerlestirme";
 import OgrenciYerlestirme from "../views/organizasyonBolumu/OgrenciYerlestirme"
+import AddHotel from "../views/admin/AddHotel";
+import RestaurantManagement from "../views/admin/AddRestaurant";
+import GuideManagement from "../views/admin/AddContact";
+import AccountingAgreementForms from "../views/muhasebe/AccountingAgreementForms";
+import Mutabakatlar from "../views/finans/GetAllMutabakat";
 
 
 const Router = () => {
@@ -137,7 +142,7 @@ const Router = () => {
         },
         {
           path: "/mutabakat-listesi",
-          element: <MutabakatListesi />,
+          element: <Mutabakatlar />,
         },
         {
           path: "/geziler",
@@ -491,6 +496,21 @@ const Router = () => {
         {
           path: "/okul-ekle",
           element: <AddSchool />
+        },
+        {
+          path: "/otel-ekle",
+          element: <AddHotel />
+        },
+        {
+          path: "/rehber-ekle",
+          element: <GuideManagement />
+        },
+        {
+          path: "/restoran-ekle",
+          element: <RestaurantManagement />
+        }, {
+          path: "/muhasebe-mutabakat-formlari/",
+          element: <AccountingAgreementForms />
         },
         {
           path: "/kampus-ekle/:id",

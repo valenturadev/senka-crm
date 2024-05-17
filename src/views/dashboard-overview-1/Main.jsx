@@ -1,17 +1,19 @@
-import {
-  Lucide,
-  Tippy,
-} from "@/base-components";
+import { Lucide, Tippy } from "@/base-components";
 import ReportPieChart from "@/components/report-pie-chart/Main";
 import ReportDonutChart from "@/components/report-donut-chart/Main";
 import { useContext, useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth";
-import axios from 'axios';
+import axios from "axios";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import moment from "moment";
 
 function Main() {
-
   const { user } = useContext(AuthContext);
+
+  const [dateValue, onChangeDateValue] = useState(new Date());
+  const [dataByDate, setDataByDate] = useState(null);
 
   const [salesReportFilter, setSalesReportFilter] = useState();
   const importantNotesRef = useRef();
@@ -23,27 +25,43 @@ function Main() {
   };
 
   const [responseData, setResponseData] = useState(null);
-  const [ankaraPercentage, setAnkaraPercentage] = useState(0)
-  const [istanbulPercentage, setIstanbulPercentage] = useState(0)
+  const [ankaraPercentage, setAnkaraPercentage] = useState(0);
+  const [istanbulPercentage, setIstanbulPercentage] = useState(0);
 
   useEffect(() => {
-    axios.get('https://senka.valentura.com/api/users/ana-sayfa-oranlar')
-      .then(response => {
+    axios
+      .get("https://senka.valentura.com/api/users/ana-sayfa-oranlar")
+      .then((response) => {
         const ankaraCount = response?.data?.data?.travel_forms?.ankara_count;
         const istanbul_count = response?.data?.data?.travel_forms?.istanbul_count;
         const totalCount = response?.data?.data?.travel_forms?.count;
         const ankaraPercentage_ = (ankaraCount / totalCount) * 100;
         const istanbulPercentage_ = (istanbul_count / totalCount) * 100;
         setResponseData(response?.data?.data);
-        setAnkaraPercentage(ankaraPercentage_)
-        setIstanbulPercentage(istanbulPercentage_)
+        setAnkaraPercentage(ankaraPercentage_);
+        setIstanbulPercentage(istanbulPercentage_);
       })
-      .catch(error => {
-        console.error('API isteği başarısız:', error);
+      .catch((error) => {
+        console.error("API isteği başarısız:", error);
         setResponseData(null);
       });
   }, []);
 
+  useEffect(() => {
+    getDataByDate();
+  }, [dateValue]);
+
+  const getDataByDate = async () => {
+    let myDate = moment(dateValue).format("YYYY-MM-DD");
+    try {
+      let response = await axios.get(`https://senka.valentura.com/api/users/get-detail-from-calendar/date=${myDate}`, {});
+      console.log("response: ", response?.data?.data);
+      setDataByDate(response?.data?.data);
+    } catch (error) {
+      console.error("API isteği başarısız:", error);
+    } finally {
+    }
+  };
 
   return (
     <div className="grid grid-cols-12 gap-6">
@@ -52,44 +70,29 @@ function Main() {
           <div className="col-span-12 mt-8">
             <div className="intro-y flex items-center h-10">
               <h2 className="text-lg font-medium truncate mr-5">Genel Rapor</h2>
+
               <a href="" className="ml-auto flex items-center text-primary">
                 <Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" /> Yenile
               </a>
             </div>
+
             <div className="grid grid-cols-12 gap-6 mt-5">
-              <Link
-                to="/seyahat-formlari"
-                className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y"
-              >
+              <Link to="/seyahat-formlari" className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                 <div className="report-box zoom-in">
                   <div className="box p-5">
                     <div className="flex">
-                      <Lucide
-                        icon="Plane"
-                        className="report-box__icon text-green-500"
-                      />
-
+                      <Lucide icon="Plane" className="report-box__icon text-green-500" />
                     </div>
-                    <div className="text-3xl font-medium leading-8 mt-6">
-                      {responseData?.travel_forms?.count}
-                    </div>
-                    <div className="text-base text-slate-500 mt-1">
-                      Toplam Seyahat Formu
-                    </div>
+                    <div className="text-3xl font-medium leading-8 mt-6">{responseData?.travel_forms?.count}</div>
+                    <div className="text-base text-slate-500 mt-1">Toplam Seyahat Formu</div>
                   </div>
                 </div>
               </Link>
-              <Link
-                to="/mutabakat-formlari"
-                className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y"
-              >
+              <Link to="/mutabakat-formlari" className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                 <div className="report-box zoom-in">
                   <div className="box p-5">
                     <div className="flex">
-                      <Lucide
-                        icon="Book"
-                        className="report-box__icon text-danger"
-                      />
+                      <Lucide icon="Book" className="report-box__icon text-danger" />
                       <div className="ml-auto">
                         {/* <Tippy
                           tag="div"
@@ -104,12 +107,8 @@ function Main() {
                         </Tippy> */}
                       </div>
                     </div>
-                    <div className="text-3xl font-medium leading-8 mt-6">
-                      {responseData?.mutabakat_forms?.count}
-                    </div>
-                    <div className="text-base text-slate-500 mt-1">
-                      Toplam Mutakabat Formu
-                    </div>
+                    <div className="text-3xl font-medium leading-8 mt-6">{responseData?.mutabakat_forms?.count}</div>
+                    <div className="text-base text-slate-500 mt-1">Toplam Mutakabat Formu</div>
                   </div>
                 </div>
               </Link>
@@ -250,9 +249,7 @@ function Main() {
           {/* BEGIN: Weekly Top Seller */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
             <div className="intro-y flex items-center h-10">
-              <h2 className="text-lg font-medium truncate mr-5">
-                Seyahat Raporu
-              </h2>
+              <h2 className="text-lg font-medium truncate mr-5">Seyahat Raporu</h2>
               <a href="/seyahat-formlari" className="ml-auto text-primary truncate">
                 Daha Fazla
               </a>
@@ -284,9 +281,7 @@ function Main() {
           {/* BEGIN: Sales Report */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
             <div className="intro-y flex items-center h-10">
-              <h2 className="text-lg font-medium truncate mr-5">
-                Mutabakat Raporu
-              </h2>
+              <h2 className="text-lg font-medium truncate mr-5">Mutabakat Raporu</h2>
               <a href="/mutabakat-formlari" className="ml-auto text-primary truncate">
                 Daha Fazla
               </a>
@@ -1041,6 +1036,117 @@ function Main() {
             </div> */}
 
             {/* END: Schedules */}
+          </div>
+        </div>
+        {/* <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Olay Ekle" className="">
+          <button onClick={closeModal}>close</button>
+          <div>I am a modal</div>
+        </Modal> */}
+        <h3 className="text-lg font-medium truncate mr-5 mt-4">
+          Tarihe Göre Günlük Gidiş Geliş ({moment(dateValue).format("DD.MM.YYYY")})
+        </h3>
+        <div className="flex items-start gap-4">
+          <div>
+            <Calendar
+              onChange={onChangeDateValue}
+              value={dateValue}
+              locale="tr"
+              tileClassName={({ date, view }) => {
+                // if date selected color is primary
+                if (view === "month" && dateValue.getDate() === date.getDate()) {
+                  return "bg-[#006edc]";
+                }
+              }}
+            />
+            {/* <div className="mt-6">
+              <label htmlFor="input1" className="block font-semibold mb-1">
+                Açıklama ({moment(dateValue).format("DD.MM.YYYY")})
+              </label>
+              <input
+                type="text"
+                id="input1"
+                name="input1"
+                placeholder="Açıklama Giriniz"
+                // value=""
+                // onChange={handleChange}
+                className="w-full px-2 py-1 border rounded focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <button onClick={addDescriptionHandler} className="border rounded-lg bg-primary text-white font-bold px-3 py-2 mt-4">
+              Olay Ekle
+            </button> */}
+          </div>
+
+          <div className="">
+            <div className="flex flex-col gap-3">
+              <h4 className="font-bold text-xl underline">Gidişler</h4>
+              {dataByDate?.gidisler?.map((item, index) => (
+                <div className="flex flex-col gap-2 border-b-2 border border-primary rounded-md px-2 py-3 mb-2" key={index}>
+                  <p>
+                    <span className="font-bold">Dönülen Şehir: </span>
+                    {item?.donulen_sehir}
+                  </p>
+                  <p>
+                    <span className="font-bold">Donüş Tarihi: </span> {item?.donus_tarihi}
+                  </p>
+                  <p>
+                    <span className="font-bold">Gidilen Şehir: </span>
+                    {item?.gidilen_sehir}
+                  </p>
+                  <p>
+                    <span className="font-bold">Gidiş Tarihi: </span>
+                    {moment(item?.gidis_tarihi).format("DD:MM:YYYY")}
+                  </p>
+                  <p>
+                    <span className="font-bold">Kampüs Adı: </span>
+                    {item?.kampus_adi}
+                  </p>
+                  <p>
+                    <span className="font-bold">Okul: </span>
+                    {item?.okul}
+                  </p>
+                  <p>
+                    <span className="font-bold">Program Adı:</span>
+                    {item?.program_adi}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-2">
+              <h4 className="font-bold text-xl underline">Dönüşler</h4>
+              {dataByDate?.donusler?.map((item, index) => (
+                <div className="flex flex-col gap-2 border-b-2 border border-primary rounded-md px-2 py-3 mb-2" key={index}>
+                  <p>
+                    <span className="font-bold">Dönülen Şehir: </span>
+                    {item?.donulen_sehir}
+                  </p>
+                  <p>
+                    <span className="font-bold">Donüş Tarihi: </span> {item?.donus_tarihi}
+                  </p>
+                  <p>
+                    <span className="font-bold">Gidilen Şehir: </span>
+                    {item?.gidilen_sehir}
+                  </p>
+                  <p>
+                    <span className="font-bold">Gidiş Tarihi: </span>
+                    {moment(item?.gidis_tarihi).format("DD:MM:YYYY")}
+                  </p>
+                  <p>
+                    <span className="font-bold">Kampüs Adı: </span>
+                    {item?.kampus_adi}
+                  </p>
+                  <p>
+                    <span className="font-bold">Okul: </span>
+                    {item?.okul}
+                  </p>
+                  <p>
+                    <span className="font-bold">Program Adı:</span>
+                    {item?.program_adi}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
