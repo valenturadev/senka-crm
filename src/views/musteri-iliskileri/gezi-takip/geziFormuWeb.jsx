@@ -24,7 +24,7 @@ function GeziDetay() {
       .catch((error) => {
         console.error('API çağrısı sırasında hata oluştu:', error);
       });
-  }, []);
+  }, [formId, myUser?.access]);
 
   if (!geziVerisi) {
     // Veri henüz yüklenmediyse bir yükleme gösterebilirsiniz.
@@ -37,35 +37,27 @@ function GeziDetay() {
   }
 
   function handleButunOgretmenler() {
-    // Öğretmenlerin listesini görüntülemek için bir işlem ekleyebilirsiniz.
-    // Örneğin, bir modal pencere veya ayrı bir sayfa açabilirsiniz.
     console.log('Öğretmenler listesi butonuna tıklandı');
     navigate('/tum-ogretmenler/' + formId);
-    // Öğretmenlerin listesini görüntülemek için gerekli işlemi burada gerçekleştirin.
   }
+
+  const renderTransferler = (transferler) => {
+    if (!transferler) return null;
+    const parsedTransferler = JSON.parse(transferler);
+    return (
+      <ul>
+        {parsedTransferler.map((transfer, index) => (
+          <li key={index}>
+            <strong>Arac:</strong> {transfer.arac}, <strong>Kalkılan Durak:</strong> {transfer.kalkilan_durak}, <strong>Götürülen Durak:</strong> {transfer.goturulen_durak}
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div>
-
       <h1>Gezi Detayları</h1>
-      {/* {geziVerisi && (
-        <div>
-          <button
-            onClick={handleOgretmenEkle}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4"
-          >
-            Geziye Öğretmen Ekle
-          </button>
-          <button
-            onClick={handleButunOgretmenler}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg"
-          >
-            Gezideki Bütün Öğretmenler
-          </button>
-        </div>
-
-
-      )} */}
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
@@ -83,14 +75,12 @@ function GeziDetay() {
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Aktif Mi</td>
               <td>{geziVerisi.is_active ? 'Evet' : 'Hayır'}</td>
             </tr>
-
             <tr>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Mutabakat</td>
               <td>
                 <ul>
                   <li>ID: {geziVerisi.mutabakat.id}</li>
                   <li>Onay Durumu: {geziVerisi.mutabakat.is_approve === null ? 'Beklemede' : (geziVerisi.mutabakat.is_approve ? 'Onaylandı' : 'Reddedildi')}</li>
-                  {/* Diğer mutabakat alanlarını ekleyin */}
                 </ul>
               </td>
             </tr>
@@ -111,7 +101,7 @@ function GeziDetay() {
               <td>{geziVerisi.mutabakat.tel_no}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Gezii talep eden kişinin emaili</td>
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Gezi talep eden kişinin emaili</td>
               <td>{geziVerisi.mutabakat.email}</td>
             </tr>
             <tr>
@@ -121,10 +111,6 @@ function GeziDetay() {
             <tr>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Ülke</td>
               <td>{geziVerisi.mutabakat.ulke}</td>
-            </tr>
-            <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Şehir</td>
-              <td>{geziVerisi.mutabakat.sehir}</td>
             </tr>
             <tr>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Şehir</td>
@@ -152,7 +138,7 @@ function GeziDetay() {
             </tr>
             <tr>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Transferler</td>
-              <td>{geziVerisi.mutabakat.transferler}</td>
+              <td>{renderTransferler(geziVerisi.mutabakat.transferler)}</td>
             </tr>
             <tr>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">1. Lokasyon</td>
@@ -196,13 +182,11 @@ function GeziDetay() {
             </tr>
             <tr>
               <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Oluşturulma Tarihi</td>
-              <td>{geziVerisi.mutabakat.created_at}</td>
+              <td>{new Date(geziVerisi.mutabakat.created_at).toLocaleDateString()}</td>
             </tr>
-            {/* Diğer veri alanlarını buraya ekleyin */}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
