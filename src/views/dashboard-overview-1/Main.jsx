@@ -28,6 +28,7 @@ function Main() {
   const [ankaraPercentage, setAnkaraPercentage] = useState(0);
   const [istanbulPercentage, setIstanbulPercentage] = useState(0);
 
+
   useEffect(() => {
     axios
       .get("https://senka.valentura.com/api/users/ana-sayfa-oranlar")
