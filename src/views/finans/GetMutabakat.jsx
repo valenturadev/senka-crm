@@ -6,8 +6,8 @@ function MutabakatDetay() {
   const [mutabakat, setMutabakat] = useState({});
   const [error, setError] = useState(null);
   const { mutabakatId } = useParams();
-  let localUser = localStorage.getItem("user");
-  let myUser = JSON.parse(localUser);
+  const localUser = localStorage.getItem("user");
+  const myUser = JSON.parse(localUser);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,10 +25,9 @@ function MutabakatDetay() {
       .catch((error) => {
         setError(error);
       });
-  }, [mutabakatId]);
+  }, [mutabakatId, myUser?.access]);
 
   const formatKey = (key) => {
-    // _ işaretlerini boşlukla değiştir
     return key.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   };
 
@@ -42,7 +41,23 @@ function MutabakatDetay() {
         return 'Bilgi Yok';
       }
     }
-    return value;
+    try {
+      const parsedValue = JSON.parse(value);
+      if (Array.isArray(parsedValue)) {
+        return parsedValue.map((item, index) => (
+          <div key={index} className="ml-4">
+            {Object.entries(item).map(([k, v]) => (
+              <div key={k}>
+                {formatKey(k)}: {v}
+              </div>
+            ))}
+          </div>
+        ));
+      }
+      return value;
+    } catch (e) {
+      return value;
+    }
   };
 
   const handleOnayla = () => {
@@ -54,7 +69,7 @@ function MutabakatDetay() {
         "Authorization": `Bearer ${myUser?.access}`
       }
     })
-      .then((response) => {
+      .then(() => {
         console.log("Mutabakat onaylandı.");
         navigate('/mutabakat-listesi');
       })
@@ -72,8 +87,7 @@ function MutabakatDetay() {
         "Authorization": `Bearer ${myUser?.access}`
       }
     })
-      .then((response) => {
-        // Reddetme başarılı olduğunda yapılacak işlemler
+      .then(() => {
         console.log("Mutabakat reddedildi.");
         navigate('/mutabakat-listesi');
       })
