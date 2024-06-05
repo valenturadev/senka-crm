@@ -139,6 +139,14 @@ function EditableFormPage() {
     const updatedItems = [...formData[field]];
     updatedItems[index][name] = value;
 
+    // Update total price for hotels if fields are changed
+    if (field === 'oteller') {
+      const updatedHotel = updatedItems[index];
+      updatedHotel.otel_toplam_fiyat = (updatedHotel.otel_SNG_birim_fiyat * updatedHotel.otel_SNG_oda_sayisi) +
+        (updatedHotel.otel_DBL_birim_fiyat * updatedHotel.otel_DBL_oda_sayisi) +
+        (updatedHotel.otel_TRP_birim_fiyat * updatedHotel.otel_TRP_oda_sayisi);
+    }
+
     setFormData(prevState => ({
       ...prevState,
       [field]: updatedItems
@@ -286,82 +294,95 @@ function EditableFormPage() {
             className="w-full p-2 border rounded bg-white"
           />
         </div>
-        <div className="mb-2">
-          <label htmlFor={`otel_SNG_birim_fiyat_${index}`} className="block font-semibold">Otel SNG Birim Fiyat</label>
-          <input
-            type="number"
-            id={`otel_SNG_birim_fiyat_${index}`}
-            name="otel_SNG_birim_fiyat"
-            value={item.otel_SNG_birim_fiyat}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
+        <div className="flex space-x-4 mb-2">
+          <div className="w-1/2">
+            <label htmlFor={`otel_SNG_birim_fiyat_${index}`} className="block font-semibold">Otel SNG Birim Fiyat</label>
+            <input
+              type="number"
+              id={`otel_SNG_birim_fiyat_${index}`}
+              name="otel_SNG_birim_fiyat"
+              value={item.otel_SNG_birim_fiyat}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-white"
+            />
+          </div>
+          <div className="w-1/2">
+            <label htmlFor={`otel_SNG_oda_sayisi_${index}`} className="block font-semibold">Otel SNG Oda Sayısı</label>
+            <input
+              type="number"
+              id={`otel_SNG_oda_sayisi_${index}`}
+              name="otel_SNG_oda_sayisi"
+              value={item.otel_SNG_oda_sayisi}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-white"
+            />
+          </div>
         </div>
         <div className="mb-2">
-          <label htmlFor={`otel_SNG_oda_sayisi_${index}`} className="block font-semibold">Otel SNG Oda Sayısı</label>
-          <input
-            type="number"
-            id={`otel_SNG_oda_sayisi_${index}`}
-            name="otel_SNG_oda_sayisi"
-            value={item.otel_SNG_oda_sayisi}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
+          <label className="block font-semibold">Otel SNG Toplam Fiyat</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi}
+          </div>
+        </div>
+        <div className="flex space-x-4 mb-2">
+          <div className="w-1/2">
+            <label htmlFor={`otel_DBL_birim_fiyat_${index}`} className="block font-semibold">Otel DBL Birim Fiyat</label>
+            <input
+              type="number"
+              id={`otel_DBL_birim_fiyat_${index}`}
+              name="otel_DBL_birim_fiyat"
+              value={item.otel_DBL_birim_fiyat}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-white"
+            />
+          </div>
+          <div className="w-1/2">
+            <label htmlFor={`otel_DBL_oda_sayisi_${index}`} className="block font-semibold">Otel DBL Oda Sayısı</label>
+            <input
+              type="number"
+              id={`otel_DBL_oda_sayisi_${index}`}
+              name="otel_DBL_oda_sayisi"
+              value={item.otel_DBL_oda_sayisi}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-white"
+            />
+          </div>
         </div>
         <div className="mb-2">
-          <label htmlFor={`otel_DBL_birim_fiyat_${index}`} className="block font-semibold">Otel DBL Birim Fiyat</label>
-          <input
-            type="number"
-            id={`otel_DBL_birim_fiyat_${index}`}
-            name="otel_DBL_birim_fiyat"
-            value={item.otel_DBL_birim_fiyat}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
+          <label className="block font-semibold">Otel DBL Toplam Fiyat</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi}
+          </div>
+        </div>
+        <div className="flex space-x-4 mb-2">
+          <div className="w-1/2">
+            <label htmlFor={`otel_TRP_birim_fiyat_${index}`} className="block font-semibold">Otel TRP Birim Fiyat</label>
+            <input
+              type="number"
+              id={`otel_TRP_birim_fiyat_${index}`}
+              name="otel_TRP_birim_fiyat"
+              value={item.otel_TRP_birim_fiyat}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-white"
+            />
+          </div>
+          <div className="w-1/2">
+            <label htmlFor={`otel_TRP_oda_sayisi_${index}`} className="block font-semibold">Otel TRP Oda Sayısı</label>
+            <input
+              type="number"
+              id={`otel_TRP_oda_sayisi_${index}`}
+              name="otel_TRP_oda_sayisi"
+              value={item.otel_TRP_oda_sayisi}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-white"
+            />
+          </div>
         </div>
         <div className="mb-2">
-          <label htmlFor={`otel_DBL_oda_sayisi_${index}`} className="block font-semibold">Otel DBL Oda Sayısı</label>
-          <input
-            type="number"
-            id={`otel_DBL_oda_sayisi_${index}`}
-            name="otel_DBL_oda_sayisi"
-            value={item.otel_DBL_oda_sayisi}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
-        </div>
-        <div className="mb-2">
-          <label htmlFor={`otel_TRP_birim_fiyat_${index}`} className="block font-semibold">Otel TRP Birim Fiyat</label>
-          <input
-            type="number"
-            id={`otel_TRP_birim_fiyat_${index}`}
-            name="otel_TRP_birim_fiyat"
-            value={item.otel_TRP_birim_fiyat}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
-        </div>
-        <div className="mb-2">
-          <label htmlFor={`otel_TRP_oda_sayisi_${index}`} className="block font-semibold">Otel TRP Oda Sayısı</label>
-          <input
-            type="number"
-            id={`otel_TRP_oda_sayisi_${index}`}
-            name="otel_TRP_oda_sayisi"
-            value={item.otel_TRP_oda_sayisi}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
-        </div>
-        <div className="mb-2">
-          <label htmlFor={`otel_toplam_fiyat_${index}`} className="block font-semibold">Otel Toplam Fiyat</label>
-          <input
-            type="number"
-            id={`otel_toplam_fiyat_${index}`}
-            name="otel_toplam_fiyat"
-            value={item.otel_toplam_fiyat}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
+          <label className="block font-semibold">Otel TRP Toplam Fiyat</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi}
+          </div>
         </div>
       </div>
     ));
