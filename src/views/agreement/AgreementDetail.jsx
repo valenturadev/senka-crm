@@ -247,20 +247,35 @@ function EditableFormPage() {
           {fields.map((field, fieldIndex) => (
             <div key={fieldIndex} className="w-1/4">
               <label htmlFor={`${field.name}_${index}`} className="block font-semibold">{field.label}</label>
-              <input
-                type={field.type}
-                id={`${field.name}_${index}`}
-                name={field.name}
-                value={item[field.name]}
-                onChange={(e) => handleInputChange(e, index, fieldGroup)}
-                className="w-full p-2 border rounded bg-white"
-              />
+              {field.type === 'select' ? (
+                <select
+                  id={`${field.name}_${index}`}
+                  name={field.name}
+                  value={item[field.name]}
+                  onChange={(e) => handleInputChange(e, index, fieldGroup)}
+                  className="w-full p-2 border rounded bg-white"
+                >
+                  {field.options.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  id={`${field.name}_${index}`}
+                  name={field.name}
+                  value={item[field.name]}
+                  onChange={(e) => handleInputChange(e, index, fieldGroup)}
+                  className="w-full p-2 border rounded bg-white"
+                />
+              )}
             </div>
           ))}
         </div>
       </div>
     ));
   };
+
 
   const renderOtelGroup = () => {
     return formData.oteller?.map((item, index) => (
@@ -640,7 +655,15 @@ function EditableFormPage() {
         {/* Ulaşım Araçları */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Ulaşım Araçları</h2>
         {renderFieldGroup('ulasim_araclari', [
-          { label: 'Ulaşım Aracı', name: 'ulasim_araci', type: 'text' },
+          {
+            label: 'Ulaşım Aracı',
+            name: 'ulasim_araci',
+            type: 'select',
+            options: [
+              { label: 'Uçak', value: 'ucak' },
+              { label: 'Otobüs', value: 'otobus' }
+            ]
+          },
           { label: 'Araç Kişi Sayısı', name: 'arac_kisi_sayisi', type: 'number' },
           { label: 'Ulaşım Aracı Birim Fiyatı', name: 'ulasim_araci_birim_fiyat', type: 'number' },
           { label: 'Ulaşım Aracı Toplam Fiyat', name: 'ulasim_araci_toplam_fiyat', type: 'number' }
@@ -652,6 +675,7 @@ function EditableFormPage() {
         >
           Ulaşım Aracı Ekle
         </button>
+
 
         {/* Oteller */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Oteller</h2>
