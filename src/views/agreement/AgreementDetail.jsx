@@ -28,7 +28,7 @@ function EditableFormPage() {
     giris_yapilan_yerler: [],
     diger: [],
     toplam_fiyat: 0.0,
-    // Read-only fields
+    para_birimi: 'TRY',
     isim: '',
     soyisim: '',
     unvan: '',
@@ -44,6 +44,14 @@ function EditableFormPage() {
     gidilecek_sehir: '',
     donulecek_sehir: '',
     kazanim_ve_beklentiler: '',
+    total_ciro: 0.0,
+    total_maliyet: 0.0,
+    kisi_basi_maliyet: 0.0,
+    ulasim_araclari_toplam_fiyati: 0.0,
+    oteller_toplam_fiyati: 0.0,
+    rehberler_toplam_fiyati: 0.0,
+    ogretmenler_toplam_fiyati: 0.0,
+    giris_yapilan_yerler_toplam_fiyati: 0.0
   });
 
   useEffect(() => {
@@ -57,6 +65,7 @@ function EditableFormPage() {
     })
       .then((response) => {
         const responseData = response.data.data;
+        console.log('Response Data:', responseData); // Debug log
         setFormData({
           ...responseData,
           ulasim_araclari: JSON.parse(responseData.ulasim_araclari || '[]'),
@@ -69,6 +78,7 @@ function EditableFormPage() {
       })
       .catch((error) => {
         toast.error("Veriler alınırken hata oluştu!");
+        console.error('Error fetching data:', error); // Debug log
       });
   }, [formId]);
 
@@ -91,14 +101,11 @@ function EditableFormPage() {
         newItem.otel_TRP_birim_fiyat = 0;
         newItem.otel_TRP_oda_sayisi = 0;
         newItem.otel_toplam_fiyat = 0;
+        newItem.otel_ismi = '';
         break;
       case 'rehberler':
         newItem.rehber_ismi = '';
-        newItem.rehber_yevmiyesi = 0;
-        newItem.rehber_gun_sayisi = 0;
-        newItem.rehber_gunluk_yemek_birim_fiyati = 0;
-        newItem.rehber_YD_harc = 0;
-        newItem.rehber_YD_harc_gun_sayisi = 0;
+        newItem.rehber_maliyet = 0;
         break;
       case 'giris_yapilan_yerler':
         newItem.giris_yapilan_yer = '';
@@ -165,7 +172,8 @@ function EditableFormPage() {
       ulasim_araclari: formData.ulasim_araclari.map(item => ({
         ulasim_araci_ismi: item.ulasim_araci,
         arac_kisi_sayisi: item.arac_kisi_sayisi,
-        ulasim_araci_birim_fiyat: item.ulasim_araci_birim_fiyat
+        ulasim_araci_birim_fiyat: item.ulasim_araci_birim_fiyat,
+        ulasim_araci_toplam_fiyat: item.ulasim_araci_toplam_fiyat
       })),
       oteller: formData.oteller.map(item => ({
         otel_ismi: item.otel_ismi,
@@ -175,15 +183,12 @@ function EditableFormPage() {
         otel_DBL_birim_fiyat: item.otel_DBL_birim_fiyat,
         otel_DBL_oda_sayisi: item.otel_DBL_oda_sayisi,
         otel_TRP_birim_fiyat: item.otel_TRP_birim_fiyat,
-        otel_TRP_oda_sayisi: item.otel_TRP_oda_sayisi
+        otel_TRP_oda_sayisi: item.otel_TRP_oda_sayisi,
+        otel_toplam_fiyat: item.otel_toplam_fiyat
       })),
       rehberler: formData.rehberler.map(item => ({
         rehber_ismi: item.rehber_ismi,
-        rehber_yevmiyesi: item.rehber_yevmiyesi,
-        rehber_gun_sayisi: item.rehber_gun_sayisi,
-        rehber_gunluk_yemek_birim_fiyati: item.rehber_gunluk_yemek_birim_fiyati,
-        rehber_YD_harc: item.rehber_YD_harc,
-        rehber_YD_harc_gun_sayisi: item.rehber_YD_harc_gun_sayisi
+        rehber_maliyet: item.rehber_maliyet
       })),
       ogretmenler: {
         pp: formData.ogretmenler.pp,
@@ -193,11 +198,13 @@ function EditableFormPage() {
         giris_yapilan_yer: item.giris_yapilan_yer,
         pp: item.pp
       })),
-      diger: formData.diger.map(item => ({
+      diger: formData?.diger?.map(item => ({
         ad: item.ad,
         miktar: item.miktar,
         fiyat: item.fiyat
-      }))
+      })),
+      toplam_fiyat: formData.toplam_fiyat,
+      para_birimi: formData.para_birimi
     };
 
     axios({
@@ -214,11 +221,12 @@ function EditableFormPage() {
       })
       .catch((error) => {
         toast.error("Form güncellenirken hata oluştu!");
+        console.error('Error saving data:', error); // Debug log
       });
   };
 
   const renderFieldGroup = (fieldGroup, fields) => {
-    return formData[fieldGroup].map((item, index) => (
+    return formData[fieldGroup]?.map((item, index) => (
       <div key={index} className="mb-4 flex items-center">
         <button
           type="button"
@@ -246,6 +254,119 @@ function EditableFormPage() {
     ));
   };
 
+  const renderOtelGroup = () => {
+    return formData.oteller?.map((item, index) => (
+      <div key={index} className="mb-4">
+        <button
+          type="button"
+          onClick={() => handleRemoveField(index, 'oteller')}
+          className="mr-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+        >
+          Sil
+        </button>
+        <div className="mb-2">
+          <label htmlFor={`otel_ismi_${index}`} className="block font-semibold">Otel Adı</label>
+          <input
+            type="text"
+            id={`otel_ismi_${index}`}
+            name="otel_ismi"
+            value={item.otel_ismi}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`kalinacak_gun_sayisi_${index}`} className="block font-semibold">Kalınacak Gün Sayısı</label>
+          <input
+            type="number"
+            id={`kalinacak_gun_sayisi_${index}`}
+            name="kalinacak_gun_sayisi"
+            value={item.kalinacak_gun_sayisi}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_SNG_birim_fiyat_${index}`} className="block font-semibold">Otel SNG Birim Fiyat</label>
+          <input
+            type="number"
+            id={`otel_SNG_birim_fiyat_${index}`}
+            name="otel_SNG_birim_fiyat"
+            value={item.otel_SNG_birim_fiyat}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_SNG_oda_sayisi_${index}`} className="block font-semibold">Otel SNG Oda Sayısı</label>
+          <input
+            type="number"
+            id={`otel_SNG_oda_sayisi_${index}`}
+            name="otel_SNG_oda_sayisi"
+            value={item.otel_SNG_oda_sayisi}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_DBL_birim_fiyat_${index}`} className="block font-semibold">Otel DBL Birim Fiyat</label>
+          <input
+            type="number"
+            id={`otel_DBL_birim_fiyat_${index}`}
+            name="otel_DBL_birim_fiyat"
+            value={item.otel_DBL_birim_fiyat}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_DBL_oda_sayisi_${index}`} className="block font-semibold">Otel DBL Oda Sayısı</label>
+          <input
+            type="number"
+            id={`otel_DBL_oda_sayisi_${index}`}
+            name="otel_DBL_oda_sayisi"
+            value={item.otel_DBL_oda_sayisi}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_TRP_birim_fiyat_${index}`} className="block font-semibold">Otel TRP Birim Fiyat</label>
+          <input
+            type="number"
+            id={`otel_TRP_birim_fiyat_${index}`}
+            name="otel_TRP_birim_fiyat"
+            value={item.otel_TRP_birim_fiyat}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_TRP_oda_sayisi_${index}`} className="block font-semibold">Otel TRP Oda Sayısı</label>
+          <input
+            type="number"
+            id={`otel_TRP_oda_sayisi_${index}`}
+            name="otel_TRP_oda_sayisi"
+            value={item.otel_TRP_oda_sayisi}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+        <div className="mb-2">
+          <label htmlFor={`otel_toplam_fiyat_${index}`} className="block font-semibold">Otel Toplam Fiyat</label>
+          <input
+            type="number"
+            id={`otel_toplam_fiyat_${index}`}
+            name="otel_toplam_fiyat"
+            value={item.otel_toplam_fiyat}
+            onChange={(e) => handleInputChange(e, index, 'oteller')}
+            className="w-full p-2 border rounded bg-white"
+          />
+        </div>
+      </div>
+    ));
+  };
+
   const handleApprove = () => {
     axios({
       method: 'POST',
@@ -260,6 +381,7 @@ function EditableFormPage() {
       })
       .catch((error) => {
         toast.error("Form onaylanırken hata oluştu!");
+        console.error('Error approving form:', error); // Debug log
       });
   };
 
@@ -277,7 +399,12 @@ function EditableFormPage() {
       })
       .catch((error) => {
         toast.error("Form reddedilirken hata oluştu!");
+        console.error('Error rejecting form:', error); // Debug log
       });
+  };
+
+  const calculateOtelToplamFiyat = () => {
+    return formData.oteller.reduce((acc, item) => acc + parseFloat(item.otel_toplam_fiyat || 0), 0);
   };
 
   return (
@@ -285,6 +412,22 @@ function EditableFormPage() {
       <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
       <form>
         <Toaster />
+
+        {/* Para Birimi */}
+        <div className="mb-4">
+          <label htmlFor="para_birimi" className="block font-semibold">Para Birimi</label>
+          <select
+            id="para_birimi"
+            name="para_birimi"
+            value={formData.para_birimi}
+            onChange={handleChange}
+            className="w-full p-2 border rounded bg-white"
+          >
+            <option value="TRY">TRY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </select>
+        </div>
 
         {/* Read-only Fields */}
         <div className="mb-4">
@@ -450,7 +593,7 @@ function EditableFormPage() {
         {/* Birim Fiyat ve Toplam Fiyat */}
         <div className="flex space-x-4 mb-4">
           <div className="w-1/2">
-            <label htmlFor="birim_fiyat" className="block font-semibold">Satış Fiyatı</label>
+            <label htmlFor="birim_fiyat" className="block font-semibold">Birim Fiyat</label>
             <input
               type="number"
               id="birim_fiyat"
@@ -461,7 +604,7 @@ function EditableFormPage() {
             />
           </div>
           <div className="w-1/2">
-            <label htmlFor="toplam_fiyat_ogrenci_ogretmen" className="block font-semibold">Toplam Ciro</label>
+            <label htmlFor="toplam_fiyat_ogrenci_ogretmen" className="block font-semibold">Toplam Fiyat (Öğrenci ve Öğretmen)</label>
             <input
               type="number"
               id="toplam_fiyat_ogrenci_ogretmen"
@@ -491,16 +634,13 @@ function EditableFormPage() {
 
         {/* Oteller */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Oteller</h2>
-        {renderFieldGroup('oteller', [
-          { label: 'Kalınacak Gün Sayısı', name: 'kalinacak_gun_sayisi', type: 'number' },
-          { label: 'Otel SNG Birim Fiyat', name: 'otel_SNG_birim_fiyat', type: 'number' },
-          { label: 'Otel SNG Oda Sayısı', name: 'otel_SNG_oda_sayisi', type: 'number' },
-          { label: 'Otel DBL Birim Fiyat', name: 'otel_DBL_birim_fiyat', type: 'number' },
-          { label: 'Otel DBL Oda Sayısı', name: 'otel_DBL_oda_sayisi', type: 'number' },
-          { label: 'Otel TRP Birim Fiyat', name: 'otel_TRP_birim_fiyat', type: 'number' },
-          { label: 'Otel TRP Oda Sayısı', name: 'otel_TRP_oda_sayisi', type: 'number' },
-          { label: 'Otel Toplam Fiyat', name: 'otel_toplam_fiyat', type: 'number' }
-        ])}
+        {renderOtelGroup()}
+        <div className="mb-4">
+          <label className="block font-semibold">Oteller Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {calculateOtelToplamFiyat()}
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => handleAddField('oteller')}
@@ -513,11 +653,7 @@ function EditableFormPage() {
         <h2 className="text-xl font-semibold mt-4 mb-2">Rehberler</h2>
         {renderFieldGroup('rehberler', [
           { label: 'Rehber İsmi', name: 'rehber_ismi', type: 'text' },
-          { label: 'Rehber Yevmiyesi', name: 'rehber_yevmiyesi', type: 'number' },
-          { label: 'Rehber Gün Sayısı', name: 'rehber_gun_sayisi', type: 'number' },
-          { label: 'Rehber Günlük Yemek Birim Fiyatı', name: 'rehber_gunluk_yemek_birim_fiyati', type: 'number' },
-          { label: 'Rehber YD Harcı', name: 'rehber_YD_harc', type: 'number' },
-          { label: 'Rehber YD Harcı Gün Sayısı', name: 'rehber_YD_harc_gun_sayisi', type: 'number' }
+          { label: 'Maliyet', name: 'rehber_maliyet', type: 'number' },
         ])}
         <button
           type="button"
@@ -573,10 +709,9 @@ function EditableFormPage() {
         {/* Diğer */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Diğer</h2>
         {renderFieldGroup('diger', [
-          { label: 'Açıklama', name: 'Açıklama', type: 'text' },
-          { label: 'Adet', name: 'adet', type: 'number' },
-          { label: 'Birim Fiyat', name: 'birim fiyat', type: 'number' },
-          { label: 'Toplam Fiyat', name: 'toplam fiyat', type: 'number' }
+          { label: 'Açıklama', name: 'ad', type: 'text' },
+          { label: 'Adet', name: 'miktar', type: 'number' },
+          { label: 'Birim Fiyat', name: 'fiyat', type: 'number' }
         ])}
         <button
           type="button"
@@ -597,6 +732,70 @@ function EditableFormPage() {
             onChange={handleChange}
             className="w-full p-2 border rounded bg-white"
           />
+        </div>
+
+        {/* Total Ciro */}
+        <div className="mb-2">
+          <label htmlFor="total_ciro" className="block font-semibold">Toplam Ciro</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.total_ciro}
+          </div>
+        </div>
+
+        {/* Total Maliyet */}
+        <div className="mb-2">
+          <label htmlFor="total_maliyet" className="block font-semibold">Toplam Maliyet</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.total_maliyet}
+          </div>
+        </div>
+
+        {/* Kişi Başı Maliyet */}
+        <div className="mb-2">
+          <label htmlFor="kisi_basi_maliyet" className="block font-semibold">Kişi Başı Maliyet</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.kisi_basi_maliyet}
+          </div>
+        </div>
+
+        {/* Ulaşım Araçları Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="ulasim_araclari_toplam_fiyati" className="block font-semibold">Ulaşım Araçları Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.ulasim_araclari_toplam_fiyati}
+          </div>
+        </div>
+
+        {/* Oteller Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.oteller_toplam_fiyati}
+          </div>
+        </div>
+
+        {/* Rehberler Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="rehberler_toplam_fiyati" className="block font-semibold">Rehberler Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.rehberler_toplam_fiyati}
+          </div>
+        </div>
+
+        {/* Öğretmenler Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="ogretmenler_toplam_fiyati" className="block font-semibold">Öğretmenler Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.ogretmenler_toplam_fiyati}
+          </div>
+        </div>
+
+        {/* Giriş Yapılan Yerler Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="giris_yapilan_yerler_toplam_fiyati" className="block font-semibold">Giriş Yapılan Yerler Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.giris_yapilan_yerler_toplam_fiyati}
+          </div>
         </div>
 
         <div className="mt-4 flex space-x-4">
