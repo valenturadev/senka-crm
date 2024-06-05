@@ -279,38 +279,40 @@ function EditableFormPage() {
 
   const renderOtelGroup = () => {
     return formData.oteller?.map((item, index) => (
-      <div key={index} className="mb-4">
-        <button
-          type="button"
-          onClick={() => handleRemoveField(index, 'oteller')}
-          className="mr-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
-        >
-          Sil
-        </button>
-        <div className="mb-2">
-          <label htmlFor={`otel_ismi_${index}`} className="block font-semibold">Otel Adı</label>
-          <input
-            type="text"
-            id={`otel_ismi_${index}`}
-            name="otel_ismi"
-            value={item.otel_ismi}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
+      <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
+        <div className="flex justify-between items-center mb-4">
+          <div className="w-1/3">
+            <label htmlFor={`otel_ismi_${index}`} className="block font-semibold">Otel Adı</label>
+            <input
+              type="text"
+              id={`otel_ismi_${index}`}
+              name="otel_ismi"
+              value={item.otel_ismi}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-gray-50"
+            />
+          </div>
+          <div className="w-1/3">
+            <label htmlFor={`kalinacak_gun_sayisi_${index}`} className="block font-semibold">Kalınacak Gün Sayısı</label>
+            <input
+              type="number"
+              id={`kalinacak_gun_sayisi_${index}`}
+              name="kalinacak_gun_sayisi"
+              value={item.kalinacak_gun_sayisi}
+              onChange={(e) => handleInputChange(e, index, 'oteller')}
+              className="w-full p-2 border rounded bg-gray-50"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => handleRemoveField(index, 'oteller')}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+          >
+            Sil
+          </button>
         </div>
-        <div className="mb-2">
-          <label htmlFor={`kalinacak_gun_sayisi_${index}`} className="block font-semibold">Kalınacak Gün Sayısı</label>
-          <input
-            type="number"
-            id={`kalinacak_gun_sayisi_${index}`}
-            name="kalinacak_gun_sayisi"
-            value={item.kalinacak_gun_sayisi}
-            onChange={(e) => handleInputChange(e, index, 'oteller')}
-            className="w-full p-2 border rounded bg-white"
-          />
-        </div>
-        <div className="flex space-x-4 mb-2">
-          <div className="w-1/2">
+        <div className="grid grid-cols-3 gap-4 mb-2">
+          <div>
             <label htmlFor={`otel_SNG_birim_fiyat_${index}`} className="block font-semibold">Otel SNG Birim Fiyat</label>
             <input
               type="number"
@@ -318,10 +320,10 @@ function EditableFormPage() {
               name="otel_SNG_birim_fiyat"
               value={item.otel_SNG_birim_fiyat}
               onChange={(e) => handleInputChange(e, index, 'oteller')}
-              className="w-full p-2 border rounded bg-white"
+              className="w-full p-2 border rounded bg-gray-50"
             />
           </div>
-          <div className="w-1/2">
+          <div>
             <label htmlFor={`otel_SNG_oda_sayisi_${index}`} className="block font-semibold">Otel SNG Oda Sayısı</label>
             <input
               type="number"
@@ -329,18 +331,18 @@ function EditableFormPage() {
               name="otel_SNG_oda_sayisi"
               value={item.otel_SNG_oda_sayisi}
               onChange={(e) => handleInputChange(e, index, 'oteller')}
-              className="w-full p-2 border rounded bg-white"
+              className="w-full p-2 border rounded bg-gray-50"
             />
           </div>
-        </div>
-        <div className="mb-2">
-          <label className="block font-semibold">Otel SNG Toplam Fiyat</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi}
+          <div>
+            <label className="block font-semibold">Otel SNG Toplam Fiyat</label>
+            <div className="w-full p-2 border rounded bg-gray-50">
+              {item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi}
+            </div>
           </div>
         </div>
-        <div className="flex space-x-4 mb-2">
-          <div className="w-1/2">
+        <div className="grid grid-cols-3 gap-4 mb-2">
+          <div>
             <label htmlFor={`otel_DBL_birim_fiyat_${index}`} className="block font-semibold">Otel DBL Birim Fiyat</label>
             <input
               type="number"
@@ -348,10 +350,10 @@ function EditableFormPage() {
               name="otel_DBL_birim_fiyat"
               value={item.otel_DBL_birim_fiyat}
               onChange={(e) => handleInputChange(e, index, 'oteller')}
-              className="w-full p-2 border rounded bg-white"
+              className="w-full p-2 border rounded bg-gray-50"
             />
           </div>
-          <div className="w-1/2">
+          <div>
             <label htmlFor={`otel_DBL_oda_sayisi_${index}`} className="block font-semibold">Otel DBL Oda Sayısı</label>
             <input
               type="number"
@@ -359,18 +361,18 @@ function EditableFormPage() {
               name="otel_DBL_oda_sayisi"
               value={item.otel_DBL_oda_sayisi}
               onChange={(e) => handleInputChange(e, index, 'oteller')}
-              className="w-full p-2 border rounded bg-white"
+              className="w-full p-2 border rounded bg-gray-50"
             />
           </div>
-        </div>
-        <div className="mb-2">
-          <label className="block font-semibold">Otel DBL Toplam Fiyat</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi}
+          <div>
+            <label className="block font-semibold">Otel DBL Toplam Fiyat</label>
+            <div className="w-full p-2 border rounded bg-gray-50">
+              {item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi}
+            </div>
           </div>
         </div>
-        <div className="flex space-x-4 mb-2">
-          <div className="w-1/2">
+        <div className="grid grid-cols-3 gap-4 mb-2">
+          <div>
             <label htmlFor={`otel_TRP_birim_fiyat_${index}`} className="block font-semibold">Otel TRP Birim Fiyat</label>
             <input
               type="number"
@@ -378,10 +380,10 @@ function EditableFormPage() {
               name="otel_TRP_birim_fiyat"
               value={item.otel_TRP_birim_fiyat}
               onChange={(e) => handleInputChange(e, index, 'oteller')}
-              className="w-full p-2 border rounded bg-white"
+              className="w-full p-2 border rounded bg-gray-50"
             />
           </div>
-          <div className="w-1/2">
+          <div>
             <label htmlFor={`otel_TRP_oda_sayisi_${index}`} className="block font-semibold">Otel TRP Oda Sayısı</label>
             <input
               type="number"
@@ -389,14 +391,14 @@ function EditableFormPage() {
               name="otel_TRP_oda_sayisi"
               value={item.otel_TRP_oda_sayisi}
               onChange={(e) => handleInputChange(e, index, 'oteller')}
-              className="w-full p-2 border rounded bg-white"
+              className="w-full p-2 border rounded bg-gray-50"
             />
           </div>
-        </div>
-        <div className="mb-2">
-          <label className="block font-semibold">Otel TRP Toplam Fiyat</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi}
+          <div>
+            <label className="block font-semibold">Otel TRP Toplam Fiyat</label>
+            <div className="w-full p-2 border rounded bg-gray-50">
+              {item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi}
+            </div>
           </div>
         </div>
       </div>
