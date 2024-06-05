@@ -6,12 +6,12 @@ import moment from 'moment';
 
 function EditableFormPage() {
   const { formId } = useParams();
-  let localUser = localStorage.getItem("user");
-  let myUser = JSON.parse(localUser);
+  const localUser = localStorage.getItem("user");
+  const myUser = JSON.parse(localUser);
 
   const [formData, setFormData] = useState({
     id: formId,
-    kampüs: '',
+    kampus_adi: '',
     gidis_tarihi: '',
     donus_tarihi: '',
     ogrenci_sayisi: 0,
@@ -21,7 +21,10 @@ function EditableFormPage() {
     ulasim_araclari: [],
     oteller: [],
     rehberler: [],
-    ogretmenler: [],
+    ogretmenler: {
+      pp: 0,
+      yd_harc: 0
+    },
     giris_yapilan_yerler: [],
     diger: [],
     toplam_fiyat: 0.0,
@@ -56,12 +59,12 @@ function EditableFormPage() {
         const responseData = response.data.data;
         setFormData({
           ...responseData,
-          ulasim_araclari: Array.isArray(responseData.ulasim_araclari) ? responseData.ulasim_araclari : [],
-          oteller: Array.isArray(responseData.oteller) ? responseData.oteller : [],
-          rehberler: Array.isArray(responseData.rehberler) ? responseData.rehberler : [],
-          ogretmenler: Array.isArray(responseData.ogretmenler) ? responseData.ogretmenler : [],
-          giris_yapilan_yerler: Array.isArray(responseData.giris_yapilan_yerler) ? responseData.giris_yapilan_yerler : [],
-          diger: Array.isArray(responseData.diger) ? responseData.diger : []
+          ulasim_araclari: JSON.parse(responseData.ulasim_araclari || '[]'),
+          oteller: JSON.parse(responseData.oteller || '[]'),
+          rehberler: JSON.parse(responseData.rehberler || '[]'),
+          giris_yapilan_yerler: JSON.parse(responseData.giris_yapilan_yerler || '[]'),
+          diger: JSON.parse(responseData.diger || '[]'),
+          ogretmenler: JSON.parse(responseData.ogretmenler || '{"pp": 0, "yd_harc": 0}')
         });
       })
       .catch((error) => {
@@ -96,10 +99,6 @@ function EditableFormPage() {
         newItem.rehber_gunluk_yemek_birim_fiyati = 0;
         newItem.rehber_YD_harc = 0;
         newItem.rehber_YD_harc_gun_sayisi = 0;
-        break;
-      case 'ogretmenler':
-        newItem.ogretmen_ismi = '';
-        newItem.yd_harc = 0;
         break;
       case 'giris_yapilan_yerler':
         newItem.giris_yapilan_yer = '';
@@ -139,6 +138,17 @@ function EditableFormPage() {
     }));
   };
 
+  const handleOgretmenChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      ogretmenler: {
+        ...prevState.ogretmenler,
+        [name]: value
+      }
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -158,6 +168,7 @@ function EditableFormPage() {
         ulasim_araci_birim_fiyat: item.ulasim_araci_birim_fiyat
       })),
       oteller: formData.oteller.map(item => ({
+        otel_ismi: item.otel_ismi,
         kalinacak_gun_sayisi: item.kalinacak_gun_sayisi,
         otel_SNG_birim_fiyat: item.otel_SNG_birim_fiyat,
         otel_SNG_oda_sayisi: item.otel_SNG_oda_sayisi,
@@ -167,16 +178,17 @@ function EditableFormPage() {
         otel_TRP_oda_sayisi: item.otel_TRP_oda_sayisi
       })),
       rehberler: formData.rehberler.map(item => ({
+        rehber_ismi: item.rehber_ismi,
         rehber_yevmiyesi: item.rehber_yevmiyesi,
         rehber_gun_sayisi: item.rehber_gun_sayisi,
         rehber_gunluk_yemek_birim_fiyati: item.rehber_gunluk_yemek_birim_fiyati,
         rehber_YD_harc: item.rehber_YD_harc,
         rehber_YD_harc_gun_sayisi: item.rehber_YD_harc_gun_sayisi
       })),
-      ogretmenler: formData.ogretmenler.map(item => ({
-        pp: item.pp,
-        yd_harc: item.yd_harc
-      })),
+      ogretmenler: {
+        pp: formData.ogretmenler.pp,
+        yd_harc: formData.ogretmenler.yd_harc
+      },
       giris_yapilan_yerler: formData.giris_yapilan_yerler.map(item => ({
         giris_yapilan_yer: item.giris_yapilan_yer,
         pp: item.pp
@@ -197,11 +209,11 @@ function EditableFormPage() {
       },
       data: formattedData
     })
-      .then((response) => {
-        toast.success("Veriler başarıyla kaydedildi!");
+      .then(() => {
+        toast.success("Form başarıyla güncellendi!");
       })
       .catch((error) => {
-        toast.error("Veriler kaydedilirken hata oluştu!");
+        toast.error("Form güncellenirken hata oluştu!");
       });
   };
 
@@ -276,7 +288,6 @@ function EditableFormPage() {
 
         {/* Read-only Fields */}
         <div className="mb-4">
-        
           <div className="mb-2">
             <label htmlFor="isim" className="block font-semibold">İsim</label>
             <div className="w-full p-2 border rounded bg-white">
@@ -439,7 +450,7 @@ function EditableFormPage() {
         {/* Birim Fiyat ve Toplam Fiyat */}
         <div className="flex space-x-4 mb-4">
           <div className="w-1/2">
-            <label htmlFor="birim_fiyat" className="block font-semibold">Birim Fiyat</label>
+            <label htmlFor="birim_fiyat" className="block font-semibold">Satış Fiyatı</label>
             <input
               type="number"
               id="birim_fiyat"
@@ -450,7 +461,7 @@ function EditableFormPage() {
             />
           </div>
           <div className="w-1/2">
-            <label htmlFor="toplam_fiyat_ogrenci_ogretmen" className="block font-semibold">Toplam Fiyat (Öğrenci ve Öğretmen)</label>
+            <label htmlFor="toplam_fiyat_ogrenci_ogretmen" className="block font-semibold">Toplam Ciro</label>
             <input
               type="number"
               id="toplam_fiyat_ogrenci_ogretmen"
@@ -518,17 +529,32 @@ function EditableFormPage() {
 
         {/* Öğretmenler */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Öğretmenler</h2>
-        {renderFieldGroup('ogretmenler', [
-          { label: 'Öğretmen İsmi', name: 'ogretmen_ismi', type: 'text' },
-          { label: 'Öğretmen YD Harcı', name: 'yd_harc', type: 'number' }
-        ])}
-        <button
-          type="button"
-          onClick={() => handleAddField('ogretmenler')}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-        >
-          Öğretmen Ekle
-        </button>
+        <div className="mb-4 flex items-center">
+          <div className="flex space-x-4 w-full">
+            <div className="w-1/2">
+              <label htmlFor="pp" className="block font-semibold">Kişi başı maliyet</label>
+              <input
+                type="number"
+                id="pp"
+                name="pp"
+                value={formData.ogretmenler.pp}
+                onChange={handleOgretmenChange}
+                className="w-full p-2 border rounded bg-white"
+              />
+            </div>
+            <div className="w-1/2">
+              <label htmlFor="yd_harc" className="block font-semibold">YD Harç</label>
+              <input
+                type="number"
+                id="yd_harc"
+                name="yd_harc"
+                value={formData.ogretmenler.yd_harc}
+                onChange={handleOgretmenChange}
+                className="w-full p-2 border rounded bg-white"
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Giriş Yapılan Yerler */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Giriş Yapılan Yerler</h2>
@@ -547,9 +573,10 @@ function EditableFormPage() {
         {/* Diğer */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Diğer</h2>
         {renderFieldGroup('diger', [
-          { label: 'Ad', name: 'ad', type: 'text' },
-          { label: 'Miktar', name: 'miktar', type: 'number' },
-          { label: 'Fiyat', name: 'fiyat', type: 'number' }
+          { label: 'Açıklama', name: 'Açıklama', type: 'text' },
+          { label: 'Adet', name: 'adet', type: 'number' },
+          { label: 'Birim Fiyat', name: 'birim fiyat', type: 'number' },
+          { label: 'Toplam Fiyat', name: 'toplam fiyat', type: 'number' }
         ])}
         <button
           type="button"
@@ -581,9 +608,9 @@ function EditableFormPage() {
             Kaydet
           </button>
           <button onClick={handleApprove}
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">Kabul Et</button>
-      <button onClick={handleReject}
-      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">Red Et</button>
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">Kabul Et</button>
+          <button onClick={handleReject}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">Red Et</button>
         </div>
       </form>
     </div>
