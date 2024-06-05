@@ -70,7 +70,10 @@ function EditableFormPage() {
           ...responseData,
           ulasim_araclari: JSON.parse(responseData.ulasim_araclari || '[]'),
           oteller: JSON.parse(responseData.oteller || '[]'),
-          rehberler: JSON.parse(responseData.rehberler || '[]'),
+          rehberler: JSON.parse(responseData.rehberler || '[]').map(item => ({
+            ...item,
+            diger: JSON.parse(item.diger || '[]')
+          })),
           giris_yapilan_yerler: JSON.parse(responseData.giris_yapilan_yerler || '[]'),
           diger: JSON.parse(responseData.diger || '[]'),
           ogretmenler: JSON.parse(responseData.ogretmenler || '{"pp": 0, "yd_harc": 0}')
@@ -82,7 +85,7 @@ function EditableFormPage() {
       });
   }, [formId]);
 
-  const handleAddField = (field) => {
+  const handleAddField = (field, index = null) => {
     const newItem = {};
 
     switch (field) {
@@ -106,6 +109,11 @@ function EditableFormPage() {
       case 'rehberler':
         newItem.rehber_ismi = '';
         newItem.rehber_maliyet = 0;
+        newItem.diger = [];
+        break;
+      case 'rehber_diger':
+        newItem.maliyet_adi = '';
+        newItem.maliyet = 0;
         break;
       case 'giris_yapilan_yerler':
         newItem.giris_yapilan_yer = '';
@@ -120,24 +128,47 @@ function EditableFormPage() {
         return;
     }
 
-    setFormData(prevState => ({
-      ...prevState,
-      [field]: [...prevState[field], newItem]
-    }));
+    if (field === 'rehber_diger') {
+      const updatedRehberler = [...formData.rehberler];
+      updatedRehberler[index].diger.push(newItem);
+      setFormData(prevState => ({
+        ...prevState,
+        rehberler: updatedRehberler
+      }));
+    } else {
+      setFormData(prevState => ({
+        ...prevState,
+        [field]: [...prevState[field], newItem]
+      }));
+    }
   };
 
-  const handleRemoveField = (index, field) => {
-    const updatedItems = formData[field].filter((_, i) => i !== index);
-    setFormData(prevState => ({
-      ...prevState,
-      [field]: updatedItems
-    }));
+  const handleRemoveField = (index, field, subIndex = null) => {
+    if (subIndex !== null && field === 'rehber_diger') {
+      const updatedRehberler = [...formData.rehberler];
+      updatedRehberler[index].diger = updatedRehberler[index].diger.filter((_, i) => i !== subIndex);
+      setFormData(prevState => ({
+        ...prevState,
+        rehberler: updatedRehberler
+      }));
+    } else {
+      const updatedItems = formData[field].filter((_, i) => i !== index);
+      setFormData(prevState => ({
+        ...prevState,
+        [field]: updatedItems
+      }));
+    }
   };
 
-  const handleInputChange = (e, index, field) => {
+  const handleInputChange = (e, index, field, subIndex = null) => {
     const { name, value } = e.target;
     const updatedItems = [...formData[field]];
-    updatedItems[index][name] = value;
+
+    if (subIndex !== null && field === 'rehber_diger') {
+      updatedItems[index].diger[subIndex][name] = value;
+    } else {
+      updatedItems[index][name] = value;
+    }
 
     // Update total price for hotels if fields are changed
     if (field === 'oteller') {
@@ -196,7 +227,11 @@ function EditableFormPage() {
       })),
       rehberler: formData.rehberler.map(item => ({
         rehber_ismi: item.rehber_ismi,
-        rehber_maliyet: item.rehber_maliyet
+        rehber_maliyet: item.rehber_maliyet,
+        diger: item.diger.map(subItem => ({
+          maliyet_adi: subItem.maliyet_adi,
+          maliyet: subItem.maliyet
+        }))
       })),
       ogretmenler: {
         pp: formData.ogretmenler.pp,
@@ -233,27 +268,21 @@ function EditableFormPage() {
       });
   };
 
-  const renderFieldGroup = (fieldGroup, fields) => {
-    return formData[fieldGroup]?.map((item, index) => (
-      <div key={index} className="mb-4 flex items-center">
-        <button
-          type="button"
-          onClick={() => handleRemoveField(index, fieldGroup)}
-          className="mr-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
-        >
-          Sil
-        </button>
-        <div className="flex space-x-4 w-full">
+  const renderFieldGroup = (fieldGroup, fields, isSubField = false, parentIndex = null) => {
+    const items = isSubField ? formData.rehberler[parentIndex].diger : formData[fieldGroup];
+    return items.map((item, index) => (
+      <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
+        <div className="flex justify-between items-center mb-4">
           {fields.map((field, fieldIndex) => (
-            <div key={fieldIndex} className="w-1/4">
+            <div key={fieldIndex} className={`w-${isSubField ? '1/2' : '1/3'}`}>
               <label htmlFor={`${field.name}_${index}`} className="block font-semibold">{field.label}</label>
               {field.type === 'select' ? (
                 <select
                   id={`${field.name}_${index}`}
                   name={field.name}
                   value={item[field.name]}
-                  onChange={(e) => handleInputChange(e, index, fieldGroup)}
-                  className="w-full p-2 border rounded bg-white"
+                  onChange={(e) => handleInputChange(e, index, fieldGroup, isSubField ? parentIndex : null)}
+                  className="w-full p-2 border rounded bg-gray-50"
                 >
                   {field.options.map(option => (
                     <option key={option.value} value={option.value}>{option.label}</option>
@@ -265,17 +294,23 @@ function EditableFormPage() {
                   id={`${field.name}_${index}`}
                   name={field.name}
                   value={item[field.name]}
-                  onChange={(e) => handleInputChange(e, index, fieldGroup)}
-                  className="w-full p-2 border rounded bg-white"
+                  onChange={(e) => handleInputChange(e, index, fieldGroup, isSubField ? parentIndex : null)}
+                  className="w-full p-2 border rounded bg-gray-50"
                 />
               )}
             </div>
           ))}
+          <button
+            type="button"
+            onClick={() => handleRemoveField(index, fieldGroup, isSubField ? parentIndex : null)}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+          >
+            Sil
+          </button>
         </div>
       </div>
     ));
   };
-
 
   const renderOtelGroup = () => {
     return formData.oteller?.map((item, index) => (
@@ -451,109 +486,96 @@ function EditableFormPage() {
       <form>
         <Toaster />
 
-        {/* Para Birimi */}
-        <div className="mb-4">
-          <label htmlFor="para_birimi" className="block font-semibold">Para Birimi</label>
-          <select
-            id="para_birimi"
-            name="para_birimi"
-            value={formData.para_birimi}
-            onChange={handleChange}
-            className="w-full p-2 border rounded bg-white"
-          >
-            <option value="TRY">TRY</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </select>
-        </div>
+      
 
-        {/* Read-only Fields */}
-        <div className="mb-4">
-          <div className="mb-2">
-            <label htmlFor="isim" className="block font-semibold">İsim</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.isim}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="soyisim" className="block font-semibold">Soyisim</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.soyisim}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="unvan" className="block font-semibold">Unvan</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.unvan}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="tel_no" className="block font-semibold">Telefon Numarası</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.tel_no}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="email" className="block font-semibold">Email</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.email}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="program_adi" className="block font-semibold">Program Adı</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.program_adi}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="ulke" className="block font-semibold">Ülke</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.ulke}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="sehir" className="block font-semibold">Şehir</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.sehir}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="okul" className="block font-semibold">Okul</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.okul}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="ilgili_sinif" className="block font-semibold">İlgili Sınıf</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.ilgili_sinif}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="zumre" className="block font-semibold">Zümre</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.zumre}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="gidilecek_sehir" className="block font-semibold">Gidilecek Şehir</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.gidilecek_sehir}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="donulecek_sehir" className="block font-semibold">Dönülecek Şehir</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.donulecek_sehir}
-            </div>
-          </div>
-          <div className="mb-2">
-            <label htmlFor="kazanim_ve_beklentiler" className="block font-semibold">Kazanç ve Beklentiler</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.kazanim_ve_beklentiler}
-            </div>
-          </div>
-        </div>
+{/* Read-only Fields */}
+<div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div className="mb-2">
+    <label htmlFor="isim" className="block font-semibold">İsim</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.isim}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="soyisim" className="block font-semibold">Soyisim</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.soyisim}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="unvan" className="block font-semibold">Unvan</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.unvan}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="tel_no" className="block font-semibold">Telefon Numarası</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.tel_no}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="email" className="block font-semibold">Email</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.email}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="program_adi" className="block font-semibold">Program Adı</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.program_adi}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="ulke" className="block font-semibold">Ülke</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.ulke}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="sehir" className="block font-semibold">Şehir</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.sehir}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="okul" className="block font-semibold">Okul</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.okul}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="ilgili_sinif" className="block font-semibold">İlgili Sınıf</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.ilgili_sinif}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="zumre" className="block font-semibold">Zümre</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.zumre}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="gidilecek_sehir" className="block font-semibold">Gidilecek Şehir</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.gidilecek_sehir}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="donulecek_sehir" className="block font-semibold">Dönülecek Şehir</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.donulecek_sehir}
+    </div>
+  </div>
+  <div className="mb-2">
+    <label htmlFor="kazanim_ve_beklentiler" className="block font-semibold">Kazanç ve Beklentiler</label>
+    <div className="w-full p-2 border rounded bg-white">
+      {formData.kazanim_ve_beklentiler}
+    </div>
+  </div>
+</div>
+
 
         {/* ID */}
         <div className="mb-2">
@@ -641,17 +663,21 @@ function EditableFormPage() {
               className="w-full p-2 border rounded bg-white"
             />
           </div>
-          <div className="w-1/2">
-            <label htmlFor="toplam_fiyat_ogrenci_ogretmen" className="block font-semibold">Toplam Fiyat (Öğrenci ve Öğretmen)</label>
-            <input
-              type="number"
-              id="toplam_fiyat_ogrenci_ogretmen"
-              name="toplam_fiyat_ogrenci_ogretmen"
-              value={formData.toplam_fiyat_ogrenci_ogretmen}
-              onChange={handleChange}
-              className="w-full p-2 border rounded bg-white"
-            />
-          </div>
+           {/* Para Birimi */}
+        <div className="mb-4">
+          <label htmlFor="para_birimi" className="block font-semibold">Para Birimi</label>
+          <select
+            id="para_birimi"
+            name="para_birimi"
+            value={formData.para_birimi}
+            onChange={handleChange}
+            className="w-full p-2 border rounded bg-white"
+          >
+            <option value="TRY">TRY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </select>
+        </div>
         </div>
 
         {/* Ulaşım Araçları */}
@@ -670,6 +696,14 @@ function EditableFormPage() {
           { label: 'Ulaşım Aracı Birim Fiyatı', name: 'ulasim_araci_birim_fiyat', type: 'number' },
           { label: 'Ulaşım Aracı Toplam Fiyat', name: 'ulasim_araci_toplam_fiyat', type: 'number' }
         ])}
+                {/* Ulaşım Araçları Toplam Fiyatı */}
+                <div className="mb-2">
+          <label htmlFor="ulasim_araclari_toplam_fiyati" className="block font-semibold">Ulaşım Araçları Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.ulasim_araclari_toplam_fiyati}
+          </div>
+        </div>
+
         <button
           type="button"
           onClick={() => handleAddField('ulasim_araclari')}
@@ -698,10 +732,89 @@ function EditableFormPage() {
 
         {/* Rehberler */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Rehberler</h2>
-        {renderFieldGroup('rehberler', [
-          { label: 'Rehber İsmi', name: 'rehber_ismi', type: 'text' },
-          { label: 'Maliyet', name: 'rehber_maliyet', type: 'number' },
-        ])}
+        {formData.rehberler.map((rehber, index) => (
+          <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
+            <div className="flex justify-between items-center mb-4">
+              <div className="w-1/3">
+                <label htmlFor={`rehber_ismi_${index}`} className="block font-semibold">Rehber İsmi</label>
+                <input
+                  type="text"
+                  id={`rehber_ismi_${index}`}
+                  name="rehber_ismi"
+                  value={rehber.rehber_ismi}
+                  onChange={(e) => handleInputChange(e, index, 'rehberler')}
+                  className="w-full p-2 border rounded bg-gray-50"
+                />
+              </div>
+              <div className="w-1/3">
+                <label htmlFor={`rehber_maliyet_${index}`} className="block font-semibold">Maliyet</label>
+                <input
+                  type="number"
+                  id={`rehber_maliyet_${index}`}
+                  name="rehber_maliyet"
+                  value={rehber.rehber_maliyet}
+                  onChange={(e) => handleInputChange(e, index, 'rehberler')}
+                  className="w-full p-2 border rounded bg-gray-50"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => handleRemoveField(index, 'rehberler')}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+              >
+                Sil
+              </button>
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Rehberler Ek Harcamalar</h3>
+            {rehber.diger.map((digerItem, subIndex) => (
+              <div key={subIndex} className="flex justify-between items-center mb-4">
+                <div className="w-1/2">
+                  <label htmlFor={`maliyet_adi_${index}_${subIndex}`} className="block font-semibold">Maliyet Adı</label>
+                  <input
+                    type="text"
+                    id={`maliyet_adi_${index}_${subIndex}`}
+                    name="maliyet_adi"
+                    value={digerItem.maliyet_adi}
+                    onChange={(e) => handleInputChange(e, index, 'rehber_diger', subIndex)}
+                    className="w-full p-2 border rounded bg-gray-50"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <label htmlFor={`maliyet_${index}_${subIndex}`} className="block font-semibold">Maliyet</label>
+                  <input
+                    type="number"
+                    id={`maliyet_${index}_${subIndex}`}
+                    name="maliyet"
+                    value={digerItem.maliyet}
+                    onChange={(e) => handleInputChange(e, index, 'rehber_diger', subIndex)}
+                    className="w-full p-2 border rounded bg-gray-50"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveField(index, 'rehber_diger', subIndex)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+                >
+                  Sil
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddField('rehber_diger', index)}
+              className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            >
+              Ek Harcama Ekle
+            </button>
+                    {/* Rehberler Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="rehberler_toplam_fiyati" className="block font-semibold">Rehberler Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.rehberler_toplam_fiyati}
+          </div>
+        </div>
+          </div>
+        ))}
         <button
           type="button"
           onClick={() => handleAddField('rehberler')}
@@ -712,8 +825,8 @@ function EditableFormPage() {
 
         {/* Öğretmenler */}
         <h2 className="text-xl font-semibold mt-4 mb-2">Öğretmenler</h2>
-        <div className="mb-4 flex items-center">
-          <div className="flex space-x-4 w-full">
+        <div className="mb-4 p-4 border rounded bg-white shadow-md">
+          <div className="flex justify-between items-center mb-4">
             <div className="w-1/2">
               <label htmlFor="pp" className="block font-semibold">Kişi başı maliyet</label>
               <input
@@ -722,7 +835,7 @@ function EditableFormPage() {
                 name="pp"
                 value={formData.ogretmenler.pp}
                 onChange={handleOgretmenChange}
-                className="w-full p-2 border rounded bg-white"
+                className="w-full p-2 border rounded bg-gray-50"
               />
             </div>
             <div className="w-1/2">
@@ -733,10 +846,19 @@ function EditableFormPage() {
                 name="yd_harc"
                 value={formData.ogretmenler.yd_harc}
                 onChange={handleOgretmenChange}
-                className="w-full p-2 border rounded bg-white"
+                className="w-full p-2 border rounded bg-gray-50"
               />
             </div>
+            
           </div>
+                  {/* Öğretmenler Toplam Fiyatı */}
+        <div className="mb-2">
+          <label htmlFor="ogretmenler_toplam_fiyati" className="block font-semibold">Öğretmenler Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.ogretmenler_toplam_fiyati}
+          </div>
+        </div>
+
         </div>
 
         {/* Giriş Yapılan Yerler */}
@@ -745,6 +867,13 @@ function EditableFormPage() {
           { label: 'Giriş Yapılan Yer', name: 'giris_yapilan_yer', type: 'text' },
           { label: 'PP', name: 'pp', type: 'number' }
         ])}
+                {/* Giriş Yapılan Yerler Toplam Fiyatı */}
+                <div className="mb-2">
+          <label htmlFor="giris_yapilan_yerler_toplam_fiyati" className="block font-semibold">Giriş Yapılan Yerler Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {formData.giris_yapilan_yerler_toplam_fiyati}
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => handleAddField('giris_yapilan_yerler')}
@@ -805,13 +934,6 @@ function EditableFormPage() {
           </div>
         </div>
 
-        {/* Ulaşım Araçları Toplam Fiyatı */}
-        <div className="mb-2">
-          <label htmlFor="ulasim_araclari_toplam_fiyati" className="block font-semibold">Ulaşım Araçları Toplam Fiyatı</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {formData.ulasim_araclari_toplam_fiyati}
-          </div>
-        </div>
 
         {/* Oteller Toplam Fiyatı */}
         <div className="mb-2">
@@ -821,29 +943,10 @@ function EditableFormPage() {
           </div>
         </div>
 
-        {/* Rehberler Toplam Fiyatı */}
-        <div className="mb-2">
-          <label htmlFor="rehberler_toplam_fiyati" className="block font-semibold">Rehberler Toplam Fiyatı</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {formData.rehberler_toplam_fiyati}
-          </div>
-        </div>
 
-        {/* Öğretmenler Toplam Fiyatı */}
-        <div className="mb-2">
-          <label htmlFor="ogretmenler_toplam_fiyati" className="block font-semibold">Öğretmenler Toplam Fiyatı</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {formData.ogretmenler_toplam_fiyati}
-          </div>
-        </div>
 
-        {/* Giriş Yapılan Yerler Toplam Fiyatı */}
-        <div className="mb-2">
-          <label htmlFor="giris_yapilan_yerler_toplam_fiyati" className="block font-semibold">Giriş Yapılan Yerler Toplam Fiyatı</label>
-          <div className="w-full p-2 border rounded bg-white">
-            {formData.giris_yapilan_yerler_toplam_fiyati}
-          </div>
-        </div>
+
+
 
         <div className="mt-4 flex space-x-4">
           <button
