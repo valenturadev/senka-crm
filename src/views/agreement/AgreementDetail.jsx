@@ -53,6 +53,7 @@ function EditableFormPage() {
     rehberler_toplam_fiyati: 0.0,
     ogretmenler_toplam_fiyati: 0.0,
     giris_yapilan_yerler_toplam_fiyati: 0.0,
+    degisiklikler: [],
   });
 
   const [currencyRates, setCurrencyRates] = useState({});
@@ -207,6 +208,74 @@ function EditableFormPage() {
       }));
     }
   };
+
+  const renderChanges = () => {
+    // Check if formData.degisiklikler is a string and parse it if necessary
+    if (typeof formData.degisiklikler === 'string') {
+      try {
+        formData.degisiklikler = JSON.parse(formData.degisiklikler);
+      } catch (error) {
+        console.error('Invalid JSON string:', error);
+        return "Geçersiz değişiklik verisi";
+      }
+    }
+
+    if (!Array.isArray(formData.degisiklikler) || formData.degisiklikler.length === 0) {
+      return "Değişiklik yok";
+    }
+
+    return formData.degisiklikler.map((change, index) => {
+      let oldValue, newValue;
+      try {
+        oldValue = JSON.parse(change.old_value);
+        newValue = JSON.parse(change.new_value);
+      } catch (error) {
+        oldValue = change.old_value;
+        newValue = change.new_value;
+      }
+
+      const renderDetails = (data) => {
+        if (Array.isArray(data)) {
+          return data.map((item, i) => (
+            <div key={i} className="mb-1">
+              {Object.entries(item).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key.replace(/_/g, ' ')}:</strong> {value}
+                </p>
+              ))}
+            </div>
+          ));
+        } else if (typeof data === 'object') {
+          return Object.entries(data).map(([key, value]) => (
+            <p key={key}>
+              <strong>{key.replace(/_/g, ' ')}:</strong> {value}
+            </p>
+          ));
+        } else {
+          return <p>{data}</p>;
+        }
+      };
+
+      return (
+        <div key={index} className="mb-2 p-2 border rounded bg-gray-100">
+          <p><strong>Alan:</strong> {change.field}</p>
+          <div>
+            <strong>Eski Veri:</strong>
+            <div className="ml-4">
+              {renderDetails(oldValue)}
+            </div>
+          </div>
+          <div>
+            <strong>Yeni Veri:</strong>
+            <div className="ml-4">
+              {renderDetails(newValue)}
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
 
   const handleInputChange = (e, index, field, subIndex = null) => {
     const { name, value } = e.target;
@@ -606,8 +675,8 @@ function EditableFormPage() {
       <h1 className="text-2xl font-bold mb-4">Form Düzenleme</h1>
       <div className="mb-2">
         <label htmlFor="soyisim" className="block font-semibold">Değişiklikler</label>
-        <div className="w-full p-2 rounded">
-          {formData.degisiklikler == null ? "Değişiklik yok" : formData.degisiklikler}
+        <div className="w-full p-2 rounded bg-white">
+          {renderChanges()}
         </div>
       </div>
       <Toaster />
