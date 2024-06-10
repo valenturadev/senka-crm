@@ -69,7 +69,7 @@ function Main() {
               {loading ? (
                 <div className="flex justify-center items-center">
                   <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900">
-                    <span className="sr-only">Loading...</span>
+                    <span className="sr-only">Yükleniyor...</span>
                   </div>
                 </div>) : (
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

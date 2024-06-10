@@ -290,8 +290,8 @@ function EditableFormPage() {
     };
 
     try {
-      const response = await axios.post(
-        'https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/',
+      const response = await axios.patch(
+        `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
         payload,
         {
           headers: {
@@ -603,8 +603,13 @@ function EditableFormPage() {
 
   return (
     <div className="editable-form-container bg-gray-100 p-6 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
-      
+      <h1 className="text-2xl font-bold mb-4">Form Düzenleme</h1>
+      <div className="mb-2">
+        <label htmlFor="soyisim" className="block font-semibold">Değişiklikler</label>
+        <div className="w-full p-2 rounded">
+          {formData.degisiklikler == null ? "Değişiklik yok" : formData.degisiklikler}
+        </div>
+      </div>
       <Toaster />
 
       {/* Döviz Kurları */}
@@ -617,7 +622,7 @@ function EditableFormPage() {
           ))}
         </div>
       </div>
-      
+
       {/* Read-only Fields */}
       <div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="mb-2">
@@ -977,8 +982,8 @@ function EditableFormPage() {
         Rehber Ekle
       </button>
 
-     {/* Öğretmenler */}
-     <h2 className="text-xl font-semibold mb-2">Öğretmenler</h2>
+      {/* Öğretmenler */}
+      <h2 className="text-xl font-semibold mb-2">Öğretmenler</h2>
       <div className="mb-4 p-2 border rounded">
         <div className="mb-2">
           <label htmlFor="ogretmenler-pp" className="block font-semibold">Kişi Başı Maliyet</label>
