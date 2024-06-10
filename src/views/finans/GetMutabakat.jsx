@@ -70,7 +70,7 @@ function MutabakatDetay() {
   const handleSave = () => {
     axios({
       method: 'POST',
-      url: `https://senka.valentura.com/api/finance/update-mutabakat-form/id=${mutabakatId}`,
+      url: `https://senka.valentura.com/api/finance/edit-mutabakat-form/id=${mutabakatId}`,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
