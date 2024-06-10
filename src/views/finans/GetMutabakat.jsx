@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function MutabakatDetay() {
   const [mutabakat, setMutabakat] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [editedData, setEditedData] = useState({});
   const [error, setError] = useState(null);
   const { mutabakatId } = useParams();
   const localUser = localStorage.getItem("user");
@@ -54,9 +56,48 @@ function MutabakatDetay() {
           </div>
         ));
       }
-      return value;
+      return JSON.stringify(parsedValue, null, 2);
     } catch (e) {
       return value;
+    }
+  };
+
+  const handleEdit = () => {
+    setEditMode(true);
+    setEditedData(mutabakat);
+  };
+
+  const handleSave = () => {
+    axios({
+      method: 'POST',
+      url: `https://senka.valentura.com/api/finance/update-mutabakat-form/id=${mutabakatId}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${myUser?.access}`
+      },
+      data: editedData
+    })
+      .then(() => {
+        setMutabakat(editedData);
+        setEditMode(false);
+        console.log("Mutabakat güncellendi.");
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
+  const handleChange = (key, value) => {
+    try {
+      setEditedData({
+        ...editedData,
+        [key]: JSON.parse(value),
+      });
+    } catch (e) {
+      setEditedData({
+        ...editedData,
+        [key]: value,
+      });
     }
   };
 
@@ -103,36 +144,49 @@ function MutabakatDetay() {
   const isOnaylandi = mutabakat.is_approve === true || mutabakat.is_approve === false;
 
   return (
-    <div>
+    <div className="p-4">
       <h1 className="text-2xl font-semibold mb-4">Mutabakat Detayları</h1>
-      <table className="min-w-full divide-y divide-gray-900">
-        <thead className="bg-gray-900">
-          <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Özellik</th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Değer</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(mutabakat).map(([key, value]) => (
-            <tr key={key}>
-              <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
-                {key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}
-              </td>
-              <td className="px-6 py-3 text-left text-sm font-medium text-gray-500">
-                {formatValue(key, value)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {Object.entries(mutabakat).map(([key, value]) => (
+          <div key={key} className="border p-4 rounded-lg shadow-md bg-white">
+            <h2 className="text-xl font-semibold mb-2">{key === 'is_approve' ? 'Onaylandı mı?' : formatKey(key)}</h2>
+            {editMode ? (
+              <textarea
+                value={typeof editedData[key] === 'object' ? JSON.stringify(editedData[key], null, 2) : editedData[key]}
+                onChange={(e) => handleChange(key, e.target.value)}
+                className="w-full border p-2 rounded-lg"
+                rows={4}
+              />
+            ) : (
+              <pre>{formatValue(key, value)}</pre>
+            )}
+          </div>
+        ))}
+      </div>
 
-      {!isOnaylandi && (
-        <div className="mt-4">
-          <button onClick={handleOnayla} className="bg-green-500 text-white px-4 py-2 rounded-lg mr-4">
-            Onayla
+      {!editMode ? (
+        <div className="mt-4 flex space-x-4">
+          <button onClick={handleEdit} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+            Düzenle
           </button>
-          <button onClick={handleReddet} className="bg-red-500 text-white px-4 py-2 rounded-lg">
-            Reddet
+          {!isOnaylandi && (
+            <>
+              <button onClick={handleOnayla} className="bg-green-500 text-white px-4 py-2 rounded-lg">
+                Onayla
+              </button>
+              <button onClick={handleReddet} className="bg-red-500 text-white px-4 py-2 rounded-lg">
+                Reddet
+              </button>
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="mt-4 flex space-x-4">
+          <button onClick={handleSave} className="bg-green-500 text-white px-4 py-2 rounded-lg">
+            Kaydet
+          </button>
+          <button onClick={() => setEditMode(false)} className="bg-gray-500 text-white px-4 py-2 rounded-lg">
+            İptal
           </button>
         </div>
       )}
