@@ -1207,14 +1207,6 @@ function EditableFormPage() {
         />
       </div>
 
-      {/* Oteller Toplam Fiyatı */}
-      <div className="mb-2">
-        <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {calculateOtelToplamFiyat()}
-        </div>
-      </div>
-
       <div className="mt-4 flex space-x-4">
         <button
           type="button"

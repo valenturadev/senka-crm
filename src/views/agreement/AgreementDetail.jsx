@@ -56,7 +56,14 @@ function EditableFormPage() {
     degisiklikler: [],
   });
 
-  const [currencyRates, setCurrencyRates] = useState({});
+  const [currencyRates, setCurrencyRates] = useState({
+    TRY: 1,
+    USD: 0,
+    EUR: 0,
+    GBP: 0,
+    CHF: 0
+  });
+
   const [expirationDate, setExpirationDate] = useState(new Date());
 
   const handleDateChange = (e) => {
@@ -76,7 +83,14 @@ function EditableFormPage() {
         const responseData = response.data.data;
         console.log('Response Data:', responseData); // Debug log
 
-        setCurrencyRates(responseData.currency.data);
+        const { data: currencyData } = responseData.currency;
+        setCurrencyRates({
+          TRY: currencyData.TRY,
+          USD: currencyData.USD,
+          EUR: currencyData.EUR,
+          GBP: currencyData.GBP,
+          CHF: currencyData.CHF,
+        });
 
         setFormData({
           ...responseData,
@@ -344,20 +358,45 @@ function EditableFormPage() {
   };
 
   const handleSave = async () => {
-    const selectedCurrency = formData.para_birimi;
-    const carpan = currencyRates[selectedCurrency] || 1;
-
+    const calculateCarpan = (paraBirimi) => {
+      if (paraBirimi === 'TRY') return 1;
+      return 1 / (currencyRates[paraBirimi] || 1);
+    };
+  
+    const addCarpanAndCurrency = (obj) => {
+      if (Array.isArray(obj)) {
+        return obj.map(item => addCarpanAndCurrency(item));
+      } else if (typeof obj === 'object' && obj !== null) {
+        const paraBirimi = obj.para_birimi || 'TRY';
+        const carpan = calculateCarpan(paraBirimi);
+        const updatedObj = {
+          ...obj,
+          carpan,
+          para_birimi: paraBirimi,
+        };
+        
+        // Recursively update nested objects
+        for (const key in updatedObj) {
+          if (updatedObj.hasOwnProperty(key) && typeof updatedObj[key] === 'object') {
+            updatedObj[key] = addCarpanAndCurrency(updatedObj[key]);
+          }
+        }
+  
+        return updatedObj;
+      }
+      return obj;
+    };
+  
     const payload = {
       ...formData,
-      carpan,
-      ulasim_araclari: JSON.stringify(formData.ulasim_araclari),
-      oteller: JSON.stringify(formData.oteller),
-      rehberler: JSON.stringify(formData.rehberler),
-      giris_yapilan_yerler: JSON.stringify(formData.giris_yapilan_yerler),
-      diger: JSON.stringify(formData.diger),
-      ogretmenler: JSON.stringify(formData.ogretmenler)
+      ulasim_araclari: addCarpanAndCurrency(formData.ulasim_araclari),
+      oteller: addCarpanAndCurrency(formData.oteller),
+      rehberler: addCarpanAndCurrency(formData.rehberler),
+      giris_yapilan_yerler: addCarpanAndCurrency(formData.giris_yapilan_yerler),
+      diger: addCarpanAndCurrency(formData.diger),
+      ogretmenler: addCarpanAndCurrency(formData.ogretmenler)
     };
-
+  
     try {
       const response = await axios.patch(
         `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
@@ -380,6 +419,7 @@ function EditableFormPage() {
       console.error('Save Error:', error); // Debug log
     }
   };
+  
 
   const handleApprove = async () => {
     try {
@@ -604,11 +644,13 @@ function EditableFormPage() {
           </div>
         </div>
         <div className="mb-2">
-          <label className="block font-semibold">Otel Toplam Fiyat</label>
-          <div className="w-full p-2 border rounded bg-gray-50">
-            {item.otel_toplam_fiyat}
-          </div>
+        <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
+        <div className="w-full p-2 border rounded bg-white">
+          {item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi +
+           item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi +
+           item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi}
         </div>
+      </div>
       </div>
     ));
   };
@@ -686,7 +728,7 @@ function EditableFormPage() {
         <div className="flex space-x-4">
           {Object.keys(currencyRates).map((currency, index) => (
             <div key={index} className="p-2 bg-gray-200 rounded shadow-md min-w-max">
-              {currency}: {currencyRates[currency]}
+              {currency}: {(1 / currencyRates[currency]).toFixed(4)}
             </div>
           ))}
         </div>
@@ -853,35 +895,17 @@ function EditableFormPage() {
         </div>
       </div>
 
-      {/* Birim Fiyat ve Para Birimi */}
-      <div className="flex space-x-4 mb-4">
-        <div className="w-1/2">
-          <label htmlFor="birim_fiyat" className="block font-semibold">Birim Fiyat</label>
-          <input
-            type="number"
-            id="birim_fiyat"
-            name="birim_fiyat"
-            value={formData.birim_fiyat}
-            onChange={handleChange}
-            className="w-full p-2 border rounded bg-white"
-          />
-        </div>
-        <div className="w-1/2">
-          <label htmlFor="para_birimi" className="block font-semibold">Para Birimi</label>
-          <select
-            id="para_birimi"
-            name="para_birimi"
-            value={formData.para_birimi}
-            onChange={handleChange}
-            className="w-full p-2 border rounded bg-white"
-          >
-            <option value="TRY">TRY</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="CHF">CHF</option>
-          </select>
-        </div>
+      {/* Birim Fiyat */}
+      <div className="mb-4">
+        <label htmlFor="birim_fiyat" className="block font-semibold">Birim Fiyat</label>
+        <input
+          type="number"
+          id="birim_fiyat"
+          name="birim_fiyat"
+          value={formData.birim_fiyat}
+          onChange={handleChange}
+          className="w-full p-2 border rounded bg-white"
+        />
       </div>
 
       {/* Ulaşım Araçları */}
@@ -897,8 +921,8 @@ function EditableFormPage() {
           ]
         },
         { label: 'Araç Kişi Sayısı', name: 'arac_kisi_sayisi', type: 'number' },
-        { label: 'Birim Fiyat', name: 'ulasim_araci_birim_fiyat', type: 'number' },
-        { label: 'Toplam Fiyat', name: 'ulasim_araci_toplam_fiyat', type: 'number' },
+        { label: 'Bilet fiyatı (Uçak)', name: 'ulasim_araci_birim_fiyat', type: 'number' },
+        { label: 'Otobüs Fiyat', name: 'ulasim_araci_toplam_fiyat', type: 'number' },
         {
           label: 'Para Birimi',
           name: 'para_birimi',
@@ -908,7 +932,7 @@ function EditableFormPage() {
             { label: 'USD', value: 'USD' },
             { label: 'EUR', value: 'EUR' },
             { label: 'GBP', value: 'GBP' },
-            { label: 'CHF', value: 'CHF' }
+            { label: 'CHF' , value: 'CHF' }
           ]
         }
       ])}
@@ -1109,37 +1133,39 @@ function EditableFormPage() {
         </div>
       </div>
 
-      {/* Giriş Yapılan Yerler */}
-      <h2 className="text-xl font-semibold mt-4 mb-2">Giriş Yapılan Yerler</h2>
-      {renderFieldGroup('giris_yapilan_yerler', [
-        { label: 'Giriş Yapılan Yer', name: 'giris_yapilan_yer', type: 'text' },
-        { label: 'PP', name: 'pp', type: 'number' },
-        {
-          label: 'Para Birimi',
-          name: 'para_birimi',
-          type: 'select',
-          options: [
-            { label: 'TRY', value: 'TRY' },
-            { label: 'USD', value: 'USD' },
-            { label: 'EUR', value: 'EUR' },
-            { label: 'GBP', value: 'GBP' },
-            { label: 'CHF', value: 'CHF' }
-          ]
-        }
-      ])}
-      <div className="mb-2">
-        <label htmlFor="giris_yapilan_yerler_toplam_fiyati" className="block font-semibold">Giriş Yapılan Yerler Toplam Fiyatı</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {formData.giris_yapilan_yerler_toplam_fiyati}
-        </div>
-      </div>
-      <button
-        type="button"
-        onClick={() => handleAddField('giris_yapilan_yerler')}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-      >
-        Giriş Yapılan Yer Ekle
-      </button>
+{/* Giriş Yapılan Yerler */}
+<h2 className="text-xl font-semibold mt-4 mb-2">Giriş Yapılan Yerler</h2>
+{renderFieldGroup('giris_yapilan_yerler', [
+  { label: 'Giriş Yapılan Yer', name: 'giris_yapilan_yer', type: 'text' },
+  { label: 'PP', name: 'pp', type: 'number' },
+  { label: 'Kişi Sayısı', name: 'kisi_sayisi', type: 'number' },
+  {
+    label: 'Para Birimi',
+    name: 'para_birimi',
+    type: 'select',
+    options: [
+      { label: 'TRY', value: 'TRY' },
+      { label: 'USD', value: 'USD' },
+      { label: 'EUR', value: 'EUR' },
+      { label: 'GBP', value: 'GBP' },
+      { label: 'CHF', value: 'CHF' }
+    ]
+  }
+])}
+<div className="mb-2">
+  <label htmlFor="giris_yapilan_yerler_toplam_fiyati" className="block font-semibold">Giriş Yapılan Yerler Toplam Fiyatı</label>
+  <div className="w-full p-2 border rounded bg-white">
+    {formData.giris_yapilan_yerler_toplam_fiyati}
+  </div>
+</div>
+<button
+  type="button"
+  onClick={() => handleAddField('giris_yapilan_yerler')}
+  className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+>
+  Giriş Yapılan Yer Ekle
+</button>
+
 
       {/* Diğer */}
       <h2 className="text-xl font-semibold mt-4 mb-2">Diğer</h2>
@@ -1217,13 +1243,6 @@ function EditableFormPage() {
         />
       </div>
 
-      {/* Oteller Toplam Fiyatı */}
-      <div className="mb-2">
-        <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {calculateOtelToplamFiyat()}
-        </div>
-      </div>
 
       <div className="mt-4 flex space-x-4">
         <button
