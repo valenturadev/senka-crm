@@ -121,6 +121,8 @@ import GuideManagement from "../views/admin/AddContact";
 import AccountingAgreementForms from "../views/muhasebe/AccountingAgreementForms";
 import Mutabakatlar from "../views/finans/GetAllMutabakat";
 import OgrenciOteleYerlestir from '../views/teacher/OteleYerlestir';
+import MuhasebeDetailPage from "../views/muhasebe/AgreementDetailPage";
+import CommPool from "../views/admin/CommunicationPool";
 
 
 const Router = () => {
@@ -150,12 +152,20 @@ const Router = () => {
           element: <Mutabakatlar />,
         },
         {
+          path: "/iletisim-havuzu",
+          element: <CommPool />,
+        },
+        {
           path: "/geziler",
           element: <Geziler />,
         },
         {
           path: "/makbuz-onay",
           element: <MakbuzOnay />,
+        },
+        {
+          path: "/muhasebe-mutabakat-onay/:formId",
+          element: <MuhasebeDetailPage />,
         },
         {
           path: "/",

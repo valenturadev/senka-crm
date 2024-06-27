@@ -36,6 +36,7 @@ function EditableFormPage() {
     tel_no: '',
     email: '',
     program_adi: '',
+    program_file: null,
     ulke: '',
     sehir: '',
     onayli_kisi: false,
@@ -81,8 +82,7 @@ function EditableFormPage() {
     })
       .then((response) => {
         const responseData = response.data.data;
-        console.log('Response Data:', responseData); // Debug log
-
+  
         const { data: currencyData } = responseData.currency;
         setCurrencyRates({
           TRY: currencyData.TRY,
@@ -91,7 +91,7 @@ function EditableFormPage() {
           GBP: currencyData.GBP,
           CHF: currencyData.CHF,
         });
-
+  
         setFormData({
           ...responseData,
           ulasim_araclari: safeJsonParse(responseData.ulasim_araclari),
@@ -102,7 +102,7 @@ function EditableFormPage() {
           })),
           ogretmenler: {
             ...safeJsonParse(responseData.ogretmenler),
-            diger: safeJsonParse(responseData.ogretmenler.diger)
+            diger: safeJsonParse(responseData.ogretmenler?.diger)
           },
           giris_yapilan_yerler: safeJsonParse(responseData.giris_yapilan_yerler),
           diger: safeJsonParse(responseData.diger),
@@ -110,9 +110,10 @@ function EditableFormPage() {
       })
       .catch((error) => {
         toast.error("Veriler alınırken hata oluştu!");
-        console.error('Error fetching data:', error); // Debug log
+        console.error('Error fetching data:', error);
       });
   }, [formId]);
+  
 
   const safeJsonParse = (jsonString) => {
     try {
@@ -122,6 +123,7 @@ function EditableFormPage() {
       return [];
     }
   };
+  
 
   const handleAddField = (field, index = null) => {
     const newItem = {};
@@ -293,8 +295,29 @@ function EditableFormPage() {
 
   const handleInputChange = (e, index, field, subIndex = null) => {
     const { name, value } = e.target;
+  
+    if (field === 'ogretmenler') {
+      if (subIndex !== null) {
+        const updatedOgretmenler = { ...formData.ogretmenler };
+        updatedOgretmenler.diger[subIndex][name] = value;
+        setFormData(prevState => ({
+          ...prevState,
+          ogretmenler: updatedOgretmenler
+        }));
+      } else {
+        setFormData(prevState => ({
+          ...prevState,
+          ogretmenler: {
+            ...prevState.ogretmenler,
+            [name]: value
+          }
+        }));
+      }
+      return;
+    }
+  
     const updatedItems = [...formData[field]];
-
+  
     if (subIndex !== null && field === 'rehber_diger') {
       updatedItems[index].diger[subIndex][name] = value;
     } else if (subIndex !== null && field === 'ogretmen_diger') {
@@ -314,49 +337,30 @@ function EditableFormPage() {
     } else {
       updatedItems[index][name] = value;
     }
-
-    // Update total price for hotels if fields are changed
-    if (field === 'oteller') {
-      const updatedHotel = updatedItems[index];
-      updatedHotel.otel_toplam_fiyat = (updatedHotel.otel_SNG_birim_fiyat * updatedHotel.otel_SNG_oda_sayisi) +
-        (updatedHotel.otel_DBL_birim_fiyat * updatedHotel.otel_DBL_oda_sayisi) +
-        (updatedHotel.otel_TRP_birim_fiyat * updatedHotel.otel_TRP_oda_sayisi);
-    }
-
+  
     setFormData(prevState => ({
       ...prevState,
       [field]: updatedItems
     }));
   };
+  
 
-  const handleOgretmenChange = (e, subIndex = null) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    if (subIndex !== null) {
-      const updatedOgretmenler = { ...formData.ogretmenler };
-      updatedOgretmenler.diger[subIndex][name] = value;
+    
+    if (name === 'program_file') {
       setFormData(prevState => ({
         ...prevState,
-        ogretmenler: updatedOgretmenler
+        [name]: e.target.files[0]
       }));
     } else {
       setFormData(prevState => ({
         ...prevState,
-        ogretmenler: {
-          ...prevState.ogretmenler,
-          [name]: value
-        }
+        [name]: value
       }));
     }
   };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
+  
   const handleSave = async () => {
     const calculateCarpan = (paraBirimi) => {
       if (paraBirimi === 'TRY') return 1;
@@ -374,7 +378,7 @@ function EditableFormPage() {
           carpan,
           para_birimi: paraBirimi,
         };
-        
+  
         // Recursively update nested objects
         for (const key in updatedObj) {
           if (updatedObj.hasOwnProperty(key) && typeof updatedObj[key] === 'object') {
@@ -389,21 +393,32 @@ function EditableFormPage() {
   
     const payload = {
       ...formData,
-      ulasim_araclari: addCarpanAndCurrency(formData.ulasim_araclari),
-      oteller: addCarpanAndCurrency(formData.oteller),
-      rehberler: addCarpanAndCurrency(formData.rehberler),
-      giris_yapilan_yerler: addCarpanAndCurrency(formData.giris_yapilan_yerler),
-      diger: addCarpanAndCurrency(formData.diger),
-      ogretmenler: addCarpanAndCurrency(formData.ogretmenler)
+      ulasim_araclari: JSON.stringify(addCarpanAndCurrency(formData.ulasim_araclari)), // JSON string format
+      oteller: JSON.stringify(addCarpanAndCurrency(formData.oteller)), // JSON string format
+      rehberler: JSON.stringify(addCarpanAndCurrency(formData.rehberler)), // JSON string format
+      giris_yapilan_yerler: JSON.stringify(addCarpanAndCurrency(formData.giris_yapilan_yerler)), // JSON string format
+      diger: JSON.stringify(addCarpanAndCurrency(formData.diger)), // JSON string format
+      ogretmenler: JSON.stringify(addCarpanAndCurrency(formData.ogretmenler)) // JSON string format
     };
+  
+    const formDataToSend = new FormData();
+    for (const key in payload) {
+      formDataToSend.append(key, payload[key]);
+    }
+  
+    if (formData.program_file) {
+      formDataToSend.append('program_file', formData.program_file);
+    }
+  
+    console.log('Payload:', payload); // Debug log
   
     try {
       const response = await axios.patch(
         `https://senka.valentura.com/api/operation-team/mutabakat/edit-mutabakat-form/id=${formId}`,
-        payload,
+        formDataToSend,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             "Authorization": `Bearer ${myUser?.access}`
           }
         }
@@ -420,7 +435,7 @@ function EditableFormPage() {
     }
   };
   
-
+  
   const handleApprove = async () => {
     try {
       await axios.post(
@@ -460,7 +475,7 @@ function EditableFormPage() {
   };
 
   const renderFieldGroup = (fieldGroup, fields, isSubField = false, parentIndex = null) => {
-    const items = isSubField ? formData.rehberler[parentIndex].diger : formData[fieldGroup];
+    const items = isSubField ? formData.rehberler[parentIndex].diger || [] : formData[fieldGroup];
     return items.map((item, index) => (
       <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
         <div className="flex justify-between items-center mb-4">
@@ -502,7 +517,7 @@ function EditableFormPage() {
       </div>
     ));
   };
-
+  
   const renderOtelGroup = () => {
     return formData.oteller?.map((item, index) => (
       <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
@@ -579,7 +594,7 @@ function EditableFormPage() {
           <div>
             <label className="block font-semibold">Otel SNG Toplam Fiyat</label>
             <div className="w-full p-2 border rounded bg-gray-50">
-              {item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi}
+              {(item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi).toFixed(2)}
             </div>
           </div>
         </div>
@@ -609,7 +624,7 @@ function EditableFormPage() {
           <div>
             <label className="block font-semibold">Otel DBL Toplam Fiyat</label>
             <div className="w-full p-2 border rounded bg-gray-50">
-              {item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi}
+              {(item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi).toFixed(2)}
             </div>
           </div>
         </div>
@@ -639,22 +654,25 @@ function EditableFormPage() {
           <div>
             <label className="block font-semibold">Otel TRP Toplam Fiyat</label>
             <div className="w-full p-2 border rounded bg-gray-50">
-              {item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi}
+              {(item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi).toFixed(2)}
             </div>
           </div>
         </div>
         <div className="mb-2">
-        <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi +
-           item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi +
-           item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi}
+          <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
+          <div className="w-full p-2 border rounded bg-white">
+            {(
+              item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi +
+              item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi +
+              item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi
+            ).toFixed(2)}
+          </div>
         </div>
-      </div>
       </div>
     ));
   };
-
+  
+  
   const renderOgretmenDigerFieldGroup = () => {
     return formData.ogretmenler.diger.map((item, subIndex) => (
       <div key={subIndex} className="mb-2 p-2 border rounded">
@@ -665,7 +683,7 @@ function EditableFormPage() {
             id={`ogretmen_diger-${subIndex}-maliyet_adi`}
             name="maliyet_adi"
             value={item.maliyet_adi}
-            onChange={(e) => handleInputChange(e, null, 'ogretmen_diger', subIndex)}
+            onChange={(e) => handleInputChange(e, null, 'ogretmenler', subIndex)}
             className="w-full p-2 border rounded bg-white"
           />
         </div>
@@ -676,7 +694,7 @@ function EditableFormPage() {
             id={`ogretmen_diger-${subIndex}-maliyet`}
             name="maliyet"
             value={item.maliyet}
-            onChange={(e) => handleInputChange(e, null, 'ogretmen_diger', subIndex)}
+            onChange={(e) => handleInputChange(e, null, 'ogretmenler', subIndex)}
             className="w-full p-2 border rounded bg-white"
           />
         </div>
@@ -686,7 +704,7 @@ function EditableFormPage() {
             id={`ogretmen_diger-${subIndex}-para_birimi`}
             name="para_birimi"
             value={item.para_birimi}
-            onChange={(e) => handleInputChange(e, null, 'ogretmen_diger', subIndex)}
+            onChange={(e) => handleInputChange(e, null, 'ogretmenler', subIndex)}
             className="w-full p-2 border rounded bg-white"
           >
             <option value="TRY">TRY</option>
@@ -706,6 +724,7 @@ function EditableFormPage() {
       </div>
     ));
   };
+  
 
 
   const calculateOtelToplamFiyat = () => {
@@ -970,110 +989,111 @@ function EditableFormPage() {
       {/* Rehberler */}
       <h2 className="text-xl font-semibold mt-4 mb-2">Rehberler</h2>
       {formData.rehberler.map((rehber, index) => (
-        <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
-          <div className="flex justify-between items-center mb-4">
-            <div className="w-1/3">
-              <label htmlFor={`rehber_ismi_${index}`} className="block font-semibold">Rehber İsmi</label>
-              <input
-                type="text"
-                id={`rehber_ismi_${index}`}
-                name="rehber_ismi"
-                value={rehber.rehber_ismi}
-                onChange={(e) => handleInputChange(e, index, 'rehberler')}
-                className="w-full p-2 border rounded bg-gray-50"
-              />
-            </div>
-            <div className="w-1/3">
-              <label htmlFor={`rehber_maliyet_${index}`} className="block font-semibold">Maliyet</label>
-              <input
-                type="number"
-                id={`rehber_maliyet_${index}`}
-                name="rehber_maliyet"
-                value={rehber.rehber_maliyet}
-                onChange={(e) => handleInputChange(e, index, 'rehberler')}
-                className="w-full p-2 border rounded bg-gray-50"
-              />
-            </div>
-            <div className="w-1/3">
-              <label htmlFor={`rehber_para_birimi_${index}`} className="block font-semibold">Para Birimi</label>
-              <select
-                id={`rehber_para_birimi_${index}`}
-                name="para_birimi"
-                value={rehber.para_birimi}
-                onChange={(e) => handleInputChange(e, index, 'rehberler')}
-                className="w-full p-2 border rounded bg-gray-50"
-              >
-                <option value="TRY">TRY</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="CHF">CHF</option>
-              </select>
-            </div>
-            <button
-              type="button"
-              onClick={() => handleRemoveField(index, 'rehberler')}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
-            >
-              Sil
-            </button>
-          </div>
-          <h3 className="text-lg font-semibold mb-2">Rehberler Ek Harcamalar</h3>
-          {rehber.diger.map((digerItem, subIndex) => (
-            <div key={subIndex} className="flex justify-between items-center mb-4">
-              <div className="w-1/2">
-                <label htmlFor={`maliyet_adi_${index}_${subIndex}`} className="block font-semibold">Maliyet Adı</label>
-                <input
-                  type="text"
-                  id={`maliyet_adi_${index}_${subIndex}`}
-                  name="maliyet_adi"
-                  value={digerItem.maliyet_adi}
-                  onChange={(e) => handleInputChange(e, index, 'rehber_diger', subIndex)}
-                  className="w-full p-2 border rounded bg-gray-50"
-                />
-              </div>
-              <div className="w-1/2">
-                <label htmlFor={`maliyet_${index}_${subIndex}`} className="block font-semibold">Maliyet</label>
-                <input
-                  type="number"
-                  id={`maliyet_${index}_${subIndex}`}
-                  name="maliyet"
-                  value={digerItem.maliyet}
-                  onChange={(e) => handleInputChange(e, index, 'rehber_diger', subIndex)}
-                  className="w-full p-2 border rounded bg-gray-50"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => handleRemoveField(index, 'rehber_diger', subIndex)}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
-              >
-                Sil
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={() => handleAddField('rehber_diger', index)}
-            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-          >
-            Ek Harcama Ekle
-          </button>
-          <div className="mb-2">
-            <label htmlFor="rehberler_toplam_fiyati" className="block font-semibold">Rehberler Toplam Fiyatı</label>
-            <div className="w-full p-2 border rounded bg-white">
-              {formData.rehberler_toplam_fiyati}
-            </div>
-          </div>
-        </div>
-      ))}
+  <div key={index} className="mb-4 p-4 border rounded bg-white shadow-md">
+    <div className="flex justify-between items-center mb-4">
+      <div className="w-1/3">
+        <label htmlFor={`rehber_ismi_${index}`} className="block font-semibold">Rehber İsmi</label>
+        <input
+          type="text"
+          id={`rehber_ismi_${index}`}
+          name="rehber_ismi"
+          value={rehber.rehber_ismi}
+          onChange={(e) => handleInputChange(e, index, 'rehberler')}
+          className="w-full p-2 border rounded bg-gray-50"
+        />
+      </div>
+      <div className="w-1/3">
+        <label htmlFor={`rehber_maliyet_${index}`} className="block font-semibold">Maliyet</label>
+        <input
+          type="number"
+          id={`rehber_maliyet_${index}`}
+          name="rehber_maliyet"
+          value={rehber.rehber_maliyet}
+          onChange={(e) => handleInputChange(e, index, 'rehberler')}
+          className="w-full p-2 border rounded bg-gray-50"
+        />
+      </div>
+      <div className="w-1/3">
+        <label htmlFor={`rehber_para_birimi_${index}`} className="block font-semibold">Para Birimi</label>
+        <select
+          id={`rehber_para_birimi_${index}`}
+          name="para_birimi"
+          value={rehber.para_birimi}
+          onChange={(e) => handleInputChange(e, index, 'rehberler')}
+          className="w-full p-2 border rounded bg-gray-50"
+        >
+          <option value="TRY">TRY</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="CHF">CHF</option>
+        </select>
+      </div>
       <button
         type="button"
-        onClick={() => handleAddField('rehberler')}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+        onClick={() => handleRemoveField(index, 'rehberler')}
+        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
       >
-        Rehber Ekle
+        Sil
       </button>
+    </div>
+    <h3 className="text-lg font-semibold mb-2">Rehberler Ek Harcamalar</h3>
+    {rehber.diger.map((digerItem, subIndex) => (
+      <div key={subIndex} className="flex justify-between items-center mb-4">
+        <div className="w-1/2">
+          <label htmlFor={`maliyet_adi_${index}_${subIndex}`} className="block font-semibold">Maliyet Adı</label>
+          <input
+            type="text"
+            id={`maliyet_adi_${index}_${subIndex}`}
+            name="maliyet_adi"
+            value={digerItem.maliyet_adi}
+            onChange={(e) => handleInputChange(e, index, 'rehber_diger', subIndex)}
+            className="w-full p-2 border rounded bg-gray-50"
+          />
+        </div>
+        <div className="w-1/2">
+          <label htmlFor={`maliyet_${index}_${subIndex}`} className="block font-semibold">Maliyet</label>
+          <input
+            type="number"
+            id={`maliyet_${index}_${subIndex}`}
+            name="maliyet"
+            value={digerItem.maliyet}
+            onChange={(e) => handleInputChange(e, index, 'rehber_diger', subIndex)}
+            className="w-full p-2 border rounded bg-gray-50"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => handleRemoveField(index, 'rehber_diger', subIndex)}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+        >
+          Sil
+        </button>
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() => handleAddField('rehber_diger', index)}
+      className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+    >
+      Ek Harcama Ekle
+    </button>
+    <div className="mb-2">
+      <label htmlFor="rehberler_toplam_fiyati" className="block font-semibold">Rehberler Toplam Fiyatı</label>
+      <div className="w-full p-2 border rounded bg-white">
+        {rehber.rehber_maliyet + rehber.diger.reduce((acc, diger) => acc + parseFloat(diger.maliyet || 0), 0)}
+      </div>
+    </div>
+  </div>
+))}
+<button
+  type="button"
+  onClick={() => handleAddField('rehberler')}
+  className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+>
+  Rehber Ekle
+</button>
+
 
       {/* Öğretmenler */}
       <h2 className="text-xl font-semibold mb-2">Öğretmenler</h2>
@@ -1193,6 +1213,18 @@ function EditableFormPage() {
       >
         Diğer Ekle
       </button>
+
+      <div className="mb-4">
+  <label htmlFor="program_file" className="block font-semibold">Program Akışı</label>
+  <input
+    type="file"
+    id="program_file"
+    name="program_file"
+    onChange={handleChange}
+    className="w-full p-2 border rounded bg-white"
+  />
+</div>
+
 
       {/* Toplam Fiyat */}
       <div className="mb-2">

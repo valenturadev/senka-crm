@@ -129,11 +129,13 @@ const sideMenuData = [
         icon: "",
         pathname: "/makbuz-onay/",
         title: "Makbuz onay",
-      }, {
+      }, 
+      {
         icon: "",
         pathname: "/muhasebe-mutabakat-formlari/",
         title: "Mutabakat Formları",
       },
+      
     ],
   },
   {
@@ -196,6 +198,11 @@ const sideMenuData = [
         icon: "",
         pathname: "/rehber-ekle",
         title: "Rehber Ekle",
+      },
+      {
+        icon: "",
+        pathname: "/iletisim-havuzu",
+        title: "İletişim Havuzu",
       }
     ],
   },
