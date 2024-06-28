@@ -711,7 +711,7 @@ function EditableFormPage() {
           <div>
             <label className="block font-semibold">Otel SNG Toplam Fiyat</label>
             <div className="w-full p-2 border rounded bg-gray-50">
-              {(item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi).toFixed(2)}
+              {(item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi * item.kalinacak_gun_sayisi).toFixed(2)}
             </div>
           </div>
         </div>
@@ -741,7 +741,7 @@ function EditableFormPage() {
           <div>
             <label className="block font-semibold">Otel DBL Toplam Fiyat</label>
             <div className="w-full p-2 border rounded bg-gray-50">
-              {(item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi).toFixed(2)}
+              {(item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi * item.kalinacak_gun_sayisi).toFixed(2)}
             </div>
           </div>
         </div>
@@ -771,7 +771,7 @@ function EditableFormPage() {
           <div>
             <label className="block font-semibold">Otel TRP Toplam Fiyat</label>
             <div className="w-full p-2 border rounded bg-gray-50">
-              {(item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi).toFixed(2)}
+              {(item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi * item.kalinacak_gun_sayisi).toFixed(2)}
             </div>
           </div>
         </div>
@@ -779,9 +779,9 @@ function EditableFormPage() {
           <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Birim Fiyatı</label>
           <div className="w-full p-2 border rounded bg-white">
             {(
-              item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi +
+              (item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi +
               item.otel_DBL_birim_fiyat * item.otel_DBL_oda_sayisi +
-              item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi
+              item.otel_TRP_birim_fiyat * item.otel_TRP_oda_sayisi) * item.kalinacak_gun_sayisi
             ).toFixed(2)}
           </div>
         </div>
@@ -1090,11 +1090,11 @@ function EditableFormPage() {
       <h2 className="text-xl font-semibold mt-4 mb-2">Oteller</h2>
       {renderOtelGroup()}
       <div className="mb-4">
-        <label className="block font-semibold">Oteller Toplam Fiyatı</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {calculateOtelToplamFiyat()}
-        </div>
-      </div>
+  <label className="block font-semibold">Oteller Toplam Fiyatı</label>
+  <div className="w-full p-2 border rounded bg-white">
+    {formData.oteller_toplam_fiyati}
+  </div>
+</div>
       <button
         type="button"
         onClick={() => handleAddField('oteller')}
@@ -1330,13 +1330,27 @@ function EditableFormPage() {
       >
         Diğer Ekle
       </button>
-    
-<div className="mb-2">
+      <div className="mb-2">
   <label htmlFor="diger_toplam_fiyat" className="block font-semibold">Diğer Toplam Fiyat</label>
   <div className="w-full p-2 border rounded bg-white">
     {formData.diger.reduce((acc, item) => acc + (parseFloat(item.fiyat) * parseFloat(item.miktar)), 0)}
   </div>
 </div>
+
+
+<div>
+      <label htmlFor="expiration_date" className="block font-semibold">Geçerlilik Tarihi</label>
+      <input
+        type="date"
+        id="expiration_date"
+        name="expiration_date"
+        value={moment(expirationDate).format('YYYY-MM-DD')}
+        onChange={handleDateChange}
+        className="w-full p-2 border rounded bg-gray-50"
+      />
+    </div>
+    
+
 
 
       <div className="mb-4">
@@ -1351,54 +1365,50 @@ function EditableFormPage() {
 </div>
 
 
-      {/* Toplam Fiyat */}
-      <div className="mb-2">
-        <label htmlFor="toplam_fiyat" className="block font-semibold">Beklenen Kar</label>
-        <input
-          type="number"
-          id="toplam_fiyat"
-          name="toplam_fiyat"
-          value={formData.toplam_fiyat}
-          onChange={handleChange}
-          className="w-full p-2 border rounded bg-white"
-        />
-      </div>
 
-      {/* Total Ciro */}
-      <div className="mb-2">
-        <label htmlFor="total_ciro" className="block font-semibold">Toplam Ciro</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {formData.total_ciro}
-        </div>
-      </div>
 
-      {/* Total Maliyet */}
-      <div className="mb-2">
-        <label htmlFor="total_maliyet" className="block font-semibold">Toplam Maliyet</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {formData.total_maliyet}
-        </div>
-      </div>
+<div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <div className="mb-4 border-b pb-4">
+    <h2 className="text-2xl font-semibold">Hak ediş tablosu</h2>
+  </div>
 
-      {/* Kişi Başı Maliyet */}
-      <div className="mb-2">
-        <label htmlFor="kisi_basi_maliyet" className="block font-semibold">Kişi Başı Maliyet</label>
-        <div className="w-full p-2 border rounded bg-white">
-          {formData.kisi_basi_maliyet}
-        </div>
-      </div>
+  <div className="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label htmlFor="toplam_fiyat" className="block font-semibold">Beklenen Kar</label>
+      <input
+        type="number"
+        id="toplam_fiyat"
+        name="toplam_fiyat"
+        value={formData.toplam_fiyat}
+        onChange={handleChange}
+        className="w-full p-2 border rounded bg-gray-50"
+      />
+    </div>
 
-      <div className="w-1/2">
-        <label htmlFor="expiration_date" className="block font-semibold">Geçerlilik Tarihi</label>
-        <input
-          type="date"
-          id="expiration_date"
-          name="expiration_date"
-          value={moment(expirationDate).format('YYYY-MM-DD')}
-          onChange={handleDateChange}
-          className="w-full p-2 border rounded bg-white"
-        />
+    <div>
+      <label htmlFor="total_ciro" className="block font-semibold">Toplam Ciro</label>
+      <div className="w-full p-2 border rounded bg-gray-50">
+        {formData.total_ciro}
       </div>
+    </div>
+
+    <div>
+      <label htmlFor="total_maliyet" className="block font-semibold">Toplam Maliyet</label>
+      <div className="w-full p-2 border rounded bg-gray-50">
+        {formData.total_maliyet}
+      </div>
+    </div>
+
+    <div>
+      <label htmlFor="kisi_basi_maliyet" className="block font-semibold">Kişi Başı Maliyet</label>
+      <div className="w-full p-2 border rounded bg-gray-50">
+        {formData.kisi_basi_maliyet}
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
 
       <div className="mt-4 flex space-x-4">

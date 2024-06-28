@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { errorMessage, successMessage } from '../../utils/toast';
+import { saveAs } from 'file-saver';
 
 function FinanceMutabakatDetail() {
     const [formData, setFormData] = useState({
@@ -31,12 +32,12 @@ function FinanceMutabakatDetail() {
         is_approve: null,
         created_at: '',
         updated_at: '',
+        program_file: '',
     });
 
     const [isEditable, setIsEditable] = useState(false); // Düzenleme durumunu takip eder
     const [editedData, setEditedData] = useState({}); // Düzenlenen verileri tutar
     const isApproveValue = formData.is_approve !== null ? formData.is_approve : undefined;
-
 
     const { formId } = useParams();
     let localUser = localStorage.getItem("user");
@@ -147,6 +148,12 @@ function FinanceMutabakatDetail() {
             });
     };
 
+    const handleDownload = () => {
+        const fileUrl = `https://senka.valentura.com/media/${formData.program_file}`;
+        const fileName = formData.program_file.split('/').pop();
+        saveAs(fileUrl, fileName);
+    };
+    
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
@@ -178,8 +185,8 @@ function FinanceMutabakatDetail() {
                         id="id"
                         name="id"
                         value={formData.id}
-
-                        className={`mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200`}
+                        readOnly
+                        className="mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200"
                         onChange={handleInputChange}
                     />
                 </div>
@@ -237,7 +244,6 @@ function FinanceMutabakatDetail() {
                 </div>
 
                 <div className="mb-4 flex space-x-4">
-
                     {/* Okul */}
                     <div className="flex-1">
                         <label htmlFor="okul_adi" className="block text-sm font-medium text-gray-700">
@@ -253,8 +259,6 @@ function FinanceMutabakatDetail() {
                             onChange={handleInputChange}
                         />
                     </div>
-
-
 
                     {/* Ünvan */}
                     <div className="flex-1">
@@ -303,11 +307,9 @@ function FinanceMutabakatDetail() {
                             onChange={handleInputChange}
                         />
                     </div>
+                </div>
 
-                    /</div>
-
-                <h5 className="text-xl mb-6 text-blue-900"> Kazanım ve Beklentiler</h5>
-
+                <h5 className="text-xl mb-6 text-blue-900">Kazanım ve Beklentiler</h5>
 
                 {/* Kazanım ve Beklentiler */}
                 <div className="mb-4">
@@ -325,10 +327,9 @@ function FinanceMutabakatDetail() {
                     />
                 </div>
 
-                <h5 className="text-xl mb-6 text-blue-900"> Program Detayı</h5>
+                <h5 className="text-xl mb-6 text-blue-900">Program Detayı</h5>
 
                 <div className="mb-4 flex space-x-4">
-
                     {/* Ulaşım Aracı */}
                     <div className="flex-1">
                         <label htmlFor="ulasim_araci" className="block text-sm font-medium text-gray-700">
@@ -386,36 +387,34 @@ function FinanceMutabakatDetail() {
                             <input
                                 type="text"
                                 name={`transferler[${index}].arac`}
-                                value={isEditable ? editedData.transferler[index].arac : transfer.arac}
+                                value={isEditable ? editedData.transferler[index]?.arac : transfer.arac}
                                 readOnly={!isEditable}
                                 className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                                onChange={handleTransferInputChange}
+                                onChange={(e) => handleTransferInputChange(e, index)}
                             />
                             <input
                                 type="text"
                                 name={`transferler[${index}].kalkilan_durak`}
-                                value={isEditable ? editedData.transferler[index].kalkilan_durak : transfer.kalkilan_durak}
+                                value={isEditable ? editedData.transferler[index]?.kalkilan_durak : transfer.kalkilan_durak}
                                 readOnly={!isEditable}
                                 className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                                onChange={handleTransferInputChange}
+                                onChange={(e) => handleTransferInputChange(e, index)}
                             />
                             <input
                                 type="text"
                                 name={`transferler[${index}].goturulen_durak`}
-                                value={isEditable ? editedData.transferler[index].goturulen_durak : transfer.goturulen_durak}
+                                value={isEditable ? editedData.transferler[index]?.goturulen_durak : transfer.goturulen_durak}
                                 readOnly={!isEditable}
                                 className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                                onChange={handleTransferInputChange}
+                                onChange={(e) => handleTransferInputChange(e, index)}
                             />
                         </div>
                     ))}
                 </div>
 
-                <h5 className="text-xl mb-6 text-blue-900"> Talep Edilen Gezi Bilgileri</h5>
-
+                <h5 className="text-xl mb-6 text-blue-900">Talep Edilen Gezi Bilgileri</h5>
 
                 <div className="mb-4 flex space-x-4">
-
                     {/* Program Adı */}
                     <div className="flex-1">
                         <label htmlFor="program_adi" className="block text-sm font-medium text-gray-700">
@@ -479,11 +478,9 @@ function FinanceMutabakatDetail() {
                             onChange={handleInputChange}
                         />
                     </div>
-
                 </div>
 
                 <div className="mb-4 flex space-x-4">
-
                     {/* İlgili Sınıf */}
                     <div className="flex-1">
                         <label htmlFor="ilgili_sinif" className="block text-sm font-medium text-gray-700">
@@ -547,14 +544,7 @@ function FinanceMutabakatDetail() {
                             onChange={handleInputChange}
                         />
                     </div>
-
                 </div>
-
-
-
-
-
-
 
                 {/* Lokasyonlar */}
                 <div className="mb-4">
@@ -564,51 +554,30 @@ function FinanceMutabakatDetail() {
                             <input
                                 type="text"
                                 name={`lokasyons[${index}].lokasyon`}
-                                value={isEditable ? editedData.lokasyons[index].lokasyon : lokasyon.lokasyon}
+                                value={isEditable ? editedData.lokasyons[index]?.lokasyon : lokasyon.lokasyon}
                                 readOnly={!isEditable}
                                 className={`p-2 w-1/3 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                                onChange={handleLokasyonInputChange}
+                                onChange={(e) => handleLokasyonInputChange(e, index)}
                             />
                             <input
                                 type="text"
                                 name={`lokasyons[${index}].giris`}
-                                value={isEditable ? editedData.lokasyons[index].giris : lokasyon.giris}
+                                value={isEditable ? editedData.lokasyons[index]?.giris : lokasyon.giris}
                                 readOnly={!isEditable}
                                 className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                                onChange={handleLokasyonInputChange}
+                                onChange={(e) => handleLokasyonInputChange(e, index)}
                             />
                             <input
                                 type="text"
                                 name={`lokasyons[${index}].cikis`}
-                                value={isEditable ? editedData.lokasyons[index].cikis : lokasyon.cikis}
+                                value={isEditable ? editedData.lokasyons[index]?.cikis : lokasyon.cikis}
                                 readOnly={!isEditable}
                                 className={`p-2 w-1/4 rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                                onChange={handleLokasyonInputChange}
+                                onChange={(e) => handleLokasyonInputChange(e, index)}
                             />
                         </div>
                     ))}
                 </div>
-
-
-
-                {/* Onay Durumu */}
-                {/* <div className="mb-4">
-                    <label htmlFor="is_approve" className="block text-sm font-medium text-gray-700">
-                        Onay Durumu
-                    </label>
-                    <select
-                        id="is_approve"
-                        name="is_approve"
-                        value={isEditable ? editedData.is_approve : isApproveValue}
-                        readOnly={!isEditable}
-                        className={`mt-1 p-2 w-full rounded-md border-gray-300 ${isEditable ? 'bg-white' : 'bg-gray-200'}`}
-                        onChange={handleInputChange}
-                    >
-                        <option value="null">Seçiniz</option>
-                        <option value="true">Onaylandı</option>
-                        <option value="false">Reddedildi</option>
-                    </select>
-                </div>    */}
 
                 {/* Onaylı Kişi */}
                 <div className="mb-4">
@@ -626,6 +595,20 @@ function FinanceMutabakatDetail() {
                     />
                 </div>
 
+                {/* Program Akışı */}
+                <div className="mb-4">
+                    <label htmlFor="program_file" className="block text-sm font-medium text-gray-700">
+                        Program Akışı
+                    </label>
+                    <button
+                        type="button"
+                        onClick={handleDownload}
+                        className="mt-1 p-2 w-full rounded-md border-gray-300 bg-blue-500 text-white"
+                    >
+                        Dosyayı İndir
+                    </button>
+                </div>
+
                 {/* Oluşturulma Tarihi */}
                 <div className="mb-4">
                     <label htmlFor="created_at" className="block text-sm font-medium text-gray-700">
@@ -636,7 +619,7 @@ function FinanceMutabakatDetail() {
                         id="created_at"
                         name="created_at"
                         value={formData.created_at}
-                        readOnly={true}
+                        readOnly
                         className="mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200"
                     />
                 </div>
@@ -651,13 +634,16 @@ function FinanceMutabakatDetail() {
                         id="updated_at"
                         name="updated_at"
                         value={formData.updated_at}
-                        readOnly={true}
-                        className="mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200"
-                    />
+                        readOnly
+                        className="mt-1 p-2 w-full rounded-md border-gray-300 bg-gray-200"                    />
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-    );
-}
+            );
+        }
+        
+        export default FinanceMutabakatDetail;
+        
+                   
 
-export default FinanceMutabakatDetail;
+

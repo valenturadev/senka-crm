@@ -4,27 +4,32 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function GeziDetay() {
   const [geziVerisi, setGeziVerisi] = useState(null);
-  let localUser = localStorage.getItem("user");
-  let myUser = JSON.parse(localUser);
   const { formId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios({
-      method: 'GET',
-      url: `https://senka.valentura.com/api/web-team/get-travel/id=${formId}`,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${myUser?.access}`
-      }
-    })
-      .then((response) => {
+    const fetchGeziVerisi = async () => {
+      try {
+        const localUser = localStorage.getItem("user");
+        const myUser = JSON.parse(localUser);
+
+        const response = await axios({
+          method: 'GET',
+          url: `https://senka.valentura.com/api/web-team/get-travel/id=${formId}`,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${myUser?.access}`
+          }
+        });
+
         setGeziVerisi(response.data.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('API çağrısı sırasında hata oluştu:', error);
-      });
-  }, [formId, myUser?.access]);
+      }
+    };
+
+    fetchGeziVerisi();
+  }, [formId]);
 
   if (!geziVerisi) {
     // Veri henüz yüklenmediyse bir yükleme gösterebilirsiniz.
@@ -32,12 +37,10 @@ function GeziDetay() {
   }
 
   function handleOgretmenEkle() {
-    console.log("Öğretmen ekleme butonuna tıklandı");
     navigate('/ogretmen-ekle/' + formId);
   }
 
   function handleButunOgretmenler() {
-    console.log('Öğretmenler listesi butonuna tıklandı');
     navigate('/tum-ogretmenler/' + formId);
   }
 
@@ -56,8 +59,8 @@ function GeziDetay() {
   };
 
   return (
-    <div>
-      <h1>Gezi Detayları</h1>
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h1 className="text-2xl font-semibold mb-4">Gezi Detayları</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
@@ -186,6 +189,20 @@ function GeziDetay() {
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="mt-6">
+        <button
+          onClick={handleOgretmenEkle}
+          className="mr-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Öğretmen Ekle
+        </button>
+        <button
+          onClick={handleButunOgretmenler}
+          className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          Bütün Öğretmenler
+        </button>
       </div>
     </div>
   );

@@ -370,7 +370,7 @@ const safeJsonParse = (jsonString) => {
   };
 
   const calculateOtelToplamFiyat = () => {
-    return formData.oteller.reduce((acc, item) => acc + parseFloat(item.otel_toplam_fiyat || 0), 0);
+    return formData.oteller.reduce((acc, item) => acc + parseFloat(item.oteller_toplam_fiyati || 0), 0);
   };
 
   return (
