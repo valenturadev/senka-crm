@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
 
 function EditableFormPage() {
   const { formId } = useParams();
@@ -96,10 +97,10 @@ function EditableFormPage() {
           ...responseData,
           ulasim_araclari: safeJsonParse(responseData.ulasim_araclari),
           oteller: safeJsonParse(responseData.oteller),
-          rehberler: safeJsonParse(responseData.rehberler).map(item => ({
+          rehberler: safeJsonParse(responseData.rehberler)?.map(item => ({
             ...item,
             diger: safeJsonParse(item.diger)
-          })),
+          })) || [],
           ogretmenler: {
             ...safeJsonParse(responseData.ogretmenler),
             diger: safeJsonParse(responseData.ogretmenler?.diger)
@@ -122,8 +123,125 @@ function EditableFormPage() {
       console.error('JSON parse error:', error);
       return [];
     }
-  };
+  };  
   
+  const handleExportToExcel = () => {
+    const wb = XLSX.utils.book_new();
+  
+    // Initialize the worksheet data array
+    const wsData = [];
+  
+    // Kampüs bilgileri
+    wsData.push(['Kampüs', 'Öğrenci Sayısı', 'Öğretmen Sayısı', 'Birim Fiyat', 'Toplam Fiyat']);
+    wsData.push([
+      formData.kampus_adi,
+      formData.ogrenci_sayisi,
+      formData.ogretmen_sayisi,
+      formData.birim_fiyat,
+      formData.toplam_fiyat_ogrenci_ogretmen,
+    ]);
+    wsData.push([]); // Add an empty row for spacing
+  
+    // Ulaşım Araçları
+    wsData.push(['Ulaşım Aracı', 'Kişi Sayısı', 'Birim Fiyat', 'Toplam Fiyat', 'Para Birimi']);
+    formData.ulasim_araclari.forEach(item => {
+      wsData.push([
+        item.ulasim_araci_ismi,
+        item.arac_kisi_sayisi,
+        item.ulasim_araci_birim_fiyat,
+        item.ulasim_araci_toplam_fiyat,
+        item.para_birimi,
+      ]);
+    });
+    wsData.push([]); // Add an empty row for spacing
+  
+    // Oteller
+    wsData.push(['Otel Adı', 'Kalınacak Gün Sayısı', 'SNG Birim Fiyat', 'SNG Oda Sayısı', 'DBL Birim Fiyat', 'DBL Oda Sayısı', 'TRP Birim Fiyat', 'TRP Oda Sayısı', 'Toplam Fiyat', 'Para Birimi']);
+    formData.oteller.forEach(item => {
+      wsData.push([
+        item.otel_ismi,
+        item.kalinacak_gun_sayisi,
+        item.otel_SNG_birim_fiyat,
+        item.otel_SNG_oda_sayisi,
+        item.otel_DBL_birim_fiyat,
+        item.otel_DBL_oda_sayisi,
+        item.otel_TRP_birim_fiyat,
+        item.otel_TRP_oda_sayisi,
+        item.otel_toplam_fiyat,
+        item.para_birimi,
+      ]);
+    });
+    wsData.push([]); // Add an empty row for spacing
+  
+    // Rehberler
+    wsData.push(['Rehber İsmi', 'Maliyet', 'Para Birimi', 'Ek Harcama Adı', 'Ek Harcama Maliyeti', 'Ek Harcama Para Birimi']);
+    formData.rehberler.forEach(item => {
+      wsData.push([
+        item.rehber_ismi,
+        item.rehber_maliyet,
+        item.para_birimi,
+      ]);
+      item.diger.forEach(digerItem => {
+        wsData.push([
+          '',
+          '',
+          '',
+          digerItem.maliyet_adi,
+          digerItem.maliyet,
+          digerItem.para_birimi,
+        ]);
+      });
+    });
+    wsData.push([]); // Add an empty row for spacing
+  
+    // Giriş Yapılan Yerler
+    wsData.push(['Giriş Yapılan Yer', 'PP', 'Kişi Sayısı', 'Para Birimi']);
+    formData.giris_yapilan_yerler.forEach(item => {
+      wsData.push([
+        item.giris_yapilan_yer,
+        item.pp,
+        item.kisi_sayisi,
+        item.para_birimi,
+      ]);
+    });
+    wsData.push([]); // Add an empty row for spacing
+  
+    // Diğer
+    wsData.push(['Açıklama', 'Adet', 'Birim Fiyat', 'Para Birimi']);
+    formData.diger.forEach(item => {
+      wsData.push([
+        item.ad,
+        item.miktar,
+        item.fiyat,
+        item.para_birimi,
+      ]);
+    });
+  
+    // Create the worksheet
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+  
+    // Apply styles (optional)
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const address = XLSX.utils.encode_col(C) + '1';
+      if (!ws[address]) continue;
+      ws[address].s = {
+        font: {
+          bold: true,
+          color: { rgb: "FFFFFF" },
+        },
+        fill: {
+          fgColor: { rgb: "4F81BD" },
+        },
+      };
+    }
+  
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+  
+    // Save the file
+    XLSX.writeFile(wb, `form_${formId}.xlsx`);
+  };
 
   const handleAddField = (field, index = null) => {
     const newItem = {};
@@ -424,7 +542,7 @@ function EditableFormPage() {
         }
       );
       console.log('Save Response:', response.data); // Debug log
-      if (response.data.success) {
+      if (response.data.error === false) {
         toast.success("Form başarıyla kaydedildi!");
       } else {
         toast.error("Form kaydedilirken hata oluştu!");
@@ -434,7 +552,6 @@ function EditableFormPage() {
       console.error('Save Error:', error); // Debug log
     }
   };
-  
   
   const handleApprove = async () => {
     try {
@@ -659,7 +776,7 @@ function EditableFormPage() {
           </div>
         </div>
         <div className="mb-2">
-          <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Toplam Fiyatı</label>
+          <label htmlFor="oteller_toplam_fiyati" className="block font-semibold">Oteller Birim Fiyatı</label>
           <div className="w-full p-2 border rounded bg-white">
             {(
               item.otel_SNG_birim_fiyat * item.otel_SNG_oda_sayisi +
@@ -1213,6 +1330,14 @@ function EditableFormPage() {
       >
         Diğer Ekle
       </button>
+    
+<div className="mb-2">
+  <label htmlFor="diger_toplam_fiyat" className="block font-semibold">Diğer Toplam Fiyat</label>
+  <div className="w-full p-2 border rounded bg-white">
+    {formData.diger.reduce((acc, item) => acc + (parseFloat(item.fiyat) * parseFloat(item.miktar)), 0)}
+  </div>
+</div>
+
 
       <div className="mb-4">
   <label htmlFor="program_file" className="block font-semibold">Program Akışı</label>
@@ -1288,6 +1413,8 @@ function EditableFormPage() {
           className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">Kabul Et</button>
         <button onClick={handleReject}
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">Red Et</button>
+           <button onClick={handleExportToExcel}
+          className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 focus:outline-none focus:bg-yellow-600">Excel'e Aktar</button>
       </div>
     </div>
   );
