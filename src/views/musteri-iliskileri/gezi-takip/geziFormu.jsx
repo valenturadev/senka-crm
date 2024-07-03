@@ -24,185 +24,176 @@ function GeziDetay() {
       .catch((error) => {
         console.error('API çağrısı sırasında hata oluştu:', error);
       });
-  }, []);
+  }, [formId]);
 
   if (!geziVerisi) {
-    // Veri henüz yüklenmediyse bir yükleme gösterebilirsiniz.
     return <div>Veri yükleniyor...</div>;
   }
 
   function handleOgretmenEkle() {
-    console.log("Öğretmen ekleme butonuna tıklandı");
     navigate('/ogretmen-ekle/' + formId);
   }
 
   function handleButunOgretmenler() {
-    // Öğretmenlerin listesini görüntülemek için bir işlem ekleyebilirsiniz.
-    // Örneğin, bir modal pencere veya ayrı bir sayfa açabilirsiniz.
-    console.log('Öğretmenler listesi butonuna tıklandı');
     navigate('/tum-ogretmenler/' + formId);
-    // Öğretmenlerin listesini görüntülemek için gerekli işlemi burada gerçekleştirin.
+  }
+
+  function handleOgrenciListesi() {
+    navigate('/ogrenci-listesi-müsteri-iliskileri/' + formId);
   }
 
   return (
-    <div>
-
-      <h1>Gezi Detayları</h1>
-      {geziVerisi && (
-        <div>
-          <button
-            onClick={handleOgretmenEkle}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4"
-          >
-            Geziye Öğretmen Ekle
-          </button>
-          <button
-            onClick={handleButunOgretmenler}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg"
-          >
-            Gezideki Bütün Öğretmenler
-          </button>
-        </div>
-
-
-      )}
-      <div className="overflow-x-auto">
-        <table className="min-w-full">
-          <thead>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Gezi Detayları</h1>
+      <div className="mb-6">
+        <button
+          onClick={handleOgretmenEkle}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
+        >
+          Geziye Öğretmen Ekle
+        </button>
+        <button
+          onClick={handleButunOgretmenler}
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4"
+        >
+          Gezideki Bütün Öğretmenler
+        </button>
+        <button
+          onClick={handleOgrenciListesi}
+          className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Gezideki Bütün Öğrenciler
+        </button>
+      </div>
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="min-w-full bg-white">
+          <thead className="bg-gray-800 text-white">
             <tr>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Alan</th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Değer</th>
+              <th className="w-1/3 px-4 py-2">Alan</th>
+              <th className="w-2/3 px-4 py-2">Değer</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-gray-700">
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">ID</td>
-              <td>{geziVerisi.id}</td>
+              <td className="border px-4 py-2">ID</td>
+              <td className="border px-4 py-2">{geziVerisi.id}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Aktif Mi</td>
-              <td>{geziVerisi.is_active ? 'Evet' : 'Hayır'}</td>
+              <td className="border px-4 py-2">Aktif Mi</td>
+              <td className="border px-4 py-2">{geziVerisi.is_active ? 'Evet' : 'Hayır'}</td>
             </tr>
-
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Mutabakat</td>
-              <td>
+              <td className="border px-4 py-2">Mutabakat</td>
+              <td className="border px-4 py-2">
                 <ul>
                   <li>ID: {geziVerisi.mutabakat.id}</li>
                   <li>Onay Durumu: {geziVerisi.mutabakat.is_approve === null ? 'Beklemede' : (geziVerisi.mutabakat.is_approve ? 'Onaylandı' : 'Reddedildi')}</li>
-                  {/* Diğer mutabakat alanlarını ekleyin */}
                 </ul>
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Okul</td>
-              <td>{geziVerisi.mutabakat.okul}</td>
+              <td className="border px-4 py-2">Okul</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.okul}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">İsim</td>
-              <td>{geziVerisi.mutabakat.isim}</td>
+              <td className="border px-4 py-2">İsim</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.isim}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Soyisim</td>
-              <td>{geziVerisi.mutabakat.soyisim}</td>
+              <td className="border px-4 py-2">Soyisim</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.soyisim}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Gezi talep eden kişinin telefonu</td>
-              <td>{geziVerisi.mutabakat.tel_no}</td>
+              <td className="border px-4 py-2">Gezi talep eden kişinin telefonu</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.tel_no}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Gezii talep eden kişinin emaili</td>
-              <td>{geziVerisi.mutabakat.email}</td>
+              <td className="border px-4 py-2">Gezi talep eden kişinin emaili</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.email}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Program Adı</td>
-              <td>{geziVerisi.mutabakat.program_adi}</td>
+              <td className="border px-4 py-2">Program Adı</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.program_adi}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Ülke</td>
-              <td>{geziVerisi.mutabakat.ulke}</td>
+              <td className="border px-4 py-2">Ülke</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.ulke}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Şehir</td>
-              <td>{geziVerisi.mutabakat.sehir}</td>
+              <td className="border px-4 py-2">Şehir</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.sehir}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Şehir</td>
-              <td>{geziVerisi.mutabakat.sehir}</td>
+              <td className="border px-4 py-2">Ulaşım Aracı</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.ulasim_araci}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Ulaşım Aracı</td>
-              <td>{geziVerisi.mutabakat.ulasim_araci}</td>
+              <td className="border px-4 py-2">Gidiş Tarihi</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.gidis_tarihi}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Gidiş Tarihi</td>
-              <td>{geziVerisi.mutabakat.gidis_tarihi}</td>
+              <td className="border px-4 py-2">Dönüş Tarihi</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.donus_tarihi}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Dönüş Tarihi</td>
-              <td>{geziVerisi.mutabakat.donus_tarihi}</td>
+              <td className="border px-4 py-2">Gidilecek Şehir</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.gidilecek_sehir}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Gidilecek Şehir</td>
-              <td>{geziVerisi.mutabakat.gidilecek_sehir}</td>
+              <td className="border px-4 py-2">Dönülecek Şehir</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.donulecek_sehir}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Dönülecek Şehir</td>
-              <td>{geziVerisi.mutabakat.donulecek_sehir}</td>
+              <td className="border px-4 py-2">Transferler</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.transferler}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Transferler</td>
-              <td>{geziVerisi.mutabakat.transferler}</td>
+              <td className="border px-4 py-2">1. Lokasyon</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon1}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">1. Lokasyon</td>
-              <td>{geziVerisi.mutabakat.lokasyon1}</td>
+              <td className="border px-4 py-2">1. Lokasyon Giriş</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon1_giris}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">1. Lokasyon Giriş</td>
-              <td>{geziVerisi.mutabakat.lokasyon1_giris}</td>
+              <td className="border px-4 py-2">1. Lokasyon Çıkış</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon1_cikis}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">1. Lokasyon Çıkış</td>
-              <td>{geziVerisi.mutabakat.lokasyon1_cikis}</td>
+              <td className="border px-4 py-2">2. Lokasyon</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon2}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">2. Lokasyon</td>
-              <td>{geziVerisi.mutabakat.lokasyon2}</td>
+              <td className="border px-4 py-2">2. Lokasyon Giriş</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon2_giris}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">2. Lokasyon Giriş</td>
-              <td>{geziVerisi.mutabakat.lokasyon2_giris}</td>
+              <td className="border px-4 py-2">2. Lokasyon Çıkış</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon2_cikis}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">2. Lokasyon Çıkış</td>
-              <td>{geziVerisi.mutabakat.lokasyon2_cikis}</td>
+              <td className="border px-4 py-2">3. Lokasyon</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon3}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">3. Lokasyon</td>
-              <td>{geziVerisi.mutabakat.lokasyon3}</td>
+              <td className="border px-4 py-2">3. Lokasyon Giriş</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon3_giris}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">3. Lokasyon Giriş</td>
-              <td>{geziVerisi.mutabakat.lokasyon3_giris}</td>
+              <td className="border px-4 py-2">3. Lokasyon Çıkış</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.lokasyon3_cikis}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">3. Lokasyon Çıkış</td>
-              <td>{geziVerisi.mutabakat.lokasyon3_cikis}</td>
+              <td className="border px-4 py-2">Kazanım ve Beklentiler</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.kazanim_ve_beklentiler}</td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Kazanım ve Beklentiler</td>
-              <td>{geziVerisi.mutabakat.kazanim_ve_beklentiler}</td>
+              <td className="border px-4 py-2">Oluşturulma Tarihi</td>
+              <td className="border px-4 py-2">{geziVerisi.mutabakat.created_at}</td>
             </tr>
-            <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">Oluşturulma Tarihi</td>
-              <td>{geziVerisi.mutabakat.created_at}</td>
-            </tr>
-            {/* Diğer veri alanlarını buraya ekleyin */}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }

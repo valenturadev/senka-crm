@@ -123,6 +123,8 @@ import Mutabakatlar from "../views/finans/GetAllMutabakat";
 import OgrenciOteleYerlestir from '../views/teacher/OteleYerlestir';
 import MuhasebeDetailPage from "../views/muhasebe/AgreementDetailPage";
 import CommPool from "../views/admin/CommunicationPool";
+import OgrenciListesiMusteriIliskileri from "../views/musteri-iliskileri/gezi-takip/geziOgrenciListesi"
+import MakbuzYukle from "../views/normal-user/makbuzyukle"
 
 
 const Router = () => {
@@ -152,6 +154,10 @@ const Router = () => {
           element: <Mutabakatlar />,
         },
         {
+          path: "/makbuz-yukle/:studentId",
+          element: <MakbuzYukle />,
+        },
+        {
           path: "/iletisim-havuzu",
           element: <CommPool />,
         },
@@ -166,6 +172,10 @@ const Router = () => {
         {
           path: "/muhasebe-mutabakat-onay/:formId",
           element: <MuhasebeDetailPage />,
+        },
+        {
+          path: "/ogrenci-listesi-müsteri-iliskileri/:formId",
+          element: <OgrenciListesiMusteriIliskileri />,
         },
         {
           path: "/",

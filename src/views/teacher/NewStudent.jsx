@@ -13,8 +13,11 @@ function AddStudent() {
     ogrenci_tc: '',
     ogrenci_cinsiyet: '',
     ogrenci_sinif: '',
-    veli_phone: ''
+    veli_phone: '',
+    ogrenci_phone_country_code: '90',
+    veli_phone_country_code: '90'
   });
+
   let localUser = localStorage.getItem("user");
   let myUser = JSON.parse(localUser);
   const { geziId } = useParams();
@@ -26,17 +29,25 @@ function AddStudent() {
       [name]: value,
     });
   };
+
   // Cinsiyet değişikliği işlemleri
   const handleGenderChange = (e) => {
     const gender = e.target.value;
     setFormData({
       ...formData,
-      ogrenci_cinsiyet: gender == "erkek" ? true : false,
+      ogrenci_cinsiyet: gender === "erkek" ? true : false,
     });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Telefon numaralarını ülke kodları ile birleştirin ve başındaki "+" işaretini kaldırın
+    const dataToSend = {
+      ...formData,
+      ogrenci_phone: formData.ogrenci_phone_country_code + formData.ogrenci_phone,
+      veli_phone: formData.veli_phone_country_code + formData.veli_phone
+    };
 
     axios({
       method: 'POST',
@@ -45,18 +56,16 @@ function AddStudent() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${myUser?.access}`
       },
-      data: formData,
+      data: dataToSend,
     })
       .then((response) => {
         // Başarılı bir şekilde öğrenci oluşturulduğunda yapılacak işlemler
         console.log('Öğrenci başarıyla oluşturuldu', response.data);
-        successMessage("Öğrenci başarıyla oluşturuldu")
-        window.location.href = "/tum-geziler"
-        // Öğrenci oluşturulduktan sonra belirli bir sayfaya yönlendirebilirsiniz
-        // Örneğin, başka bir sayfaya yönlendirme yapabilirsiniz.
+        successMessage("Öğrenci başarıyla oluşturuldu");
+        window.location.href = "/tum-geziler";
       })
       .catch((error) => {
-        errorMessage('Öğrenci oluşturma sırasında hata oluştu')
+        errorMessage('Öğrenci oluşturma sırasında hata oluştu');
         console.error('Öğrenci oluşturma sırasında hata oluştu', error);
       });
   };
@@ -97,14 +106,23 @@ function AddStudent() {
           <label htmlFor="ogrenci_phone" className="block text-gray-700 text-sm font-bold mb-2">
             Öğrenci Telefon
           </label>
-          <input
-            type="text"
-            id="ogrenci_phone"
-            name="ogrenci_phone"
-            value={formData.ogrenci_phone}
-            onChange={handleChange}
-            className="px-3 py-2 border rounded-lg w-full"
-          />
+          <div className="flex">
+            <input
+              type="text"
+              name="ogrenci_phone_country_code"
+              value={formData.ogrenci_phone_country_code}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg w-20 mr-2"
+            />
+            <input
+              type="text"
+              id="ogrenci_phone"
+              name="ogrenci_phone"
+              value={formData.ogrenci_phone}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg w-full"
+            />
+          </div>
         </div>
 
         <div className="mb-4">
@@ -195,14 +213,23 @@ function AddStudent() {
           <label htmlFor="veli_phone" className="block text-gray-700 text-sm font-bold mb-2">
             Veli Telefon Numarası
           </label>
-          <input
-            type="text"
-            id="veli_phone"
-            name="veli_phone"
-            value={formData.veli_phone}
-            onChange={handleChange}
-            className="px-3 py-2 border rounded-lg w-full"
-          />
+          <div className="flex">
+            <input
+              type="text"
+              name="veli_phone_country_code"
+              value={formData.veli_phone_country_code}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg w-20 mr-2"
+            />
+            <input
+              type="text"
+              id="veli_phone"
+              name="veli_phone"
+              value={formData.veli_phone}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg w-full"
+            />
+          </div>
         </div>
 
         <button
