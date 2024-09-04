@@ -84,9 +84,9 @@ import Car from "../views/car/Main";
 import CreateCarProgram from "../views/car/CreateCarProgram";
 import TravelDetail from "../views/travel/TravelDetail";
 import TumOgrenciler from "../views/teacher/TumOgrenciler";
-import TumGeziler from "../views/teacher/TumGeziler"
-import Ogrenci from "../views/teacher/GetStudent"
-import NewStudent from "../views/teacher/NewStudent"
+import TumGeziler from "../views/teacher/TumGeziler";
+import Ogrenci from "../views/teacher/GetStudent";
+import NewStudent from "../views/teacher/NewStudent";
 import SifreEkle from "../views/sifre-ekle/Main";
 import OgretmenEkle from "../views/musteri-iliskileri/gezi-takip/ogretmenEkle";
 import GeziFormlari from "../views/musteri-iliskileri/gezi-takip/geziFormlari";
@@ -94,38 +94,38 @@ import GeziFormu from "../views/musteri-iliskileri/gezi-takip/geziFormu";
 import GeziFormuWeb from "../views/musteri-iliskileri/gezi-takip/geziFormuWeb";
 import TumOgretmenler from "../views/musteri-iliskileri/gezi-takip/tumOgretmenler";
 import OgretmenDetay from "../views/musteri-iliskileri/gezi-takip/ogretmenDetay";
-import MakbuzOnay from "../views/muhasebe/MakbuzOnay"
+import MakbuzOnay from "../views/muhasebe/MakbuzOnay";
 import MutabakatListesi from "../views/finans/GetAllMutabakat";
 import Mutabakat from "../views/finans/GetMutabakat";
-import TumKullanicilar from "../views/tum-kullanicilar/Main"
-import RolAtama from "../views/rol-atama/Main"
-import KullaniciGetir from "../views/tum-kullanicilar/kullanici"
-import WebGeziFormlari from "../views/web-controller/travelForms"
-import WebMutabakFormlari from "../views/web-controller/mutabakatForms"
+import TumKullanicilar from "../views/tum-kullanicilar/Main";
+import RolAtama from "../views/rol-atama/Main";
+import KullaniciGetir from "../views/tum-kullanicilar/kullanici";
+import WebGeziFormlari from "../views/web-controller/travelForms";
+import WebMutabakFormlari from "../views/web-controller/mutabakatForms";
 import OgrenciSozlesme from "../views/teacher/OgrenciSozlesme";
 import SozlesmeOnay from "../views/normal-user/sozlesmeOnay";
-import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik"
-import HizmetSozlesmesi from "../views/sozlesmeler/hizmet"
-import TumOgrencilerim from "../views/normal-user/tumOgrencilerim"
-import OgrenciIade from "../views/normal-user/ogrenciIade"
+import GizlilikSozlesmesi from "../views/sozlesmeler/gizlilik";
+import HizmetSozlesmesi from "../views/sozlesmeler/hizmet";
+import TumOgrencilerim from "../views/normal-user/tumOgrencilerim";
+import OgrenciIade from "../views/normal-user/ogrenciIade";
 import AddSchool from "../views/admin/AddSchool";
 import AddCampus from "../views/admin/AddCampus";
 import FinanceMutabakat from "../views/travel/FinanceMutabakat";
 import FinanceMutabakatDetail from "../views/travel/FinanceMutabakatDetail";
 import Geziler from "../views/organizasyonBolumu/Geziler";
 import Yerlestirme from "../views/organizasyonBolumu/Yerlestirme";
-import OgrenciYerlestirme from "../views/organizasyonBolumu/OgrenciYerlestirme"
+import OgrenciYerlestirme from "../views/organizasyonBolumu/OgrenciYerlestirme";
 import AddHotel from "../views/admin/AddHotel";
 import RestaurantManagement from "../views/admin/AddRestaurant";
 import GuideManagement from "../views/admin/AddContact";
 import AccountingAgreementForms from "../views/muhasebe/AccountingAgreementForms";
 import Mutabakatlar from "../views/finans/GetAllMutabakat";
-import OgrenciOteleYerlestir from '../views/teacher/OteleYerlestir';
+import OgrenciOteleYerlestir from "../views/teacher/OteleYerlestir";
 import MuhasebeDetailPage from "../views/muhasebe/AgreementDetailPage";
 import CommPool from "../views/admin/CommunicationPool";
-import OgrenciListesiMusteriIliskileri from "../views/musteri-iliskileri/gezi-takip/geziOgrenciListesi"
-import MakbuzYukle from "../views/normal-user/makbuzyukle"
-
+import OgrenciListesiMusteriIliskileri from "../views/musteri-iliskileri/gezi-takip/geziOgrenciListesi";
+import MakbuzYukle from "../views/normal-user/makbuzyukle";
+import CustomerService from "../views/customer-service/CustomerService";
 
 const Router = () => {
   const routes = [
@@ -448,11 +448,11 @@ const Router = () => {
         },
         {
           path: "/ogretmen-formlari",
-          element: <Teacher />
+          element: <Teacher />,
         },
         {
           path: "/tum-geziler",
-          element: <TumGeziler />
+          element: <TumGeziler />,
         },
         {
           path: "/tum-ogrenciler/:geziId",
@@ -492,62 +492,63 @@ const Router = () => {
         },
         {
           path: "/gezi-formlari",
-          element: <GeziFormlari />
+          element: <GeziFormlari />,
         },
         {
           path: "/finans-mutabakat",
-          element: <FinanceMutabakat />
+          element: <FinanceMutabakat />,
         },
         {
           path: "/tum-kullanicilar",
-          element: <TumKullanicilar />
+          element: <TumKullanicilar />,
         },
         {
           path: "/kullanici-getir/:userPhone",
-          element: <KullaniciGetir />
+          element: <KullaniciGetir />,
         },
         {
           path: "/web-gezi-formlari",
-          element: <WebGeziFormlari />
+          element: <WebGeziFormlari />,
         },
         {
           path: "/web-mutabakat-formlari",
-          element: <WebMutabakFormlari />
+          element: <WebMutabakFormlari />,
         },
         {
           path: "/rol-atama",
-          element: <RolAtama />
+          element: <RolAtama />,
         },
         {
           path: "/okul-ekle",
-          element: <AddSchool />
+          element: <AddSchool />,
         },
         {
           path: "/otel-ekle",
-          element: <AddHotel />
+          element: <AddHotel />,
         },
         {
           path: "/rehber-ekle",
-          element: <GuideManagement />
+          element: <GuideManagement />,
         },
         {
           path: "/restoran-ekle",
-          element: <RestaurantManagement />
-        }, {
+          element: <RestaurantManagement />,
+        },
+        {
           path: "/muhasebe-mutabakat-formlari/",
-          element: <AccountingAgreementForms />
+          element: <AccountingAgreementForms />,
         },
         {
           path: "/kampus-ekle/:id",
-          element: <AddCampus />
+          element: <AddCampus />,
         },
         {
           path: "/gezi-formu/:formId",
-          element: <GeziFormu />
+          element: <GeziFormu />,
         },
         {
           path: "/gezi-formu-web/:formId",
-          element: <GeziFormuWeb />
+          element: <GeziFormuWeb />,
         },
         {
           path: "/seyahat-formu-duzenle/:formId",
@@ -601,6 +602,10 @@ const Router = () => {
         {
           path: "/sozlesme-onay/tel/:tel/id/:id",
           element: <SozlesmeOnay />,
+        },
+        {
+          path: "/musteri-hizmetleri",
+          element: <CustomerService />,
         },
       ],
     },
@@ -1167,7 +1172,7 @@ const Router = () => {
     {
       path: "/ogretmen-sifre-olustur/:phoneNumber",
       element: <SifreEkle />,
-    }
+    },
   ];
 
   return useRoutes(routes);

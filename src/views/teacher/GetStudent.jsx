@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { successMessage } from '../../utils/toast';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { successMessage } from "../../utils/toast";
 
 function StudentDetail() {
   const [student, setStudent] = useState(null);
@@ -14,37 +14,56 @@ function StudentDetail() {
   let myUser = JSON.parse(localUser);
   const { studentId } = useParams();
 
-
   useEffect(() => {
     axios({
-      method: 'GET',
+      method: "GET",
       url: `https://senka.valentura.com/api/teacher/get-ogrenci/id=${studentId}`,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${myUser?.access}`
-      }
+        Authorization: `Bearer ${myUser?.access}`,
+      },
     })
       .then((response) => {
         setStudent(response.data.data);
       })
       .catch((error) => {
-        setError('API çağrısı sırasında hata oluştu');
-        console.error('API çağrısı sırasında hata oluştu:', error);
+        setError("API çağrısı sırasında hata oluştu");
+        console.error("API çağrısı sırasında hata oluştu:", error);
       });
   }, []);
 
   const renderBoolean = (value) => {
-    return value ? '✓' : '✗';
+    return value ? "✓" : "✗";
   };
 
   const handleEditClick = (field) => {
-    if (field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_cinsiyet_erkek' || field === 'ogrenci_sinif' || field === 'veli_phone') {
+    if (
+      field === "ogrenci_adi" ||
+      field === "ogrenci_soyadi" ||
+      field === "ogrenci_email" ||
+      field === "ogrenci_phone" ||
+      field === "ogrenci_dogum_tarihi" ||
+      field === "ogrenci_tc" ||
+      field === "ogrenci_cinsiyet_erkek" ||
+      field === "ogrenci_sinif" ||
+      field === "veli_phone"
+    ) {
       setIsEditing(true);
     }
   };
 
   const handleFieldChange = (field, value) => {
-    if (field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_cinsiyet_erkek' || field === 'ogrenci_sinif' || field === 'veli_phone') {
+    if (
+      field === "ogrenci_adi" ||
+      field === "ogrenci_soyadi" ||
+      field === "ogrenci_email" ||
+      field === "ogrenci_phone" ||
+      field === "ogrenci_dogum_tarihi" ||
+      field === "ogrenci_tc" ||
+      field === "ogrenci_cinsiyet_erkek" ||
+      field === "ogrenci_sinif" ||
+      field === "veli_phone"
+    ) {
       setEditedFields((prevState) => ({
         ...prevState,
         [field]: value,
@@ -56,23 +75,23 @@ function StudentDetail() {
     const updatedFields = { ...student, ...editedFields };
 
     axios({
-      method: 'PATCH',
+      method: "GET",
       url: `https://senka.valentura.com/api/teacher/update-ogrenci/id=${studentId}`,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${myUser?.access}`
+        Authorization: `Bearer ${myUser?.access}`,
       },
-      data: updatedFields
+      data: updatedFields,
     })
       .then((response) => {
         setIsEditing(false);
         setEditedFields({});
-        successMessage("Veriler başarıyla güncellendi.")
+        successMessage("Veriler başarıyla güncellendi.");
         // window.location.reload();
       })
       .catch((error) => {
-        setError('Bilgileri güncelleme sırasında hata oluştu');
-        console.error('Bilgileri güncelleme sırasında hata oluştu:', error);
+        setError("Bilgileri güncelleme sırasında hata oluştu");
+        console.error("Bilgileri güncelleme sırasında hata oluştu:", error);
       });
   };
 
@@ -85,23 +104,23 @@ function StudentDetail() {
   const handleUploadClick = () => {
     if (file) {
       const formData = new FormData();
-      formData.append('makbuz', file);
+      formData.append("makbuz", file);
 
       axios({
-        method: 'POST',
+        method: "POST",
         url: `https://senka.valentura.com/api/teacher/add-makbuz-for-ogrenci/id=${studentId}`,
         headers: {
-          "Authorization": `Bearer ${myUser?.access}`
+          Authorization: `Bearer ${myUser?.access}`,
         },
-        data: formData
+        data: formData,
       })
         .then((response) => {
-          successMessage("Makbuz başarıyla gönderildi.")
+          successMessage("Makbuz başarıyla gönderildi.");
           setFileUploaded(true);
         })
         .catch((error) => {
-          setError('Fotoğraf yükleme sırasında hata oluştu');
-          console.error('Fotoğraf yükleme sırasında hata oluştu:', error);
+          setError("Fotoğraf yükleme sırasında hata oluştu");
+          console.error("Fotoğraf yükleme sırasında hata oluştu:", error);
         });
     }
   };
@@ -121,28 +140,51 @@ function StudentDetail() {
         {Object.keys(student).map((field) => (
           <div key={field} className="mb-2 flex">
             <span className="font-semibold w-40">{field}:</span>
-            {field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_cinsiyet_erkek' || field === 'ogrenci_sinif' || field === 'veli_phone' ? (
+            {field === "ogrenci_adi" ||
+            field === "ogrenci_soyadi" ||
+            field === "ogrenci_email" ||
+            field === "ogrenci_phone" ||
+            field === "ogrenci_dogum_tarihi" ||
+            field === "ogrenci_tc" ||
+            field === "ogrenci_cinsiyet_erkek" ||
+            field === "ogrenci_sinif" ||
+            field === "veli_phone" ? (
               isEditing ? (
-                field === 'ogrenci_cinsiyet_erkek' ?
-                  <div>{student['ogrenci_cinsiyet_erkek'] ? "Erkek" : "Kız"}</div> :
+                field === "ogrenci_cinsiyet_erkek" ? (
+                  <div>
+                    {student["ogrenci_cinsiyet_erkek"] ? "Erkek" : "Kız"}
+                  </div>
+                ) : (
                   <input
                     type="text"
                     value={editedFields[field] || student[field]}
                     onChange={(e) => handleFieldChange(field, e.target.value)}
                     className="border rounded px-2 py-1 flex-grow"
                   />
+                )
               ) : (
                 <span className="px-2 py-1 flex-grow">
-                  {field.startsWith('is_') ? renderBoolean(student[field]) : student[field]}
+                  {field.startsWith("is_")
+                    ? renderBoolean(student[field])
+                    : student[field]}
                 </span>
               )
             ) : (
               <span className="px-2 py-1 flex-grow">
-                {field.startsWith('is_') ? renderBoolean(student[field]) : student[field]}
+                {field.startsWith("is_")
+                  ? renderBoolean(student[field])
+                  : student[field]}
               </span>
             )}
-            {!isEditing && (
-              field === 'ogrenci_adi' || field === 'ogrenci_soyadi' || field === 'ogrenci_email' || field === 'ogrenci_phone' || field === 'ogrenci_dogum_tarihi' || field === 'ogrenci_tc' || field === 'ogrenci_sinif' || field === 'veli_phone' ? (
+            {!isEditing &&
+              (field === "ogrenci_adi" ||
+              field === "ogrenci_soyadi" ||
+              field === "ogrenci_email" ||
+              field === "ogrenci_phone" ||
+              field === "ogrenci_dogum_tarihi" ||
+              field === "ogrenci_tc" ||
+              field === "ogrenci_sinif" ||
+              field === "veli_phone" ? (
                 <button
                   className="ml-2 text-blue-500 hover:text-blue-700"
                   onClick={() => handleEditClick(field)}
@@ -151,8 +193,7 @@ function StudentDetail() {
                 </button>
               ) : (
                 <span></span>
-              )
-            )}
+              ))}
           </div>
         ))}
         {isEditing && (

@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
 function getRolesFromLocalStorage() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const roles = user?.role
+  const user = JSON.parse(localStorage.getItem("user"));
+  const roles = user?.role;
   return roles || [];
 }
 
@@ -10,30 +10,50 @@ function filterSideMenuByRoles() {
   const roles = getRolesFromLocalStorage();
   let filteredMenu = [];
 
-  if (roles.includes('is_customer_relations')) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Müşteri İlişkileri"));
+  if (roles.includes("is_customer_relations")) {
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Müşteri İlişkileri")
+    );
   }
   if (roles.includes("is_operation_team")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Operasyon Ekibi"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Operasyon Ekibi")
+    );
   }
   if (roles.includes("is_finance_team")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Finans"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Finans")
+    );
   }
   if (roles.includes("is_teacher")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Öğretmen"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Öğretmen")
+    );
   }
   if (roles.includes("is_normal_user")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Normal Kullanıcı"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Normal Kullanıcı")
+    );
   }
   if (roles.includes("is_web_team")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Web Kontrolcü"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Web Kontrolcü")
+    );
   }
   if (roles.includes("is_muhasebe")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Muhasebe"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Muhasebe")
+    );
   }
   if (roles.includes("is_admin")) {
-    filteredMenu = filteredMenu.concat(sideMenuData.filter(item => item.title === "Admin"));
+    filteredMenu = filteredMenu.concat(
+      sideMenuData.filter((item) => item.title === "Admin")
+    );
   }
+  // muster-hizmetleri sürekli göster
+  filteredMenu = filteredMenu.concat(
+    sideMenuData.filter((item) => item.title === "Müşteri Hizmetleri")
+  );
 
   return filteredMenu;
 }
@@ -62,7 +82,6 @@ const sideMenuData = [
             pathname: "/seyahat-formu-olustur",
             title: "Seyahat Formu Oluştur",
           },
-
         ],
       },
       {
@@ -129,13 +148,12 @@ const sideMenuData = [
         icon: "",
         pathname: "/makbuz-onay/",
         title: "Makbuz onay",
-      }, 
+      },
       {
         icon: "",
         pathname: "/muhasebe-mutabakat-formlari/",
         title: "Mutabakat Formları",
       },
-      
     ],
   },
   {
@@ -162,7 +180,7 @@ const sideMenuData = [
         icon: "",
         pathname: "/web-mutabakat-formlari",
         title: "Mutabakat Formları",
-      }
+      },
     ],
   },
   {
@@ -203,8 +221,14 @@ const sideMenuData = [
         icon: "",
         pathname: "/iletisim-havuzu",
         title: "İletişim Havuzu",
-      }
+      },
     ],
+  },
+  {
+    icon: "Users",
+    title: "Müşteri Hizmetleri",
+    pathname: "/musteri-hizmetleri",
+    title: "Müşteri Hizmetleri",
   },
   "devider",
   {
@@ -212,7 +236,7 @@ const sideMenuData = [
     pathname: "/profil",
     title: "Profil",
   },
-]
+];
 
 const filteredSideMenu = filterSideMenuByRoles();
 
