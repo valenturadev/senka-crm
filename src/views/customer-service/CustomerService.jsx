@@ -98,12 +98,13 @@ const CustomerService = () => {
       const data = await makeApiCall(
         "https://senka.valentura.com/api/customer-relations/ogrenciler/get-ogrenci-details",
         "GET",
-        student
+        { ogrenci_phone: student.ogrenci_phone }
       );
       setSelectedStudent(data);
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error fetching student details:", error);
+      setError("Öğrenci detayları alınırken bir hata oluştu");
     }
   };
 
@@ -185,7 +186,7 @@ const CustomerService = () => {
               <tr
                 key={student.ogrenci_tc}
                 className="cursor-pointer hover:bg-gray-100"
-                //onClick={() => fetchStudentDetails(student)}
+                onClick={() => fetchStudentDetails(student)}
               >
                 <td className="py-2 px-4 border-b whitespace-nowrap">
                   {student.ogrenci_adi}
