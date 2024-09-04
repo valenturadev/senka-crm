@@ -123,7 +123,7 @@ const CustomerService = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Öğrenci Listesi</h2>
+      <h2 className="text-2xl font-bold mb-4">Müşteri Hizmetleri Paneli</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSearch} className="mb-4 flex flex-wrap gap-2">
         <CustomInput
